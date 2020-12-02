@@ -1,0 +1,590 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/j-icon-16.png?v=2.0.1" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/j-icon-32.png?v=2.0.1" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="/images/icons/j-icon-192.png?v=2.0.1" sizes="180x180"><link rel="mask-icon" href="/images/icons/j-icon-96.png?v=2.0.1" color="#54bcff"><meta name="msapplication-TileImage" content="/images/icons/j-icon-144.png"><meta name="msapplication-TileColor" content="#000000"><meta name="google-site-verification" content="wmgiquHvFLol6wowL0KAwg0WI7DkfhhVJ3r0_QRPk-g"><meta name="baidu-site-verification" content="code-nyFNxfLcDt"><meta name="360-site-verification" content="0d8d7a290d96dfee3f3c05e8e0500347"><meta name="description" content="## 1. 字段详解 -  &#96;AutoField&#96;   - **字段解释**：一个自动增加的整数类型字段；你通常不需要直接使用这个字段  - **用途**：自定义一个主键：&#96;my_id &#x3D; models.AutoField(primary_key&#x3D;True)&#96;；如果你不指定主键的话,系统会自动添加一个主键字段到你的&#96;model&#96;；###  &#96;BigAutoField&#96; class BigAutoF">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DDjango丨模版层丨ORM - 字段详解">
+<meta property="og:url" content="https://jeremy-zjl.github.io/2020/10/17/Django%E4%B8%A8%E6%A8%A1%E7%89%88%E5%B1%82%E4%B8%A8ORM%20-%20%E5%AD%97%E6%AE%B5%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Jeremy-ZJL&#39;s Blog">
+<meta property="og:description" content="## 1. 字段详解 -  &#96;AutoField&#96;   - **字段解释**：一个自动增加的整数类型字段；你通常不需要直接使用这个字段  - **用途**：自定义一个主键：&#96;my_id &#x3D; models.AutoField(primary_key&#x3D;True)&#96;；如果你不指定主键的话,系统会自动添加一个主键字段到你的&#96;model&#96;；###  &#96;BigAutoField&#96; class BigAutoF">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-10-17T05:15:45.000Z">
+<meta property="article:modified_time" content="2020-10-17T05:15:45.000Z">
+<meta property="article:author" content="Jeremy-ZJL">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Django">
+<meta property="article:tag" content="基础">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary"><meta name="keywords" content="Jeremy-ZJL, Jeremy-ZJL's Blog"><meta name="description" content="Jeremy-ZJL's Blog"><title>DDjango丨模版层丨ORM - 字段详解 | Jeremy-ZJL's Blog</title><link ref="canonical" href="https://jeremy-zjl.github.io/2020/10/17/Django%E4%B8%A8%E6%A8%A1%E7%89%88%E5%B1%82%E4%B8%A8ORM%20-%20%E5%AD%97%E6%AE%B5%E8%AF%A6%E8%A7%A3/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.0.1"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="dns-prefetch" href="https://hm.baidu.com"><script src="https://www.googletagmanager.com/gtag/js?id=183330495" async="" data-pjax=""></script><script data-pjax="">if (window.location.hostname !== 'localhost') {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', '183330495');
+}</script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement('script');
+  hm.src = 'https://hm.baidu.com/hm.js?77b4b897986a377c76b267d13173877e';
+  hm.async = true;
+
+  if (true) {
+    hm.setAttribute('data-pjax', '');
+  }
+  var s = document.getElementsByTagName('script')[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: undefined,
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"ocean","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: {"avoidBanner":false},
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 4.2.1"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner header-inner--height header-inner--bgcolor"><nav class="header-nav header-nav--sticky"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="javascript:;" onclick="return false;"><span class="header-nav-menu-item__icon"><i class="fas fa-angle-double-down"></i></span><span class="header-nav-menu-item__text">其它</span></a><div class="header-nav-submenu"><div class="header-nav-submenu-item"><a class="header-nav-submenu-item__link" href="/xxx1-1/"><span class="header-nav-submenu-item__icon"><i class="fa(s|r|l|d|b) fa-xxx"></i></span><span class="header-nav-submenu-item__text">其它-1</span></a></div><div class="header-nav-submenu-item"><a class="header-nav-submenu-item__link" href="/xxx1-2/"><span class="header-nav-submenu-item__icon"><i class="fa(s|r|l|d|b) fa-xxx"></i></span><span class="header-nav-submenu-item__text">其它-2</span></a></div></div></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">DDjango丨模版层丨ORM - 字段详解</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2020-10-17</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2020-10-17</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">3.2k</span></span><span class="post-meta-item post-meta-item--visitors"><span class="post-meta-item__icon"><i class="fas fa-eye"></i></span><span class="post-meta-item__info">阅读次数</span><span class="post-meta-item__value" id="busuanzi_value_page_pv"></span></span></div></header><div class="post-body">
+        <h2 id="1-字段详解"   >
+          <a href="#1-字段详解" class="heading-link"><i class="fas fa-link"></i></a>1. 字段详解</h2>
+      
+        <h3 id="lt-1-gt-AutoField"   >
+          <a href="#lt-1-gt-AutoField" class="heading-link"><i class="fas fa-link"></i></a>&lt;1&gt; AutoField</h3>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AutoField</span><span class="params">(**options)</span></span></span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><strong>字段解释</strong>：一个自动增加的整数类型字段；你通常不需要直接使用这个字段</li>
+<li><strong>用途</strong>：自定义一个主键：<code>my_id = models.AutoField(primary_key=True)</code>；如果你不指定主键的话,系统会自动添加一个主键字段到你的<code>model</code>；</li>
+</ul>
+<hr>
+
+        <h3 id="lt-2-gt-BigAutoField"   >
+          <a href="#lt-2-gt-BigAutoField" class="heading-link"><i class="fas fa-link"></i></a>&lt;2&gt; BigAutoField</h3>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BigAutoField</span><span class="params">(**options)</span></span></span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><strong>字段解释</strong>：64位整数类型自增字段，非常类似于<code>AutoField</code>，数字范围更大，从<code>1</code>到<code>9223372036854775807</code></li>
+</ul>
+<hr>
+
+        <h3 id="lt-3-gt-SmallAutoField"   >
+          <a href="#lt-3-gt-SmallAutoField" class="heading-link"><i class="fas fa-link"></i></a>&lt;3&gt; SmallAutoField</h3>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SmallAutoField</span><span class="params">(**options)</span></span></span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><strong>字段解释</strong>：小自增字段，与<code>AutoField</code>相似。包含<code>1</code>到<code>32767</code>。</li>
+</ul>
+<hr>
+
+        <h3 id="lt-4-gt-BinaryField"   >
+          <a href="#lt-4-gt-BinaryField" class="heading-link"><i class="fas fa-link"></i></a>&lt;4&gt; BinaryField</h3>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BinaryField</span><span class="params">(max_length=None, **options)</span></span></span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><strong>字段解释</strong>：一个用于存储原始二进制数据的字段。可以为其分配字节，字节数组或内存视图。</li>
+<li><strong>用途</strong>：使用受限，少用。</li>
+</ul>
+<hr>
+
+        <h3 id="lt-5-gt-BooleanField"   >
+          <a href="#lt-5-gt-BooleanField" class="heading-link"><i class="fas fa-link"></i></a>&lt;5&gt; BooleanField</h3>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BooleanField</span><span class="params">(**options)</span></span></span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><strong>字段解释</strong>：布尔值类型字段。默认值是<code>None</code>。在HTML表单中体现为<code>CheckboxInput</code>标签。如果要接收<code>null</code>值，请使用<code>NullBooleanField</code>。</li>
+</ul>
+<hr>
+
+        <h3 id="lt-6-gt-CharField"   >
+          <a href="#lt-6-gt-CharField" class="heading-link"><i class="fas fa-link"></i></a>&lt;6&gt; CharField</h3>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CharField</span><span class="params">(max_length=None, **options)</span></span></span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><strong>字段解释</strong>：字符串字段, 用于较短的字符串。必须接收一个<code>max_length</code>参数，表示字符串长度不能超过该值。默认的表单标签是<code>input text</code>。最常用的filed。</li>
+</ul>
+<hr>
+
+        <h3 id="lt-7-gt-TextField"   >
+          <a href="#lt-7-gt-TextField" class="heading-link"><i class="fas fa-link"></i></a>&lt;7&gt; TextField</h3>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TextField</span><span class="params">(**options)</span></span></span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><strong>字段解释</strong>：一个容量很大的文本字段。如果你为它设置一个<code>max_length</code>参数，那么在前端页面中会受到输入字符数量限制，然而在模型和数据库层面却不受影响。只有<code>CharField</code>才能同时作用于两者。</li>
+<li><strong>用途</strong>：常用字段。</li>
+</ul>
+<hr>
+
+        <h3 id="lt-8-gt-CommaSeparatedIntegerField"   >
+          <a href="#lt-8-gt-CommaSeparatedIntegerField" class="heading-link"><i class="fas fa-link"></i></a>&lt;8&gt; CommaSeparatedIntegerField</h3>
+      <ul>
+<li><strong>字段解释</strong>：用于存放逗号分隔的整数值. 类似<code>CharField</code>, 必须要有<code>max_length</code>参数.</li>
+</ul>
+<hr>
+
+        <h3 id="lt-9-gt-IntegerField"   >
+          <a href="#lt-9-gt-IntegerField" class="heading-link"><i class="fas fa-link"></i></a>&lt;9&gt; IntegerField</h3>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">IntegerField</span><span class="params">(**options)</span></span></span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><strong>字段解释</strong>：整数类型，最常用的字段之一。取值范围<code>-2147483648</code>到<code>2147483647</code>。</li>
+<li><strong>用途</strong>：用于保存一个整数.</li>
+</ul>
+<hr>
+
+        <h3 id="lt-10-gt-BigIntegerField"   >
+          <a href="#lt-10-gt-BigIntegerField" class="heading-link"><i class="fas fa-link"></i></a>&lt;10&gt; BigIntegerField</h3>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BigIntegerField</span><span class="params">(**options)</span></span></span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><strong>字段解释</strong>：64位整数字段（看清楚，非自增），类似<code>IntegerField</code>，<code>-9223372036854775808</code>到<code>9223372036854775807</code>。在Django的模板表单里体现为一个<code>textinput</code>标签。</li>
+</ul>
+<hr>
+
+        <h3 id="lt-11-gt-SmallIntegerField"   >
+          <a href="#lt-11-gt-SmallIntegerField" class="heading-link"><i class="fas fa-link"></i></a>&lt;11&gt; SmallIntegerField</h3>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SmallIntegerField</span><span class="params">(**options)</span></span></span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><strong>字段解释</strong>：小整数，类似于<code>IntegerField</code>。包含<code>-32768</code>到<code>32767。</code></li>
+</ul>
+<hr>
+
+        <h3 id="lt-12-gt-FloatField"   >
+          <a href="#lt-12-gt-FloatField" class="heading-link"><i class="fas fa-link"></i></a>&lt;12&gt; FloatField</h3>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FloatField</span><span class="params">(**options)</span></span></span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><p><strong>字段解释</strong>：浮点数类型。</p>
+</li>
+<li><p><strong>必须提供两个参数</strong>:</p>
+<ul>
+<li><p><strong>参数</strong>：</p>
+<ul>
+<li><p><code>max_digits</code>       总位数(不包括小数点和符号)</p>
+</li>
+<li><p><code>decimal_places</code>   小数位数</p>
+</li>
+<li><p>举例来说, 要保存最大值为<code>999</code>(小数点后保存2位),</p>
+</li>
+<li><p>你要这样定义字段:<code>models.FloatField(..., max_digits=5, decimal_places=2)</code></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+
+        <h3 id="lt-13-gt-DateField"   >
+          <a href="#lt-13-gt-DateField" class="heading-link"><i class="fas fa-link"></i></a>&lt;13&gt; DateField</h3>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DateField</span><span class="params">(auto_now=False, auto_now_add=False, **options)</span></span></span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><p><strong>字段解释</strong>：日期类型字段。一个Python中的<code>datetime.date</code>的实例。</p>
+</li>
+<li><p><strong>参数</strong>：</p>
+<ul>
+<li><p><code>auto_now_add</code>、<code>auto_now</code>、<code>default</code>这三个参数是互斥的，不能共存；</p>
+<ul>
+<li><p><code>auto_now</code>：每当对象被保存时将字段设为当前日期，常用于保存最后修改时间。</p>
+</li>
+<li><p><code>auto_now_add</code>：每当对象被创建时，设为当前日期，常用于保存创建日期(注意，它是不可修改的)。</p>
+</li>
+<li><p>设置上面两个参数就相当于给<code>field</code>添加了<code>editable=False</code>和<code>blank=True</code>属性。</p>
+</li>
+<li><p>如果想具有修改属性，请用<code>default</code>参数。</p>
+</li>
+<li><p>例子：<code>pub_time = models.DateField(auto_now_add=True)</code>，自动添加发布时间。</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+
+        <h3 id="lt-14-gt-DateTimeField"   >
+          <a href="#lt-14-gt-DateTimeField" class="heading-link"><i class="fas fa-link"></i></a>&lt;14&gt; DateTimeField</h3>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DateTimeField</span><span class="params">(auto_now=False, auto_now_add=False, **options)</span></span></span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><strong>字段解释</strong>：日期时间类型。Python的<code>datetime.datetime</code>的实例。与<code>DateField</code>相比就是多了小时、分和秒的显示，其它功能、参数、用法、默认值等等都一样。</li>
+</ul>
+<hr>
+
+        <h3 id="lt-15-gt-TimeField"   >
+          <a href="#lt-15-gt-TimeField" class="heading-link"><i class="fas fa-link"></i></a>&lt;15&gt; TimeField</h3>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TimeField</span><span class="params">(auto_now=False, auto_now_add=False, **options)</span></span></span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><strong>字段解释</strong>：时间字段，Python中<code>datetime.time</code>的实例。接收同<code>DateField</code>一样的参数，只作用于小时、分和秒。</li>
+</ul>
+<hr>
+
+        <h3 id="lt-16-gt-DecimalField"   >
+          <a href="#lt-16-gt-DecimalField" class="heading-link"><i class="fas fa-link"></i></a>&lt;16&gt; DecimalField</h3>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DecimalField</span><span class="params">(max_digits=None, decimal_places=None, **options)</span></span></span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><strong>字段解释</strong>：固定精度的十进制小数。相当于Python的<code>Decimal</code>实例，必须提供两个指定的参数！</li>
+<li><strong>参数</strong>：<ul>
+<li><code>max_digits</code>：最大的位数，必须大于或等于小数点位数（整数位 + 小数位）；</li>
+<li><code>decimal_places</code>：小数点位数，精度；</li>
+<li>例子：储存最大不超过999，带有2位小数位精度的数，定义如下：<code>models.DecimalField(..., max_digits=5, decimal_places=2)</code>。</li>
+</ul>
+</li>
+</ul>
+<hr>
+
+        <h3 id="lt-17-gt-DurationField"   >
+          <a href="#lt-17-gt-DurationField" class="heading-link"><i class="fas fa-link"></i></a>&lt;17&gt; DurationField</h3>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DurationField</span><span class="params">(**options)</span></span></span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><strong>字段解释</strong>：持续时间类型。存储一定期间的时间长度。类似Python中的<code>timedelta</code>。在不同的数据库实现中有不同的表示方法。</li>
+<li><strong>用途</strong>：常用于进行时间之间的加减运算。但是小心了，这里有坑，<code>PostgreSQL</code>等数据库之间有兼容性问题！</li>
+</ul>
+<hr>
+
+        <h3 id="lt-18-gt-EmailField"   >
+          <a href="#lt-18-gt-EmailField" class="heading-link"><i class="fas fa-link"></i></a>&lt;18&gt; EmailField</h3>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EmailField</span><span class="params">(max_length=<span class="number">254</span>, **options)</span></span></span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><strong>字段解释</strong>：邮箱类型，默认<code>max_length</code>最大长度254位。</li>
+<li><strong>用途</strong>：使用这个字段的好处是，可以使用DJango内置的<code>EmailValidator</code>进行邮箱地址合法性验证。</li>
+</ul>
+<hr>
+
+        <h3 id="lt-19-gt-FileField"   >
+          <a href="#lt-19-gt-FileField" class="heading-link"><i class="fas fa-link"></i></a>&lt;19&gt; FileField</h3>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileField</span><span class="params">(upload_to=None, max_length=<span class="number">100</span>, **options)</span></span></span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><p><strong>字段解释</strong>：上传文件字段（不能设置为主键）。默认情况下，该字段在HTML中表现为一个<code>ClearableFileInput</code>标签。在数据库内，我们实际保存的是一个字符串类型，默认最大长度100，可以通过<code>max_length</code>参数自定义。真实的文件是保存在服务器的文件系统内的。</p>
+</li>
+<li><p>重要参数<code>upload_to</code>用于设置上传地址的目录和文件名。如下例所示：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyModel</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    <span class="comment"># 文件被传至`MEDIA_ROOT/uploads`目录，MEDIA_ROOT由你在settings文件中设置</span></span><br><span class="line">    upload = models.FileField(upload_to=<span class="string">'uploads/'</span>)</span><br><span class="line">    <span class="comment"># 或者</span></span><br><span class="line">    <span class="comment"># 被传到`MEDIA_ROOT/uploads/2015/01/30`目录，增加了一个时间划分</span></span><br><span class="line">    upload = models.FileField(upload_to=<span class="string">'uploads/%Y/%m/%d/'</span>)</span><br></pre></td></tr></table></div></figure>
+</li>
+<li><p>Django很人性化地帮我们实现了根据日期生成目录的方式！</p>
+</li>
+<li><p><code>upload_to</code>参数也可以接收一个回调函数，该函数返回具体的路径字符串，如下例：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">user_directory_path</span><span class="params">(instance, filename)</span>:</span></span><br><span class="line">    <span class="comment">#文件上传到MEDIA_ROOT/user_&lt;id&gt;/&lt;filename&gt;目录中</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'user_&#123;0&#125;/&#123;1&#125;'</span>.format(instance.user.id, filename)</span><br><span class="line">    </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyModel</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    upload = models.FileField(upload_to=user_directory_path)</span><br></pre></td></tr></table></div></figure>
+
+</li>
+</ul>
+<blockquote>
+<p>例子中，<code>user_directory_path</code> 这种回调函数，必须接收两个参数，然后返回一个<code>Unix</code>风格的路径字符串。参数<code>instace</code>代表一个定义了<code>FileField</code>的模型的实例，说白了就是当前数据记录。<code>filename</code>是原本的文件名。<br><span class="exturl"><a class="exturl__link"   href="https://docs.djangoproject.com/zh-hans/3.0/ref/models/fields/#django.db.models.BigAutoField"  target="_blank" rel="noopener">更多用途查找官方文档</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+</blockquote>
+<hr>
+
+        <h3 id="lt-20-gt-FilePathField"   >
+          <a href="#lt-20-gt-FilePathField" class="heading-link"><i class="fas fa-link"></i></a>&lt;20&gt; FilePathField</h3>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FilePathField</span><span class="params">(path=None, match=None, recursive=False, max_length=<span class="number">100</span>, **options)</span></span></span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><p><strong>字段解释</strong>：文件路径类型，是一个<code>CharField</code>。其选择仅限于文件系统上某个目录中的文件名。</p>
+</li>
+<li><p><strong>参数</strong>：</p>
+<ul>
+<li><p><code>path</code>：必要参数，目录的绝对文件系统路径；例如：<code>/home/images/</code>;</p>
+</li>
+<li><p><code>path</code> 也可以是可调用的，例如在运行时动态设置路径的函数。例：</p>
+  <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> django.conf <span class="keyword">import</span> settings</span><br><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">images_path</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> os.path.join(settings.LOCAL_FILE_DIR, <span class="string">'images'</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyModel</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    file = models.FilePathField(path=images_path)</span><br></pre></td></tr></table></div></figure></li>
+<li><p><code>match</code>：可选的。将用于过滤文件名的正则表达式（作为字符串）。请注意，正则表达式将应用于基本文件名，而不是完整路径。例如：<code>foo.*\.txt$</code>，它将与名为<code>foo23.txt</code>的文件匹配，但与<code>bar.txt</code>或<code>foo23.png</code>的文件不匹配。</p>
+</li>
+<li><p><code>recursive</code>：可选参数，只能是<code>True</code>或者<code>False</code>。默认值为<code>False</code>。指定是否应包含路径的所有子目录，也就是是否递归的意思。</p>
+</li>
+<li><p><code>allow_files</code>:可选参数，只能是True或者<code>False</code>。默认为<code>True</code>。决定是否应该将文件名包括在内。它和<code>allow_folders</code>其中，必须有一个为<code>True</code>。</p>
+</li>
+<li><p><code>allow_folders</code>： 可选参数，只能是<code>True</code>或者<code>False</code>。默认为<code>False</code>。决定是否应该将目录名包括在内。</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+
+        <h3 id="lt-21-gt-ImageField"   >
+          <a href="#lt-21-gt-ImageField" class="heading-link"><i class="fas fa-link"></i></a>&lt;21&gt; ImageField</h3>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ImageField</span><span class="params">(upload_to=None, height_field=None, width_field=None, max_length=<span class="number">100</span>, **options)</span></span></span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><p><strong>字段解释</strong>：从FileField继承所有属性和方法，不过要校验上传对象是否是一个合法图片。</p>
+</li>
+<li><p><strong>参数</strong>：</p>
+<ul>
+<li><code>height_field</code>：保存有图片高度信息的模型字段名；</li>
+<li><code>width_field</code>：保存有图片宽度信息的模型字段名；</li>
+<li><code>max_length</code>： 最大长度；</li>
+</ul>
+</li>
+<li><p><code>ImageField</code>实例在数据库中创建为<code>varchar</code>列，默认最大长度为<code>100</code>个字符。与其他字段一样，您可以使用<code>max_length</code>参数更改最大长度。</p>
+</li>
+<li><p>使用 Django的 <code>ImageField</code> 需要提前安装<code>pillow</code>模块，<code>pip install pillow</code>即可。</p>
+</li>
+<li><p>使用<code>FileField</code>或者<code>ImageField</code>字段的步骤：</p>
+<ol>
+<li>在<code>settings</code>文件中，配置<code>MEDIA_ROOT</code>，作为你上传文件在服务器中的基本路径（为了性能考虑，这些文件不会被储存在数据库中）。再配置个<code>MEDIA_URL</code>，作为公用<code>URL</code>，指向上传文件的基本路径。请确保Web服务器的用户账号对该目录具有写的权限。</li>
+<li>添加<code>FileField</code>或者<code>ImageField</code>字段到你的模型中，定义好<code>upload_to</code>参数，文件最终会放在<code>MEDIA_ROOT</code>目录的<code>upload_to</code>子目录中。</li>
+<li>所有真正被保存在数据库中的，只是指向你上传文件路径的字符串而已。可以通过<code>url</code>属性，在Django的模板中方便的访问这些文件。例如，假设你有一个<code>ImageField</code>字段，名叫<code>mug_shot</code>，那么在Django模板的HTML文件中，可以使用<code></code>来获取该文件。其中的<code>object</code>用你具体的对象名称代替。</li>
+<li>可以通过<code>name</code>和<code>size</code>属性，获取文件的名称和大小信息。</li>
+</ol>
+</li>
+<li><p><strong>安全建议</strong>:</p>
+<ul>
+<li>无论你如何保存上传的文件，一定要注意他们的内容和格式，避免安全漏洞！务必对所有的上传文件进行安全检查，确保它们不出问题！如果你不加任何检查就盲目的让任何人上传文件到你的服务器文档根目录内，比如上传了一个CGI或者PHP脚本，很可能就会被访问的用户执行，这具有致命的危害。</li>
+</ul>
+</li>
+</ul>
+<hr>
+
+        <h3 id="lt-22-gt-GenericIPAddressField"   >
+          <a href="#lt-22-gt-GenericIPAddressField" class="heading-link"><i class="fas fa-link"></i></a>&lt;22&gt; GenericIPAddressField</h3>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GenericIPAddressField</span><span class="params">(protocol=<span class="string">'both'</span>, unpack_ipv4=False, **options)</span></span></span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><strong>字段解释</strong>：IPV4或者IPV6地址，字符串形式，例如192.0.2.30或者2a02:42fe::4</li>
+<li><strong>参数</strong>：<ul>
+<li><code>protocol</code>：默认值为<code>both</code>，可选<code>IPv4</code>,<code>IPv6</code>。匹配不区分大小写。</li>
+<li><code>unpack_ipv4：</code>解压缩<code>IPv4</code>映射的地址，如<code>::ffff:192.0.2.1</code>。如果启用此选项，则该地址将解压缩为<code>192.0.2.1</code>。默认设置为禁用。只能在协议设置为<code>both</code>和<code>both</code>时使用。</li>
+</ul>
+</li>
+</ul>
+<hr>
+
+        <h3 id="lt-23-gt-IPAddressField"   >
+          <a href="#lt-23-gt-IPAddressField" class="heading-link"><i class="fas fa-link"></i></a>&lt;23&gt; IPAddressField</h3>
+      <ul>
+<li>类似<code>GenericIPAddressField</code>字段</li>
+<li><strong>字段解释</strong>：一个字符串形式的 <code>IP</code> 地址, (i.e. “24.124.1.30”)。</li>
+</ul>
+<hr>
+
+        <h3 id="lt-24-gt-NullBooleanField"   >
+          <a href="#lt-24-gt-NullBooleanField" class="heading-link"><i class="fas fa-link"></i></a>&lt;24&gt; NullBooleanField</h3>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NullBooleanField</span><span class="params">(**options)</span></span></span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><strong>字段解释</strong>：类似布尔字段，只不过额外允许NULL作为选项之一。</li>
+<li><strong>用法</strong>：(三个可选择的值: <code>Unknown</code>, <code>Yes</code> 和 <code>No</code> ) 来表示这种字段数据.</li>
+<li>不过后面django可能会放弃该字段，不推荐</li>
+</ul>
+<hr>
+
+        <h3 id="lt-25-gt-PositiveIntegerField"   >
+          <a href="#lt-25-gt-PositiveIntegerField" class="heading-link"><i class="fas fa-link"></i></a>&lt;25&gt; PositiveIntegerField</h3>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PositiveIntegerField</span><span class="params">(**options)</span></span></span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><strong>字段解释</strong>：正整数字段，类似于<code>IntegerField</code>，但必须为正数或零(0)。包含<code>0</code>到<code>2147483647</code>。</li>
+</ul>
+<hr>
+
+        <h3 id="lt-26-gt-PositiveSmallIntegerField"   >
+          <a href="#lt-26-gt-PositiveSmallIntegerField" class="heading-link"><i class="fas fa-link"></i></a>&lt;26&gt; PositiveSmallIntegerField</h3>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PositiveSmallIntegerField</span><span class="params">(**options)</span></span></span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><strong>字段解释</strong>：较小的正整数字段，类似于<code>PositiveIntegerField</code>，从<code>0</code>到<code>32767</code>。</li>
+</ul>
+<hr>
+
+        <h3 id="lt-27-gt-SlugField"   >
+          <a href="#lt-27-gt-SlugField" class="heading-link"><i class="fas fa-link"></i></a>&lt;27&gt; SlugField</h3>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SlugField</span><span class="params">(max_length=<span class="number">50</span>, **options)</span></span></span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><strong>字段解释</strong>：<code>slug</code>是一个新闻行业的术语。一个<code>slug</code>就是一个某种东西的简短标签，包含字母、数字、下划线或者连接线，通常用于<code>URLs</code>中。</li>
+<li><strong>参数</strong>：<ul>
+<li><code>max_length</code>：最大长度，默认值为<code>50</code>；</li>
+</ul>
+</li>
+</ul>
+<hr>
+
+        <h3 id="lt-28-gt-URLField"   >
+          <a href="#lt-28-gt-URLField" class="heading-link"><i class="fas fa-link"></i></a>&lt;28&gt; URLField</h3>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">URLField</span><span class="params">(max_length=<span class="number">200</span>, **options)</span></span></span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><strong>字段解释</strong>：一个用于保存URL地址的字符串类型。给定的 URL 会预先检查是否存在( 即URL是否被有效装入且没有返回404响应)。</li>
+<li><strong>参数</strong>：<ul>
+<li><code>max_length</code>：最大长度，默认值为<code>200</code>；</li>
+</ul>
+</li>
+</ul>
+<hr>
+
+        <h3 id="lt-29-gt-UUIDField"   >
+          <a href="#lt-29-gt-UUIDField" class="heading-link"><i class="fas fa-link"></i></a>&lt;29&gt; UUIDField</h3>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UUIDField</span><span class="params">(**options)</span></span></span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><strong>字段解释</strong>：用于存储通用唯一标识符的字段。使用Python的UUID类。在PostgreSQL上使用时，它存储在uuid数据类型中，否则存储在char(32)中。</li>
+<li><strong>用途</strong>：通用唯一标识符是primary_key的自增字段的很好替代。数据库不会为您生成UUID，因此建议使用default：</li>
+<li>例如：<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> uuid  <span class="comment"># Python的内置模块</span></span><br><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyUUIDModel</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    id = models.UUIDField(primary_key=<span class="literal">True</span>, default=uuid.uuid4, editable=<span class="literal">False</span>)</span><br><span class="line">    <span class="comment"># 其他字段</span></span><br></pre></td></tr></table></div></figure>
+
+</li>
+</ul>
+
+        <h2 id="2-字段参数"   >
+          <a href="#2-字段参数" class="heading-link"><i class="fas fa-link"></i></a>2. 字段参数</h2>
+      
+        <h3 id="2-1-null"   >
+          <a href="#2-1-null" class="heading-link"><i class="fas fa-link"></i></a>2.1 null</h3>
+      <ul>
+<li>如果为<code>True</code>，Django 将用NULL 来在数据库中存储空值。 默认值是<code>False</code>.</li>
+</ul>
+
+        <h3 id="2-2-blank"   >
+          <a href="#2-2-blank" class="heading-link"><i class="fas fa-link"></i></a>2.2 blank</h3>
+      <ul>
+<li>如果为<code>True</code>，该字段允许不填。默认为<code>False</code>。</li>
+<li>要注意，这与<code>null</code>不同。<code>null</code>纯粹是数据库范畴的，而<code>blank</code>是数据验证范畴的。</li>
+<li>如果一个字段的<code>blank=True</code>，表单的验证将允许该字段是空值。如果字段的<code>blank=False</code>，该字段就是必填的。</li>
+</ul>
+
+        <h3 id="2-3-default"   >
+          <a href="#2-3-default" class="heading-link"><i class="fas fa-link"></i></a>2.3 default</h3>
+      <ul>
+<li>字段的默认值。可以是一个值或者可调用对象。如果可调用 ，每有新对象被创建它都会被调用。</li>
+</ul>
+
+        <h3 id="2-4-primary-key"   >
+          <a href="#2-4-primary-key" class="heading-link"><i class="fas fa-link"></i></a>2.4 primary_key</h3>
+      <ul>
+<li>如果为<code>True</code>，那么这个字段就是模型的主键。如果你没有指定任何一个字段的<code>primary_key=True</code>，</li>
+<li>Django 就会自动添加一个<code>IntegerField</code>字段做为主键，所以除非你想覆盖默认的主键行为，</li>
+<li>否则没必要设置任何一个字段的<code>primary_key=True</code>。</li>
+</ul>
+
+        <h3 id="2-5-unique"   >
+          <a href="#2-5-unique" class="heading-link"><i class="fas fa-link"></i></a>2.5 unique</h3>
+      <ul>
+<li>如果该值设置为<code>True</code>, 这个数据字段的值在整张表中必须是唯一的</li>
+</ul>
+
+        <h3 id="2-6-choices"   >
+          <a href="#2-6-choices" class="heading-link"><i class="fas fa-link"></i></a>2.6 choices</h3>
+      <ul>
+<li>由二元组组成的一个可迭代对象（例如，列表或元组），用来给字段提供选择项。 如果设置了<code>choices</code> ，默认的表单将是一个选择框而不是标准的文本框，</li>
+<li>而且这个选择框的选项就是<code>choices</code>中的选项。</li>
+</ul>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://jeremy-zjl.github.io">Jeremy-ZJL</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://jeremy-zjl.github.io/2020/10/17/Django%E4%B8%A8%E6%A8%A1%E7%89%88%E5%B1%82%E4%B8%A8ORM%20-%20%E5%AD%97%E6%AE%B5%E8%AF%A6%E8%A7%A3/">https://jeremy-zjl.github.io/2020/10/17/Django%E4%B8%A8%E6%A8%A1%E7%89%88%E5%B1%82%E4%B8%A8ORM%20-%20%E5%AD%97%E6%AE%B5%E8%AF%A6%E8%A7%A3/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://jeremy-zjl.github.io/tags/Python/">Python</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://jeremy-zjl.github.io/tags/Django/">Django</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://jeremy-zjl.github.io/tags/%E5%9F%BA%E7%A1%80/">基础</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://jeremy-zjl.github.io/tags/%E7%AC%94%E8%AE%B0/">笔记</a></span></div><nav class="post-paginator paginator"><div class="paginator-next"><a class="paginator-next__link" href="/2020/10/15/Django%E4%B8%A8%E4%B8%AD%E9%97%B4%E4%BB%B6%20-%20Session%E6%BA%90%E7%A0%81%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90/"><span class="paginator-prev__text">Django丨中间件 - Session源码流程分析</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div><div class="comments" id="comments"><div id="gitalk-container"></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-字段详解"><span class="toc-text">
+          1. 字段详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-1-gt-AutoField"><span class="toc-text">
+          &lt;1&gt; AutoField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-2-gt-BigAutoField"><span class="toc-text">
+          &lt;2&gt; BigAutoField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-3-gt-SmallAutoField"><span class="toc-text">
+          &lt;3&gt; SmallAutoField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-4-gt-BinaryField"><span class="toc-text">
+          &lt;4&gt; BinaryField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-5-gt-BooleanField"><span class="toc-text">
+          &lt;5&gt; BooleanField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-6-gt-CharField"><span class="toc-text">
+          &lt;6&gt; CharField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-7-gt-TextField"><span class="toc-text">
+          &lt;7&gt; TextField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-8-gt-CommaSeparatedIntegerField"><span class="toc-text">
+          &lt;8&gt; CommaSeparatedIntegerField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-9-gt-IntegerField"><span class="toc-text">
+          &lt;9&gt; IntegerField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-10-gt-BigIntegerField"><span class="toc-text">
+          &lt;10&gt; BigIntegerField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-11-gt-SmallIntegerField"><span class="toc-text">
+          &lt;11&gt; SmallIntegerField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-12-gt-FloatField"><span class="toc-text">
+          &lt;12&gt; FloatField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-13-gt-DateField"><span class="toc-text">
+          &lt;13&gt; DateField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-14-gt-DateTimeField"><span class="toc-text">
+          &lt;14&gt; DateTimeField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-15-gt-TimeField"><span class="toc-text">
+          &lt;15&gt; TimeField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-16-gt-DecimalField"><span class="toc-text">
+          &lt;16&gt; DecimalField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-17-gt-DurationField"><span class="toc-text">
+          &lt;17&gt; DurationField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-18-gt-EmailField"><span class="toc-text">
+          &lt;18&gt; EmailField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-19-gt-FileField"><span class="toc-text">
+          &lt;19&gt; FileField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-20-gt-FilePathField"><span class="toc-text">
+          &lt;20&gt; FilePathField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-21-gt-ImageField"><span class="toc-text">
+          &lt;21&gt; ImageField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-22-gt-GenericIPAddressField"><span class="toc-text">
+          &lt;22&gt; GenericIPAddressField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-23-gt-IPAddressField"><span class="toc-text">
+          &lt;23&gt; IPAddressField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-24-gt-NullBooleanField"><span class="toc-text">
+          &lt;24&gt; NullBooleanField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-25-gt-PositiveIntegerField"><span class="toc-text">
+          &lt;25&gt; PositiveIntegerField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-26-gt-PositiveSmallIntegerField"><span class="toc-text">
+          &lt;26&gt; PositiveSmallIntegerField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-27-gt-SlugField"><span class="toc-text">
+          &lt;27&gt; SlugField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-28-gt-URLField"><span class="toc-text">
+          &lt;28&gt; URLField</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lt-29-gt-UUIDField"><span class="toc-text">
+          &lt;29&gt; UUIDField</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-字段参数"><span class="toc-text">
+          2. 字段参数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-null"><span class="toc-text">
+          2.1 null</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-blank"><span class="toc-text">
+          2.2 blank</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-default"><span class="toc-text">
+          2.3 default</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-primary-key"><span class="toc-text">
+          2.4 primary_key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-unique"><span class="toc-text">
+          2.5 unique</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-choices"><span class="toc-text">
+          2.6 choices</span></a></li></ol></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/icons/j-icon-144.png" alt="avatar"></div><p class="sidebar-ov-author__text">write code and love life</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/" target="_blank" rel="noopener" data-popover="Github" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span></a><a class="sidebar-ov-social-item" href="https://plus.google.com/" target="_blank" rel="noopener" data-popover="Google" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-google"></i></span></a><a class="sidebar-ov-social-item" href="https://www.zhihu.com/" target="_blank" rel="noopener" data-popover="知乎" data-popover-pos="up"><span class="sidebar-ov-social-item__icon">知</span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">20</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">7</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">18</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2020</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Jeremy All Rights Reserved</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v4.2.1</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.0.1</span></div><div class="busuanzi"><span class="busuanzi-siteuv"><span class="busuanzi-siteuv__icon"><i class="fas fa-user"></i></span><span class="busuanzi-siteuv__info">访问人数</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_uv"></span></span><span class="busuanzi-sitepv"><span class="busuanzi-siteuv__icon"><i class="fas fa-eye"></i></span><span class="busuanzi-siteuv__info">浏览总量</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="200" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1.0.1/dist/canvas-nest.min.js" color="0,0,0" opacity="0.6" count="180" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/npm/pjax@latest/pjax.min.js"></script><script>window.addEventListener('DOMContentLoaded', function () {
+  var pjax = new Pjax({"selectors":["head title","#main",".pjax-reload",".header-inner"],"history":true,"scrollTo":false,"scrollRestoration":false,"cacheBust":false,"debug":false,"currentUrlFullReload":false,"timeout":0});
+  // 加载进度条的计时器
+  var loadingTimer = null;
+
+  // 重置页面 Y 方向上的滚动偏移量
+  document.addEventListener('pjax:send', function () {
+    $('.header-nav-menu').removeClass('show');
+    if (CONFIG.pjax && CONFIG.pjax.avoidBanner) {
+      $('html').velocity('scroll', {
+        duration: 500,
+        offset: $('#header').height(),
+        easing: 'easeInOutCubic'
+      });
+    }
+
+    var loadingBarWidth = 20;
+    var MAX_LOADING_WIDTH = 95;
+
+    $('.loading-bar').addClass('loading');
+    $('.loading-bar__progress').css('width', loadingBarWidth + '%');
+    clearInterval(loadingTimer);
+    loadingTimer = setInterval(function () {
+      loadingBarWidth += 3;
+      if (loadingBarWidth > MAX_LOADING_WIDTH) {
+        loadingBarWidth = MAX_LOADING_WIDTH;
+      }
+      $('.loading-bar__progress').css('width', loadingBarWidth + '%');
+    }, 500);
+  }, false);
+
+  window.addEventListener('pjax:complete', function () {
+    clearInterval(loadingTimer);
+    $('.loading-bar__progress').css('width', '100%');
+    $('.loading-bar').removeClass('loading');
+    setTimeout(function () {
+      $('.loading-bar__progress').css('width', '0');
+    }, 400);
+    $('link[rel=prefetch], script[data-pjax-rm]').each(function () {
+      $(this).remove();
+    });
+    $('script[data-pjax], #pjax-reload script').each(function () {
+      $(this).parent().append($(this).remove());
+    });
+
+    if (Stun.utils.pjaxReloadBoot) {
+      Stun.utils.pjaxReloadBoot();
+    }
+    if (Stun.utils.pjaxReloadScroll) {
+      Stun.utils.pjaxReloadScroll();
+    }
+    if (Stun.utils.pjaxReloadSidebar) {
+      Stun.utils.pjaxReloadSidebar();
+    }
+    if (true) {
+      if (Stun.utils.pjaxReloadHeader) {
+        Stun.utils.pjaxReloadHeader();
+      }
+      if (Stun.utils.pjaxReloadScrollIcon) {
+        Stun.utils.pjaxReloadScrollIcon();
+      }
+      if (Stun.utils.pjaxReloadLocalSearch) {
+        Stun.utils.pjaxReloadLocalSearch();
+      }
+    }
+  }, false);
+}, false);</script><div id="pjax-reload"><script src="https://cdn.jsdelivr.net/npm/quicklink@1.0.1/dist/quicklink.umd.js"></script><script>function initQuicklink() {
+  quicklink({
+    timeout: '10000',
+    priority: true,
+    ignores: [uri => uri.includes('#'), uri => uri === 'https://jeremy-zjl.github.io/2020/10/17/Django%E4%B8%A8%E6%A8%A1%E7%89%88%E5%B1%82%E4%B8%A8ORM%20-%20%E5%AD%97%E6%AE%B5%E8%AF%A6%E8%A7%A3/', /\/api\/?/,uri => uri.includes('.xml'),uri => uri.includes('.zip'),(uri, el) => el.hasAttribute('nofollow'),(uri, el) => el.hasAttribute('noprefetch')]
+  });
+}
+
+if (true || false) {
+  initQuicklink();
+} else {
+  window.addEventListener('DOMContentLoaded', initQuicklink, false);
+}</script><script src="https://cdn.jsdelivr.net/gh/sukkaw/busuanzi@latest/bsz.pure.mini.js" async></script></div><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js" data-pjax=""></script><script src="https://cdn.jsdelivr.net/npm/js-md5@latest/src/md5.min.js" data-pjax=""></script><script data-pjax="">function loadGitalk () {
+  if (!document.getElementById('gitalk-container')) {
+    return;
+  }
+
+  var gitalk = new Gitalk({
+    id: md5(window.location.pathname.slice(1)),
+    clientID: '5eed14a18152a05fd25d',
+    clientSecret: '4d8cb9ed6f2b02a76e3009589875a2b81963c2aa',
+    repo: 'Jeremy-ZJL.github.io',
+    owner: 'Jeremy-ZJL',
+    admin: ['Jeremy-ZJL'],
+    distractionFreeMode: 'true',
+    language: 'zh-CN'
+  });
+  gitalk.render('gitalk-container');
+}
+
+if (true) {
+  loadGitalk();
+} else {
+  window.addEventListener('DOMContentLoaded', loadGitalk, false);
+}</script><script src="/js/utils.js?v=2.0.1"></script><script src="/js/stun-boot.js?v=2.0.1"></script><script src="/js/scroll.js?v=2.0.1"></script><script src="/js/header.js?v=2.0.1"></script><script src="/js/sidebar.js?v=2.0.1"></script></body></html>

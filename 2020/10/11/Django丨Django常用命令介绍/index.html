@@ -1,0 +1,347 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/j-icon-16.png?v=2.0.1" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/j-icon-32.png?v=2.0.1" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="/images/icons/j-icon-192.png?v=2.0.1" sizes="180x180"><link rel="mask-icon" href="/images/icons/j-icon-96.png?v=2.0.1" color="#54bcff"><meta name="msapplication-TileImage" content="/images/icons/j-icon-144.png"><meta name="msapplication-TileColor" content="#000000"><meta name="google-site-verification" content="wmgiquHvFLol6wowL0KAwg0WI7DkfhhVJ3r0_QRPk-g"><meta name="baidu-site-verification" content="code-nyFNxfLcDt"><meta name="360-site-verification" content="0d8d7a290d96dfee3f3c05e8e0500347"><meta name="description" content="在DJango里django-admin.py和manage.py都是Django的命令工具集，用于处理系统管理相关操作，而manage.py是在创建Django工程时自动生成的，manage.py是对django-admin.py的简单包装，二者的作用基本一致。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django丨Django常用命令介绍">
+<meta property="og:url" content="https://jeremy-zjl.github.io/2020/10/11/Django%E4%B8%A8Django%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%BB%8B%E7%BB%8D/index.html">
+<meta property="og:site_name" content="Jeremy-ZJL&#39;s Blog">
+<meta property="og:description" content="在DJango里django-admin.py和manage.py都是Django的命令工具集，用于处理系统管理相关操作，而manage.py是在创建Django工程时自动生成的，manage.py是对django-admin.py的简单包装，二者的作用基本一致。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jeremy-zjl.github.io/images/py-png/django-migration.png">
+<meta property="og:image" content="https://jeremy-zjl.github.io/images/py-png/python-manage.py-showmigrations.png">
+<meta property="article:published_time" content="2020-10-11T02:10:16.000Z">
+<meta property="article:modified_time" content="2020-10-11T02:10:16.000Z">
+<meta property="article:author" content="Jeremy-ZJL">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Django">
+<meta property="article:tag" content="基础">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jeremy-zjl.github.io/images/py-png/django-migration.png"><meta name="keywords" content="Jeremy-ZJL, Jeremy-ZJL's Blog"><meta name="description" content="Jeremy-ZJL's Blog"><title>Django丨Django常用命令介绍 | Jeremy-ZJL's Blog</title><link ref="canonical" href="https://jeremy-zjl.github.io/2020/10/11/Django%E4%B8%A8Django%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%BB%8B%E7%BB%8D/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.0.1"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="dns-prefetch" href="https://hm.baidu.com"><script src="https://www.googletagmanager.com/gtag/js?id=183330495" async="" data-pjax=""></script><script data-pjax="">if (window.location.hostname !== 'localhost') {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', '183330495');
+}</script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement('script');
+  hm.src = 'https://hm.baidu.com/hm.js?77b4b897986a377c76b267d13173877e';
+  hm.async = true;
+
+  if (true) {
+    hm.setAttribute('data-pjax', '');
+  }
+  var s = document.getElementsByTagName('script')[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: undefined,
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"ocean","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: {"avoidBanner":false},
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 4.2.1"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner header-inner--height header-inner--bgcolor"><nav class="header-nav header-nav--sticky"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="javascript:;" onclick="return false;"><span class="header-nav-menu-item__icon"><i class="fas fa-angle-double-down"></i></span><span class="header-nav-menu-item__text">其它</span></a><div class="header-nav-submenu"><div class="header-nav-submenu-item"><a class="header-nav-submenu-item__link" href="/xxx1-1/"><span class="header-nav-submenu-item__icon"><i class="fa(s|r|l|d|b) fa-xxx"></i></span><span class="header-nav-submenu-item__text">其它-1</span></a></div><div class="header-nav-submenu-item"><a class="header-nav-submenu-item__link" href="/xxx1-2/"><span class="header-nav-submenu-item__icon"><i class="fa(s|r|l|d|b) fa-xxx"></i></span><span class="header-nav-submenu-item__text">其它-2</span></a></div></div></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">Django丨Django常用命令介绍</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2020-10-11</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2020-10-11</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">1k</span></span><span class="post-meta-item post-meta-item--visitors"><span class="post-meta-item__icon"><i class="fas fa-eye"></i></span><span class="post-meta-item__info">阅读次数</span><span class="post-meta-item__value" id="busuanzi_value_page_pv"></span></span></div></header><div class="post-body">
+        <h1 id="Django丨Django常用命令介绍"   >
+          <a href="#Django丨Django常用命令介绍" class="heading-link"><i class="fas fa-link"></i></a>Django丨Django常用命令介绍</h1>
+      <p>在<code>DJango</code>里<code>django-admin.py</code>和<code>manage.py</code>都是<code>Django</code>的命令工具集，用于处理系统管理相关操作，而<code>manage.py</code>是在创建<code>Django</code>工程时自动生成的，<code>manage.py</code>是对<code>django-admin.py</code>的简单包装，二者的作用基本一致。</p>
+<ul>
+<li>区别：<ul>
+<li><code>django-admin</code>存放在Python的<code>site-packages\django\bin</code>里，<code>manage.py</code>存放在项目工程文件夹里。</li>
+<li><code>django-admin</code>可以对不同的项目进行设置，而<code>manege.py</code>只能当前的工程有效。</li>
+</ul>
+</li>
+</ul>
+<p>下面我们以<code>manage.py</code>为例，列出一些常用的命令：</p>
+<ul>
+<li><p><strong>语法</strong>：</p>
+<ul>
+<li><code>django-admin &lt;subcommand&gt; [options]</code></li>
+<li><code>manage.py &lt;subcommand&gt; [options]</code><blockquote>
+<p><code>subcommand</code>是子命令；<code>options</code>是可选的</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p><strong>常用子命令</strong>：</p>
+<ul>
+<li><code>startproject</code>:创建一个项目（*）</li>
+<li><code>startapp</code>:创建一个app（*）</li>
+<li><code>runserver</code>：运行开发服务器（*）</li>
+<li><code>shell</code>：进入django shell（*）</li>
+<li><code>dbshell</code>：进入django dbshell</li>
+<li><code>check</code>：检查django项目完整性</li>
+<li><code>flush</code>：清空数据库</li>
+<li><code>compilemessages</code>：编译语言文件</li>
+<li><code>makemessages</code>：创建语言文件</li>
+<li><code>makemigrations</code>：生成数据库同步脚本（*）</li>
+<li><code>migrate</code>：同步数据库（*）</li>
+<li><code>showmigrations</code>：查看生成的数据库同步脚本（*）</li>
+<li><code>sqlflush</code>：查看生成清空数据库的脚本（*）</li>
+<li><code>sqlmigrate</code>：查看数据库同步的sql语句（*）</li>
+<li><code>dumpdata</code>:导出数据</li>
+<li><code>loaddata</code>:导入数据</li>
+<li><code>diffsettings</code>:查看你的配置和django默认配置的不同之处</li>
+</ul>
+</li>
+<li><p><strong><code>manage.py</code>特有的一些子命令</strong>：</p>
+<ul>
+<li><code>createsuperuser</code>:创建超级管理员（*）</li>
+<li><code>changepassword</code>:修改密码（*）</li>
+<li><code>clearsessions</code>：清除session</li>
+</ul>
+</li>
+</ul>
+
+        <h2 id="1-help"   >
+          <a href="#1-help" class="heading-link"><i class="fas fa-link"></i></a>1. help</h2>
+      <p>作用：获得帮助信息<br>语法：</p>
+<ul>
+<li>显示帮助信息和可用命令<ul>
+<li><code>python manege.py help</code></li>
+</ul>
+</li>
+<li>显示指定命令的详细文档<ul>
+<li><code>python manege.py help --commands</code> # <code>commands</code>为需要指定显示的命令</li>
+</ul>
+</li>
+</ul>
+
+        <h2 id="2-version"   >
+          <a href="#2-version" class="heading-link"><i class="fas fa-link"></i></a>2. version</h2>
+      <p>作用：获取到当前DJango的版本<br>语法：</p>
+<ul>
+<li><code>python manage.py version</code></li>
+</ul>
+
+        <h2 id="3、check"   >
+          <a href="#3、check" class="heading-link"><i class="fas fa-link"></i></a>3、check</h2>
+      <p>作用：检查工程中是否存在错误（检查完整性）<br>语法：</p>
+<ul>
+<li><code>python manage.py check [appname]</code>   # 命令后面跟APP名称</li>
+</ul>
+
+        <h2 id="4-startproject"   >
+          <a href="#4-startproject" class="heading-link"><i class="fas fa-link"></i></a>4. startproject</h2>
+      <p>作用：创建Django工程<br>语法：</p>
+<ul>
+<li><code>django-admin startproject name [项目想要存放的路径]</code></li>
+</ul>
+
+        <h2 id="5-startapp"   >
+          <a href="#5-startapp" class="heading-link"><i class="fas fa-link"></i></a>5. startapp</h2>
+      <p>作用：创建Django应用程序<br>语法：</p>
+<ul>
+<li><code>django-admin startapp name [应用想要存放的路径]</code></li>
+<li><code>python manage.py startapp name</code></li>
+</ul>
+
+        <h2 id="6-runserver"   >
+          <a href="#6-runserver" class="heading-link"><i class="fas fa-link"></i></a>6. runserver</h2>
+      <p>作用：在当前机器启动一个Web服务器，运行Django项目<br>语法：</p>
+<ul>
+<li><code>python manage.py runserver</code>  # 默认是8000端口</li>
+<li><code>python manage.py runserver 8000</code>  # 指定端口</li>
+<li><code>python manage.py runserver 127.0.0.1:8000</code>  # 指定IP和端口</li>
+</ul>
+
+        <h2 id="7-shell"   >
+          <a href="#7-shell" class="heading-link"><i class="fas fa-link"></i></a>7. shell</h2>
+      <p>作用：启动一个交互窗口<br>语法：</p>
+<ul>
+<li><code>python manage.py shell</code></li>
+<li>如果想使用<code>ipython</code>、<code>bpython</code>交互模式的话需要先安装以上交互工具，安装命令：<code>pip install ipython</code></li>
+<li>启用命令</li>
+<li><code>python manage.py shell --i [ipyhton]</code></li>
+</ul>
+
+        <h2 id="8-migrations"   >
+          <a href="#8-migrations" class="heading-link"><i class="fas fa-link"></i></a>8. migrations</h2>
+      <blockquote>
+<p>Django通过<code>migrations</code>命令将Models中的任何修改写入到数库中，比如：新增加的模型或修改已有的字段等。</p>
+</blockquote>
+<ul>
+<li><p><code>makemigrations</code></p>
+<ul>
+<li>作用：根据models的变化生成对应的Python代码，该代码用于更新数据库</li>
+<li>语法：<ul>
+<li><code>python manage.py makemigrations</code></li>
+<li><code>python manage.py makemigrations [appname]</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>migrate</code></p>
+<ul>
+<li>作用：将model里的修改应用到数据库</li>
+<li>语法：<ul>
+<li><code>python manage.py migrate</code>  # 默认是所有的APP的修改应用到数据库</li>
+<li><code>python manage.py migrate [appname]</code>  # 指定APP的修改应用到数据库</li>
+<li><code>python manage.py migrate [appname] [migrations_name]</code>  # 将操作恢复到指定版本</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>注意：<br>如果执行<code>migrate</code>的命令同时给了应用程序的名字和<code>migrations_name</code>，系统会把数据库恢复到之前指定的一个版本。<br>例如：<code>python manage.py migrate myblog 0001_initial</code>  # 指定blog应用恢复到<code>0001_initial</code>这个版本</p>
+</blockquote>
+<p>Django所有的<code>migration</code>信息都保存在<code>django_migrations</code>这个数据库表中，如下图所示：<br><img src="/images/py-png/django-migration.png" alt="django-migration.png"></p>
+<p>如果想撤销所有的数据库更改，我们可以使用 zero代替 上面的命令:<br><code>python manage.py migrate blog zero</code></p>
+<ul>
+<li><strong>高级用法</strong></li>
+</ul>
+<blockquote>
+<p>如果数据库里，已经手动更新了数据库，我们只是想设置当前的<code>migration</code>状态，就使用下面的命令去实现，这个命令并不会真正的去更新数据库。</p>
+</blockquote>
+<ul>
+<li><p>语法：</p>
+<ul>
+<li><code>python manage.py migrate blog zero</code></li>
+</ul>
+</li>
+<li><p><code>sqlmigrate</code></p>
+<ul>
+<li>作用：输出某一个<code>migrate</code>对应的SQL语句</li>
+<li>语法：<ul>
+<li><code>python manage.py sqlmigrate blog 0001_initial</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>showmigrations</code></p>
+<ul>
+<li>作用：显示<code>migrations</code>记录</li>
+<li>语法：<ul>
+<li><code>python manage.py showmigrations</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="/images/py-png/python-manage.py-showmigrations.png" alt="python-manage.py-showmigrations.png"></p>
+<blockquote>
+<p>留意：记录前有[X]的表示已经部署到数据库里去了，没有的则显示 [ ]</p>
+</blockquote>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://jeremy-zjl.github.io">Jeremy-ZJL</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://jeremy-zjl.github.io/2020/10/11/Django%E4%B8%A8Django%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%BB%8B%E7%BB%8D/">https://jeremy-zjl.github.io/2020/10/11/Django%E4%B8%A8Django%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%BB%8B%E7%BB%8D/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://jeremy-zjl.github.io/tags/Python/">Python</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://jeremy-zjl.github.io/tags/Django/">Django</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://jeremy-zjl.github.io/tags/%E5%9F%BA%E7%A1%80/">基础</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2020/10/11/Django%E4%B8%A8Meta-%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%85%83%E6%95%B0%E6%8D%AE/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">Django丨Meta-模型的元数据</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2020/10/10/Django%E4%B8%A8Authentication%20%E7%94%A8%E6%88%B7%E8%AE%A4%E8%AF%81%E7%B3%BB%E7%BB%9F/"><span class="paginator-prev__text">Django丨Authentication 用户认证系统</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div><div class="comments" id="comments"><div id="gitalk-container"></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Django丨Django常用命令介绍"><span class="toc-text">
+          Django丨Django常用命令介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-help"><span class="toc-text">
+          1. help</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-version"><span class="toc-text">
+          2. version</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、check"><span class="toc-text">
+          3、check</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-startproject"><span class="toc-text">
+          4. startproject</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-startapp"><span class="toc-text">
+          5. startapp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-runserver"><span class="toc-text">
+          6. runserver</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-shell"><span class="toc-text">
+          7. shell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-migrations"><span class="toc-text">
+          8. migrations</span></a></li></ol></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/icons/j-icon-144.png" alt="avatar"></div><p class="sidebar-ov-author__text">write code and love life</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/" target="_blank" rel="noopener" data-popover="Github" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span></a><a class="sidebar-ov-social-item" href="https://plus.google.com/" target="_blank" rel="noopener" data-popover="Google" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-google"></i></span></a><a class="sidebar-ov-social-item" href="https://www.zhihu.com/" target="_blank" rel="noopener" data-popover="知乎" data-popover-pos="up"><span class="sidebar-ov-social-item__icon">知</span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">20</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">7</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">18</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2020</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Jeremy All Rights Reserved</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v4.2.1</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.0.1</span></div><div class="busuanzi"><span class="busuanzi-siteuv"><span class="busuanzi-siteuv__icon"><i class="fas fa-user"></i></span><span class="busuanzi-siteuv__info">访问人数</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_uv"></span></span><span class="busuanzi-sitepv"><span class="busuanzi-siteuv__icon"><i class="fas fa-eye"></i></span><span class="busuanzi-siteuv__info">浏览总量</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="200" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1.0.1/dist/canvas-nest.min.js" color="0,0,0" opacity="0.6" count="180" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/npm/pjax@latest/pjax.min.js"></script><script>window.addEventListener('DOMContentLoaded', function () {
+  var pjax = new Pjax({"selectors":["head title","#main",".pjax-reload",".header-inner"],"history":true,"scrollTo":false,"scrollRestoration":false,"cacheBust":false,"debug":false,"currentUrlFullReload":false,"timeout":0});
+  // 加载进度条的计时器
+  var loadingTimer = null;
+
+  // 重置页面 Y 方向上的滚动偏移量
+  document.addEventListener('pjax:send', function () {
+    $('.header-nav-menu').removeClass('show');
+    if (CONFIG.pjax && CONFIG.pjax.avoidBanner) {
+      $('html').velocity('scroll', {
+        duration: 500,
+        offset: $('#header').height(),
+        easing: 'easeInOutCubic'
+      });
+    }
+
+    var loadingBarWidth = 20;
+    var MAX_LOADING_WIDTH = 95;
+
+    $('.loading-bar').addClass('loading');
+    $('.loading-bar__progress').css('width', loadingBarWidth + '%');
+    clearInterval(loadingTimer);
+    loadingTimer = setInterval(function () {
+      loadingBarWidth += 3;
+      if (loadingBarWidth > MAX_LOADING_WIDTH) {
+        loadingBarWidth = MAX_LOADING_WIDTH;
+      }
+      $('.loading-bar__progress').css('width', loadingBarWidth + '%');
+    }, 500);
+  }, false);
+
+  window.addEventListener('pjax:complete', function () {
+    clearInterval(loadingTimer);
+    $('.loading-bar__progress').css('width', '100%');
+    $('.loading-bar').removeClass('loading');
+    setTimeout(function () {
+      $('.loading-bar__progress').css('width', '0');
+    }, 400);
+    $('link[rel=prefetch], script[data-pjax-rm]').each(function () {
+      $(this).remove();
+    });
+    $('script[data-pjax], #pjax-reload script').each(function () {
+      $(this).parent().append($(this).remove());
+    });
+
+    if (Stun.utils.pjaxReloadBoot) {
+      Stun.utils.pjaxReloadBoot();
+    }
+    if (Stun.utils.pjaxReloadScroll) {
+      Stun.utils.pjaxReloadScroll();
+    }
+    if (Stun.utils.pjaxReloadSidebar) {
+      Stun.utils.pjaxReloadSidebar();
+    }
+    if (true) {
+      if (Stun.utils.pjaxReloadHeader) {
+        Stun.utils.pjaxReloadHeader();
+      }
+      if (Stun.utils.pjaxReloadScrollIcon) {
+        Stun.utils.pjaxReloadScrollIcon();
+      }
+      if (Stun.utils.pjaxReloadLocalSearch) {
+        Stun.utils.pjaxReloadLocalSearch();
+      }
+    }
+  }, false);
+}, false);</script><div id="pjax-reload"><script src="https://cdn.jsdelivr.net/npm/quicklink@1.0.1/dist/quicklink.umd.js"></script><script>function initQuicklink() {
+  quicklink({
+    timeout: '10000',
+    priority: true,
+    ignores: [uri => uri.includes('#'), uri => uri === 'https://jeremy-zjl.github.io/2020/10/11/Django%E4%B8%A8Django%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%BB%8B%E7%BB%8D/', /\/api\/?/,uri => uri.includes('.xml'),uri => uri.includes('.zip'),(uri, el) => el.hasAttribute('nofollow'),(uri, el) => el.hasAttribute('noprefetch')]
+  });
+}
+
+if (true || false) {
+  initQuicklink();
+} else {
+  window.addEventListener('DOMContentLoaded', initQuicklink, false);
+}</script><script src="https://cdn.jsdelivr.net/gh/sukkaw/busuanzi@latest/bsz.pure.mini.js" async></script></div><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js" data-pjax=""></script><script src="https://cdn.jsdelivr.net/npm/js-md5@latest/src/md5.min.js" data-pjax=""></script><script data-pjax="">function loadGitalk () {
+  if (!document.getElementById('gitalk-container')) {
+    return;
+  }
+
+  var gitalk = new Gitalk({
+    id: md5(window.location.pathname.slice(1)),
+    clientID: '5eed14a18152a05fd25d',
+    clientSecret: '4d8cb9ed6f2b02a76e3009589875a2b81963c2aa',
+    repo: 'Jeremy-ZJL.github.io',
+    owner: 'Jeremy-ZJL',
+    admin: ['Jeremy-ZJL'],
+    distractionFreeMode: 'true',
+    language: 'zh-CN'
+  });
+  gitalk.render('gitalk-container');
+}
+
+if (true) {
+  loadGitalk();
+} else {
+  window.addEventListener('DOMContentLoaded', loadGitalk, false);
+}</script><script src="/js/utils.js?v=2.0.1"></script><script src="/js/stun-boot.js?v=2.0.1"></script><script src="/js/scroll.js?v=2.0.1"></script><script src="/js/header.js?v=2.0.1"></script><script src="/js/sidebar.js?v=2.0.1"></script></body></html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/j-icon-16.png?v=2.0.1" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/j-icon-32.png?v=2.0.1" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="/images/icons/j-icon-192.png?v=2.0.1" sizes="180x180"><link rel="mask-icon" href="/images/icons/j-icon-96.png?v=2.0.1" color="#54bcff"><meta name="msapplication-TileImage" content="/images/icons/j-icon-144.png"><meta name="msapplication-TileColor" content="#000000"><meta name="google-site-verification" content="wmgiquHvFLol6wowL0KAwg0WI7DkfhhVJ3r0_QRPk-g"><meta name="baidu-site-verification" content="code-nyFNxfLcDt"><meta name="360-site-verification" content="0d8d7a290d96dfee3f3c05e8e0500347"><meta name="description" content="这些年来，谷歌开发出了一个叫&#96;Borg&#96;的内部系统（后来还有一个新系统叫&#96;omega&#96;），应用开发者和系统管理员管理那些数以千计的应用程序和服务都受益于它的帮助。除了简化开发和管理，它也帮助他们获得了更高的基础设施利用率，在你的组织如此庞大时，这很重要。当你运行成千上万台机器时，哪怕一丁点的利用率提升也意味着节约了数百万美元，所以，开发这个系统的动机是显而易见的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="K8S丨1. Kubernetes介绍">
+<meta property="og:url" content="https://jeremy-zjl.github.io/2020/03/10/K8S%E4%B8%A81.%20Kubernetes%E4%BB%8B%E7%BB%8D/index.html">
+<meta property="og:site_name" content="Jeremy-ZJL&#39;s Blog">
+<meta property="og:description" content="这些年来，谷歌开发出了一个叫&#96;Borg&#96;的内部系统（后来还有一个新系统叫&#96;omega&#96;），应用开发者和系统管理员管理那些数以千计的应用程序和服务都受益于它的帮助。除了简化开发和管理，它也帮助他们获得了更高的基础设施利用率，在你的组织如此庞大时，这很重要。当你运行成千上万台机器时，哪怕一丁点的利用率提升也意味着节约了数百万美元，所以，开发这个系统的动机是显而易见的。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jeremy-zjl.github.io/images/k8s-tu/1.kubernetes%E4%BB%8B%E7%BB%8D-1.png">
+<meta property="og:image" content="https://jeremy-zjl.github.io/images/k8s-tu/1.kubernetes%E4%BB%8B%E7%BB%8D-2.png">
+<meta property="article:published_time" content="2020-03-10T02:11:05.000Z">
+<meta property="article:modified_time" content="2020-03-10T02:11:05.000Z">
+<meta property="article:author" content="Jeremy-ZJL">
+<meta property="article:tag" content="K8S">
+<meta property="article:tag" content="Kubernetes">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jeremy-zjl.github.io/images/k8s-tu/1.kubernetes%E4%BB%8B%E7%BB%8D-1.png"><meta name="keywords" content="Jeremy-ZJL, Jeremy-ZJL's Blog"><meta name="description" content="Jeremy-ZJL's Blog"><title>K8S丨1. Kubernetes介绍 | Jeremy-ZJL's Blog</title><link ref="canonical" href="https://jeremy-zjl.github.io/2020/03/10/K8S%E4%B8%A81.%20Kubernetes%E4%BB%8B%E7%BB%8D/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.0.1"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="dns-prefetch" href="https://hm.baidu.com"><script src="https://www.googletagmanager.com/gtag/js?id=183330495" async="" data-pjax=""></script><script data-pjax="">if (window.location.hostname !== 'localhost') {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', '183330495');
+}</script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement('script');
+  hm.src = 'https://hm.baidu.com/hm.js?77b4b897986a377c76b267d13173877e';
+  hm.async = true;
+
+  if (true) {
+    hm.setAttribute('data-pjax', '');
+  }
+  var s = document.getElementsByTagName('script')[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: undefined,
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"ocean","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: {"avoidBanner":false},
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 4.2.1"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner header-inner--height header-inner--bgcolor"><nav class="header-nav header-nav--sticky"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="javascript:;" onclick="return false;"><span class="header-nav-menu-item__icon"><i class="fas fa-angle-double-down"></i></span><span class="header-nav-menu-item__text">其它</span></a><div class="header-nav-submenu"><div class="header-nav-submenu-item"><a class="header-nav-submenu-item__link" href="/xxx1-1/"><span class="header-nav-submenu-item__icon"><i class="fa(s|r|l|d|b) fa-xxx"></i></span><span class="header-nav-submenu-item__text">其它-1</span></a></div><div class="header-nav-submenu-item"><a class="header-nav-submenu-item__link" href="/xxx1-2/"><span class="header-nav-submenu-item__icon"><i class="fa(s|r|l|d|b) fa-xxx"></i></span><span class="header-nav-submenu-item__text">其它-2</span></a></div></div></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">K8S丨1. Kubernetes介绍</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2020-03-10</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2020-03-10</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">3.4k</span></span><span class="post-meta-item post-meta-item--visitors"><span class="post-meta-item__icon"><i class="fas fa-eye"></i></span><span class="post-meta-item__info">阅读次数</span><span class="post-meta-item__value" id="busuanzi_value_page_pv"></span></span></div></header><div class="post-body">
+        <h1 id="1-Kubernetes介绍"   >
+          <a href="#1-Kubernetes介绍" class="heading-link"><i class="fas fa-link"></i></a>1. Kubernetes介绍</h1>
+      
+        <h2 id="1-1-初衷"   >
+          <a href="#1-1-初衷" class="heading-link"><i class="fas fa-link"></i></a>1.1 初衷</h2>
+      <p>这些年来，谷歌开发出了一个叫<code>Borg</code>的内部系统（后来还有一个新系统叫<code>omega</code>），应用开发者和系统管理员管理那些数以千计的应用程序和服务都受益于它的帮助。除了简化开发和管理，它也帮助他们获得了更高的基础设施利用率，在你的组织如此庞大时，这很重要。当你运行成千上万台机器时，哪怕一丁点的利用率提升也意味着节约了数百万美元，所以，开发这个系统的动机是显而易见的。<br>在保守<code>Borg</code>和<code>Omega</code>秘密数十年之后，2014年，谷歌开放了<code>Kubernetes</code>，一个基于<code>Borg</code>、 <code>Omega</code>及其他谷歌内部系统实践的开源系统。</p>
+
+        <h2 id="1-2-Kubernetes-集群架构"   >
+          <a href="#1-2-Kubernetes-集群架构" class="heading-link"><i class="fas fa-link"></i></a>1.2 Kubernetes 集群架构</h2>
+      <ul>
+<li><strong>主节点</strong>：它承载着Kubernetes控制和管理整个集群系统的控制面板；</li>
+<li><strong>工作节点</strong>：它们运行用户实际部署的应用；</li>
+</ul>
+<p><img src="/images/k8s-tu/1.kubernetes%E4%BB%8B%E7%BB%8D-1.png" alt="1.kubernetes介绍-1.png"></p>
+<p><strong>控制面板</strong></p>
+<p>控制面板用于控制集群并使它工作。它包含多个组件，组件可以运行在单个主节点上或者通过副本分别部署在多个主节点以确保高可用性。这些组件是：</p>
+<ul>
+<li><code>Kubernetes API服务器</code>：你和其它控制面板都要和它通信；</li>
+<li><code>Scheculer</code>：它调度你的应用（为应用的每个可部署组件分配一个工作节点）；</li>
+<li><code>Controller Manager</code>：它执行集群级别的功能，如复制组件、持续跟踪工作节点、处理节点失败等；</li>
+<li><code>etcd</code>：一个可靠的分布式数据存储，它能持久化存储集群配置；</li>
+</ul>
+<blockquote>
+<p>控制面板的组件持有并控制集群状态，但是它们不运行你的应用程序。这是由工作节点完成的。</p>
+</blockquote>
+<p><strong>工作节点</strong></p>
+<p>工作节点是运行容器化应用的机器。运行、监控和管理应用服务的任务是由以下组件完成的:</p>
+<ul>
+<li><code>Docker</code>、<code>rtk</code> 或者其他的容器类型；</li>
+<li><code>Kubelet</code>：它与API服务器通信，并管理它所在节点的容器；</li>
+<li><code>Kubernetes Service Proxy</code>(Kube-proxy)：它负责组件之间的负载均衡网络流量；</li>
+</ul>
+
+        <h2 id="1-3-在-Kubernetes中运行应用"   >
+          <a href="#1-3-在-Kubernetes中运行应用" class="heading-link"><i class="fas fa-link"></i></a>1.3 在 Kubernetes中运行应用</h2>
+      <p>为了在 Kubernetes中运行应用，首先需要将应用打包进一个或多个容器镜像，再将那些镜像推送到镜像仓库，然后将应用的描述发布到 Kubernetes apl服务器。<br>该描述包括诸如容器镜像或者包含应用程序组件的容器镜像、这些组件如何相互关联，以及哪些组件需要同时运行在同一个节点上和哪些组件不需要同时运行等信息。此外，该描述还包括哪些组件为内部或外部客户提供服务且应该通过单个IP地址暴露，并使其他组件可以发现。</p>
+<p><strong>描述信息怎样成为一个运行的容器</strong><br>当API服务器处理应用的描述时，调度器调度指定组的容器到可用的工作节点上，调度是基于每组所需的计算资源，以及调度时每个节点未分配的资源。然后，那些节点上的 Kubelet指示容器运行时（例如 Docker）拉取所需的镜像并运行容器。<br>仔细看图1.10以更好地理解如何在 Kubernetes中部署应用程序。应用描述符列出了四个容器，并将它们分为三组（这些集合被称为pod）。前两个pod只包含一个容器，而最后一个包含两个。这意味着两个容器都需要协作运行，不应该相互隔离。在每个pod旁边，还可以看到一个数字，表示需要并行运行的每个pod的副本数量。在向 Kubernetes提交描述符之后，它将把每个pod的指定副本数量调度到可用的工作节点上。节点上的 Cubelets将告知Docker从镜像仓库中拉取容器镜像并运行容器。</p>
+<p><strong>保持容器运行</strong><br>一旦应用程序运行起来， Kubernetes就会不断地确认应用程序的部署状态始终与你提供的描述相匹配。例如，如果你指出你需要运行五个web服务器实例，那么Kubernetes总是保持正好运行五个实例。如果实例之一停止了正常工作，比如当进程崩溃或停止响应时， Kubernetes将自动重启它。</p>
+<p>同理，如果整个工作节点死亡或无法访问， Kubernetes将为在故障节点上运行的所有容器选择新节点，并在新选择的节点上运行它们。</p>
+<p><img src="/images/k8s-tu/1.kubernetes%E4%BB%8B%E7%BB%8D-2.png" alt="1.kubernetes介绍-1.png"></p>
+<p><strong>扩展副本数量</strong><br>当应用程序运行时，可以决定要增加或减少副本量，而<code>Kubernetes</code>将分别增加附加的或停止多余的副本。甚至可以把决定最佳副本数目的工作交给<code>Kubernetes</code>。它可以根据实时指标(如CPU负载、内存消耗、每秒查询或应用程序公开的任何其他指标)自动调整副本数。</p>
+<p><strong>命中移动目标</strong><br><code>Kubernetes</code>可能需要在集群中迁移你的容器。当它们运行的节点失败时，或者为了给其他容器腾出地方而从节点移除时，就会发生这种情况。如果容器向运行在集群中的其他容器或者外部客户端提供服务，那么当容器在集群内频繁调度时，它们该如何正确使用这个容器﹖当这些容器被复制并分布在整个集群中时，客户端如何连接到提供服务的容器呢?</p>
+<p>为了让客户能够轻松地找到提供特定服务的容器，可以告诉<code>Kubernetes</code>哪些容器提供相同的服务，而<code>Kubernetes</code>将通过一个静态P地址暴露所有容器，并将该地址暴露给集群中运行的所有应用程序。这是通过环境变量完成的，但是客户端也可以通过良好的DNS查找服务IP。<code>kube-proxy</code>将确保到服务的连接可跨提供服务的容器实现负载均衡。服务的I地址保持不变,因此客户端始终可以连接到它的容器，即使它们在集群中移动。</p>
+
+        <h2 id="1-4-使用Kubernetes的好处"   >
+          <a href="#1-4-使用Kubernetes的好处" class="heading-link"><i class="fas fa-link"></i></a>1.4 使用Kubernetes的好处</h2>
+      <p>如果在所有服务器上部署了Kubernetes，那么运维团队就不需要再部署应用程序。因为容器化的应用程序已经包含了运行所需的所有内容，系统管理员不需要安装任何东西来部署和运行应用程序。在任何部署Kubernetes的节点上，Kubernetes可以在不需要系统管理员任何帮助的情况下立即运行应用程序。</p>
+<p><strong>简化应用程序部署</strong></p>
+<p>由于Kubernetes将其所有工作节点公开为一个部署平台，因此应用程序开发人员可以自己开始部署应用程序，不需要了解组成集群的服务器。</p>
+<p>实际上，现在所有节点都是一组等待应用程序使用它们的计算资源。开发人员通常不关心应用程序运行在哪个服务器上，只要服务器能够为应用程序提供足够的系统资源即可。</p>
+<p>在某些情况下，开发人员确实关心应用程序应该运行在哪种硬件上。如果节点是异构的，那么你将会发现你希望某些应用程序在具有特定功能的节点上运行，并在其他的节点上运行其他应用程序。例如，你的一个应用程序可能需要在使用ssd而不是HDDs的系统上运行，而其他应用程序在HDDs上运行良好。在这种情况下，你显然希望确保特定的应用程序总是被调度到有SSD的节点上。</p>
+<p>在不使用Kubernetes的情况下，系统管理员将选择一个具有SSD的特定节点，并在那里部署应用程序。但是当使用Kubernetes时，与其选择应用程序应该运行在某一特定节点上，不如告诉Kubernetes只在具有SSD的节点中进行选择。</p>
+<p><strong>更好地利用硬件</strong></p>
+<p>通过在服务器上装配Kubernetes，并使用它运行应用程序而不是手动运行它们，你已经将应用程序与基础设施分离开来。当你告诉Kubernetes运行你的应用程序时，你在让它根据应用程序的资源需求描述和每个节点上的可用资源选择最合适的节点来运行你的应用程序。</p>
+<p>通过使用容器，不再用把这个应用绑定到一个特定的集群节点，而允许应用程序在任何时候都在集群中自由迁移，所以在集群上运行的不同应用程序组件可以被混合和匹配来紧密打包到集群节点。这将确保节点的硬件资源得到尽可能好的利用。</p>
+<p>可以随时在集群中移动应用程序的能力，使得Kubernetes可以比人工更好地利用基础设施。人类不擅长寻找最优的组合，尤其是当所有选项的数量都很大的时候，比如当你有许多应用程序组件和许多服务器节点时，所有的组件可以部署在所有的节点上。显然，计算机可以比人类更好、更快地完成这项工作。</p>
+<p><strong>健康检查和自修复</strong></p>
+<p>在服务器发生故障时，拥有一个允许在任何时候跨集群迁移应用程序的系统也很有价值。随着集群大小的增加，你将更频繁地处理出现故障的计算机组件。</p>
+<p>Kubernetes监控你的应用程序组件和它们运行的节点，并在节点出现故障时自动将它们重新调度到其他节点。这使运维团队不必手动迁移应用程序组件，并允许团队立即专注于修复节点本身，并将其修好送回到可用的硬件资源池中，而不是将重点放在重新定位应用程序上。</p>
+<p>如果你的基础设施有足够的备用资源来允许正常的系统运行，即使故障节点没有恢复，运维团队甚至不需要立即对故障做出反应，比如在凌晨3点。他们可以睡得很香，在正常的工作时间再处理失败的节点。</p>
+<p><strong>自动扩容</strong></p>
+<p>使用Kubernetes来管理部署的应用程序，也意味着运维团队不需要不断地监控单个应用程序的负载，以对突发负载峰值做出反应。如前所述，可以告诉Kubernetes监视每个应用程序使用的资源，并不断调整每个应用程序的运行实例数量。</p>
+<p>如果Kubernetes运行在云基础设施上，在这些基础设施中，添加额外的节点就像通过云供应商的API请求它们一样简单，那么Kubernetes甚至可以根据部署的应用程序的需要自动地将整个集群规模放大或缩小。</p>
+<p>如果你的基础设施有足够的备用资源来允许正常的系统运行，即使故障节点没有恢复，运维团队甚至不需要立即对故障做出反应，比如在凌晨3点。他们可以睡得很香，在正常的工作时间再处理失败的节点。</p>
+<p><strong>简化应用部署</strong></p>
+<p>前一节中描述的特性主要对运维团队有利。但是开发人员呢？Kubernetes是否也给他们带来什么好处?这毋庸置疑。</p>
+<p>如果你回过头来看看，应用程序开发和生产流程中都运行在同一个环境中，这对发现 bug有很大的影响。我们都同意越早发现一个bug，修复它就越容易，修复它需要的工作量也就越少。由于是在开发阶段就修复bug，所以这意味着他们的工作量减少了。</p>
+<p>还有一个事实是，开发人员不需要实现他们通常会实现的特性。这包括在集群应用中发现服务和对端。这是由Kubernetes来完成的而不是应用。通常，应用程序只需要查找某些环境变量或执行DNS查询。如果这还不够，应用程序可以直接查询Kubernetes API服务器以获取该信息和其他信息。像这样查询Kubernetes API服务器，甚至可以使开发人员不必实现诸如复杂的集群leader选举机制。</p>
+<p>作为最后一个关于Kubernetes带来什么的例子，还需要考虑到开发者们的信心增加。当他们知道，新版本的应用将会被推出时Kubernetes可以自动检测一个应用的新版本是否有问题，如果是则立即停止其滚动更新，这种信心的增强通常会加速应用程序的持续交付，这对整个组织都有好处。</p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://jeremy-zjl.github.io">Jeremy-ZJL</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://jeremy-zjl.github.io/2020/03/10/K8S%E4%B8%A81.%20Kubernetes%E4%BB%8B%E7%BB%8D/">https://jeremy-zjl.github.io/2020/03/10/K8S%E4%B8%A81.%20Kubernetes%E4%BB%8B%E7%BB%8D/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://jeremy-zjl.github.io/tags/K8S/">K8S</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://jeremy-zjl.github.io/tags/Kubernetes/">Kubernetes</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2020/03/21/K8S%E4%B8%A8%E6%8A%A5%E9%94%99%E6%B1%87%E6%80%BB/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">K8S丨报错汇总</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2020/03/10/K8S%E4%B8%A8%E5%AE%89%E8%A3%85%E4%B8%A8%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%B9%E5%BC%8F%E9%83%A8%E7%BD%B2/"><span class="paginator-prev__text">K8S丨安装丨二进制方式部署</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-Kubernetes介绍"><span class="toc-text">
+          1. Kubernetes介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-初衷"><span class="toc-text">
+          1.1 初衷</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-Kubernetes-集群架构"><span class="toc-text">
+          1.2 Kubernetes 集群架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-在-Kubernetes中运行应用"><span class="toc-text">
+          1.3 在 Kubernetes中运行应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-使用Kubernetes的好处"><span class="toc-text">
+          1.4 使用Kubernetes的好处</span></a></li></ol></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/icons/j-icon-144.png" alt="avatar"></div><p class="sidebar-ov-author__text">write code and love life</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/" target="_blank" rel="noopener" data-popover="Github" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span></a><a class="sidebar-ov-social-item" href="https://plus.google.com/" target="_blank" rel="noopener" data-popover="Google" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-google"></i></span></a><a class="sidebar-ov-social-item" href="https://www.zhihu.com/" target="_blank" rel="noopener" data-popover="知乎" data-popover-pos="up"><span class="sidebar-ov-social-item__icon">知</span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">20</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">7</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">18</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2020</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Jeremy All Rights Reserved</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v4.2.1</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.0.1</span></div><div class="busuanzi"><span class="busuanzi-siteuv"><span class="busuanzi-siteuv__icon"><i class="fas fa-user"></i></span><span class="busuanzi-siteuv__info">访问人数</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_uv"></span></span><span class="busuanzi-sitepv"><span class="busuanzi-siteuv__icon"><i class="fas fa-eye"></i></span><span class="busuanzi-siteuv__info">浏览总量</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="200" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1.0.1/dist/canvas-nest.min.js" color="0,0,0" opacity="0.6" count="180" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/npm/pjax@latest/pjax.min.js"></script><script>window.addEventListener('DOMContentLoaded', function () {
+  var pjax = new Pjax({"selectors":["head title","#main",".pjax-reload",".header-inner"],"history":true,"scrollTo":false,"scrollRestoration":false,"cacheBust":false,"debug":false,"currentUrlFullReload":false,"timeout":0});
+  // 加载进度条的计时器
+  var loadingTimer = null;
+
+  // 重置页面 Y 方向上的滚动偏移量
+  document.addEventListener('pjax:send', function () {
+    $('.header-nav-menu').removeClass('show');
+    if (CONFIG.pjax && CONFIG.pjax.avoidBanner) {
+      $('html').velocity('scroll', {
+        duration: 500,
+        offset: $('#header').height(),
+        easing: 'easeInOutCubic'
+      });
+    }
+
+    var loadingBarWidth = 20;
+    var MAX_LOADING_WIDTH = 95;
+
+    $('.loading-bar').addClass('loading');
+    $('.loading-bar__progress').css('width', loadingBarWidth + '%');
+    clearInterval(loadingTimer);
+    loadingTimer = setInterval(function () {
+      loadingBarWidth += 3;
+      if (loadingBarWidth > MAX_LOADING_WIDTH) {
+        loadingBarWidth = MAX_LOADING_WIDTH;
+      }
+      $('.loading-bar__progress').css('width', loadingBarWidth + '%');
+    }, 500);
+  }, false);
+
+  window.addEventListener('pjax:complete', function () {
+    clearInterval(loadingTimer);
+    $('.loading-bar__progress').css('width', '100%');
+    $('.loading-bar').removeClass('loading');
+    setTimeout(function () {
+      $('.loading-bar__progress').css('width', '0');
+    }, 400);
+    $('link[rel=prefetch], script[data-pjax-rm]').each(function () {
+      $(this).remove();
+    });
+    $('script[data-pjax], #pjax-reload script').each(function () {
+      $(this).parent().append($(this).remove());
+    });
+
+    if (Stun.utils.pjaxReloadBoot) {
+      Stun.utils.pjaxReloadBoot();
+    }
+    if (Stun.utils.pjaxReloadScroll) {
+      Stun.utils.pjaxReloadScroll();
+    }
+    if (Stun.utils.pjaxReloadSidebar) {
+      Stun.utils.pjaxReloadSidebar();
+    }
+    if (true) {
+      if (Stun.utils.pjaxReloadHeader) {
+        Stun.utils.pjaxReloadHeader();
+      }
+      if (Stun.utils.pjaxReloadScrollIcon) {
+        Stun.utils.pjaxReloadScrollIcon();
+      }
+      if (Stun.utils.pjaxReloadLocalSearch) {
+        Stun.utils.pjaxReloadLocalSearch();
+      }
+    }
+  }, false);
+}, false);</script><div id="pjax-reload"><script src="https://cdn.jsdelivr.net/npm/quicklink@1.0.1/dist/quicklink.umd.js"></script><script>function initQuicklink() {
+  quicklink({
+    timeout: '10000',
+    priority: true,
+    ignores: [uri => uri.includes('#'), uri => uri === 'https://jeremy-zjl.github.io/2020/03/10/K8S%E4%B8%A81.%20Kubernetes%E4%BB%8B%E7%BB%8D/', /\/api\/?/,uri => uri.includes('.xml'),uri => uri.includes('.zip'),(uri, el) => el.hasAttribute('nofollow'),(uri, el) => el.hasAttribute('noprefetch')]
+  });
+}
+
+if (true || false) {
+  initQuicklink();
+} else {
+  window.addEventListener('DOMContentLoaded', initQuicklink, false);
+}</script><script src="https://cdn.jsdelivr.net/gh/sukkaw/busuanzi@latest/bsz.pure.mini.js" async></script></div><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js" data-pjax=""></script><script src="https://cdn.jsdelivr.net/npm/js-md5@latest/src/md5.min.js" data-pjax=""></script><script data-pjax="">function loadGitalk () {
+  if (!document.getElementById('gitalk-container')) {
+    return;
+  }
+
+  var gitalk = new Gitalk({
+    id: md5(window.location.pathname.slice(1)),
+    clientID: '5eed14a18152a05fd25d',
+    clientSecret: '4d8cb9ed6f2b02a76e3009589875a2b81963c2aa',
+    repo: 'Jeremy-ZJL.github.io',
+    owner: 'Jeremy-ZJL',
+    admin: ['Jeremy-ZJL'],
+    distractionFreeMode: 'true',
+    language: 'zh-CN'
+  });
+  gitalk.render('gitalk-container');
+}
+
+if (true) {
+  loadGitalk();
+} else {
+  window.addEventListener('DOMContentLoaded', loadGitalk, false);
+}</script><script src="/js/utils.js?v=2.0.1"></script><script src="/js/stun-boot.js?v=2.0.1"></script><script src="/js/scroll.js?v=2.0.1"></script><script src="/js/header.js?v=2.0.1"></script><script src="/js/sidebar.js?v=2.0.1"></script></body></html>
