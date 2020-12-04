@@ -1,0 +1,333 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/j-icon-16.png?v=2.0.1" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/j-icon-32.png?v=2.0.1" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="/images/icons/j-icon-192.png?v=2.0.1" sizes="180x180"><link rel="mask-icon" href="/images/icons/j-icon-96.png?v=2.0.1" color="#54bcff"><meta name="msapplication-TileImage" content="/images/icons/j-icon-144.png"><meta name="msapplication-TileColor" content="#000000"><meta name="google-site-verification" content="wmgiquHvFLol6wowL0KAwg0WI7DkfhhVJ3r0_QRPk-g"><meta name="baidu-site-verification" content="code-nyFNxfLcDt"><meta name="360-site-verification" content="0d8d7a290d96dfee3f3c05e8e0500347"><meta name="description" content="# 3. 关系类型字段 除了普通类型字段，Django还定义了一组关系类型字段，用来表示模型与模型之间的关系。 ## 1. 一对多（&#96;ForeignKey&#96;） **一对多**的关系，通常被称为**外键**。外键字段类的定义如下： class ForeignKey(to, on_delete, **options) - 外键需要两个位置参数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django丨模版层 - 3. 关系类型字段">
+<meta property="og:url" content="https://jeremy-zjl.github.io/2020/10/20/Django%E4%B8%A8%E6%A8%A1%E7%89%88%E5%B1%82%20-%203.%20%E5%85%B3%E7%B3%BB%E7%B1%BB%E5%9E%8B%E5%AD%97%E6%AE%B5/index.html">
+<meta property="og:site_name" content="Jeremy-ZJL&#39;s Blog">
+<meta property="og:description" content="# 3. 关系类型字段 除了普通类型字段，Django还定义了一组关系类型字段，用来表示模型与模型之间的关系。 ## 1. 一对多（&#96;ForeignKey&#96;） **一对多**的关系，通常被称为**外键**。外键字段类的定义如下： class ForeignKey(to, on_delete, **options) - 外键需要两个位置参数">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-10-20T03:28:45.000Z">
+<meta property="article:modified_time" content="2020-10-20T03:28:45.000Z">
+<meta property="article:author" content="Jeremy-ZJL">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Django">
+<meta property="article:tag" content="基础">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary"><meta name="keywords" content="Jeremy-ZJL, Jeremy-ZJL's Blog"><meta name="description" content="Jeremy-ZJL's Blog"><title>Django丨模版层 - 3. 关系类型字段 | Jeremy-ZJL's Blog</title><link ref="canonical" href="https://jeremy-zjl.github.io/2020/10/20/Django%E4%B8%A8%E6%A8%A1%E7%89%88%E5%B1%82%20-%203.%20%E5%85%B3%E7%B3%BB%E7%B1%BB%E5%9E%8B%E5%AD%97%E6%AE%B5/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.0.1"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="dns-prefetch" href="https://hm.baidu.com"><script src="https://www.googletagmanager.com/gtag/js?id=183330495" async="" data-pjax=""></script><script data-pjax="">if (window.location.hostname !== 'localhost') {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', '183330495');
+}</script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement('script');
+  hm.src = 'https://hm.baidu.com/hm.js?77b4b897986a377c76b267d13173877e';
+  hm.async = true;
+
+  if (true) {
+    hm.setAttribute('data-pjax', '');
+  }
+  var s = document.getElementsByTagName('script')[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: undefined,
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"ocean","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: {"avoidBanner":false},
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 4.2.1"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner header-inner--height header-inner--bgcolor"><nav class="header-nav header-nav--sticky"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="javascript:;" onclick="return false;"><span class="header-nav-menu-item__icon"><i class="fas fa-angle-double-down"></i></span><span class="header-nav-menu-item__text">其它</span></a><div class="header-nav-submenu"><div class="header-nav-submenu-item"><a class="header-nav-submenu-item__link" href="/xxx1-1/"><span class="header-nav-submenu-item__icon"><i class="fa(s|r|l|d|b) fa-xxx"></i></span><span class="header-nav-submenu-item__text">其它-1</span></a></div><div class="header-nav-submenu-item"><a class="header-nav-submenu-item__link" href="/xxx1-2/"><span class="header-nav-submenu-item__icon"><i class="fa(s|r|l|d|b) fa-xxx"></i></span><span class="header-nav-submenu-item__text">其它-2</span></a></div></div></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">Django丨模版层 - 3. 关系类型字段</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2020-10-20</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2020-10-20</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">3.2k</span></span><span class="post-meta-item post-meta-item--visitors"><span class="post-meta-item__icon"><i class="fas fa-eye"></i></span><span class="post-meta-item__info">阅读次数</span><span class="post-meta-item__value" id="busuanzi_value_page_pv"></span></span></div></header><div class="post-body">
+        <h1 id="3-关系类型字段"   >
+          <a href="#3-关系类型字段" class="heading-link"><i class="fas fa-link"></i></a>3. 关系类型字段</h1>
+      <p>除了普通类型字段，Django还定义了一组关系类型字段，用来表示模型与模型之间的关系。</p>
+
+        <h2 id="1-一对多（ForeignKey）"   >
+          <a href="#1-一对多（ForeignKey）" class="heading-link"><i class="fas fa-link"></i></a>1. 一对多（ForeignKey）</h2>
+      <p><strong>一对多</strong>的关系，通常被称为<strong>外键</strong>。外键字段类的定义如下：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ForeignKey</span><span class="params">(to, on_delete, **options)</span></span></span><br></pre></td></tr></table></div></figure>
+
+<ul>
+<li><p>外键需要两个位置参数</p>
+<ul>
+<li>一个是关联的模型</li>
+<li>另一个是<code>on_delete</code>。在Django2.0版本后，<code>on_delete</code>属于必填参数</li>
+</ul>
+</li>
+<li><p>可选参数，下面介绍较为常用的几个：</p>
+<ul>
+<li><code>to_field</code>： 设置关联到主表的字段，例如，<ul>
+<li><code>models.ForeignKey(&#39;Coding&#39;, to_field=Coding.text)</code></li>
+<li>注意：关联字段的内容必须是不重复的。在默认情况下，Django 关联到的字段是主表的主键（成为主键的要求之一就是不重复）</li>
+</ul>
+</li>
+<li><code>related_name</code>：自定义一个名称，用于反向查询<ul>
+<li>当一张子表里，多个<code>foreignkey</code>指向同一个主表，<code>related_name</code>必须设置。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code>on_delete</code>参数说明：</p>
+</li>
+</ul>
+<p>当一个外键关联的对象被删除时，Django将模仿<code>on_delete</code>参数定义的SQL约束执行相应操作。比如，你有一个可为空的外键，并且你想让它在关联的对象被删除时，自动设为<code>null</code>，可以如下定义：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">user = models.ForeignKey(</span><br><span class="line">    User,</span><br><span class="line">    on_delete=models.SET_NULL,</span><br><span class="line">    blank=<span class="literal">True</span>,</span><br><span class="line">    null=<span class="literal">True</span>,</span><br><span class="line">)</span><br></pre></td></tr></table></div></figure>
+
+<p>该参数可选的值都内置在<code>django.db.models</code>中（全部为大写），包括：</p>
+<ul>
+<li><code>CASCADE</code>：模拟SQL语言中的<code>ON DELETE CASCADE</code>约束，将定义有外键的模型对象同时删除！</li>
+<li><code>PROTECT</code>：阻止上面的删除操作，但是弹出<code>ProtectedError</code>异常</li>
+<li><code>SET_NULL</code>：将外键字段设为<code>null</code>，只有当字段设置了<code>null=True</code>时，方可使用该值。</li>
+<li><code>SET_DEFAULT</code>：将外键字段设为默认值。只有当字段设置了<code>default</code>参数时，方可使用。</li>
+<li><code>DO_NOTHING</code>：什么也不做。</li>
+<li><code>SET()</code>：设置为一个传递给<code>SET()</code>的值或者一个回调函数的返回值。注意大小写。</li>
+</ul>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.conf <span class="keyword">import</span> settings</span><br><span class="line"><span class="keyword">from</span> django.contrib.auth <span class="keyword">import</span> get_user_model</span><br><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_sentinel_user</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> get_user_model().objects.get_or_create(username=<span class="string">'deleted'</span>)[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyModel</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    user = models.ForeignKey(</span><br><span class="line">        settings.AUTH_USER_MODEL,</span><br><span class="line">        on_delete=models.SET(get_sentinel_user),</span><br><span class="line">    )</span><br></pre></td></tr></table></div></figure>
+
+<ul>
+<li><code>RESTRICT</code>：Django3.1新增。这个模式比较难以理解。它与<code>PROTECT</code>不同，在大多数情况下，同样不允许删除，但是在某些特殊情况下，却是可以删除的。看下面的例子，多揣摩一下：<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 假设有这样的三个模型以及外键关系</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Artist</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    name = models.CharField(max_length=<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Album</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)  <span class="comment"># 注意这里</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Song</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    artist = models.ForeignKey(Artist, on_delete=models.CASCADE) <span class="comment"># 注意这里</span></span><br><span class="line">    album = models.ForeignKey(Album, on_delete=models.RESTRICT) <span class="comment"># 注意这里</span></span><br></pre></td></tr></table></div></figure>
+
+</li>
+</ul>
+<p>尝试在Django的shell里测试下面的API：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>artist_one = Artist.objects.create(name=<span class="string">'artist one'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>artist_two = Artist.objects.create(name=<span class="string">'artist two'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>album_one = Album.objects.create(artist=artist_one)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>album_two = Album.objects.create(artist=artist_two)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>song_one = Song.objects.create(artist=artist_one, album=album_one)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>song_two = Song.objects.create(artist=artist_one, album=album_two)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>album_one.delete()</span><br><span class="line"><span class="comment"># Raises RestrictedError.  不可以删除</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>artist_two.delete()</span><br><span class="line"><span class="comment"># Raises RestrictedError.   不可以删除</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>artist_one.delete()</span><br><span class="line">(<span class="number">4</span>, &#123;<span class="string">'Song'</span>: <span class="number">2</span>, <span class="string">'Album'</span>: <span class="number">1</span>, <span class="string">'Artist'</span>: <span class="number">1</span>&#125;)    <span class="comment"># 居然可以删除</span></span><br></pre></td></tr></table></div></figure>
+
+<p>为什么<code>artist_one</code>可以被删除，但是<code>artist_two</code>不可以？Django设计的这个模式真的比较难以理解。</p>
+<ul>
+<li><code>limit_choices_to</code>参数说明：</li>
+</ul>
+<p>该参数用于限制外键所能关联的对象，只能用于Django的<code>ModelForm</code>（Django的表单模块）和admin后台，对其它场合无限制功能。其值可以是一个<code>字典</code>、<code>Q对象</code>或者一个返回字典或Q对象的函数调用，如下例所示：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">staff_member = models.ForeignKey(</span><br><span class="line">    User,</span><br><span class="line">    on_delete=models.CASCADE,</span><br><span class="line">    limit_choices_to=&#123;<span class="string">'is_staff'</span>: <span class="literal">True</span>&#125;,</span><br><span class="line">)</span><br></pre></td></tr></table></div></figure>
+
+<p>这样定义，则<code>ModelForm</code>的<code>staff_member</code>字段列表中，只会出现那些<code>is_staff=True</code>的<code>Users</code>对象，这一功能对于<code>admin</code>后台非常有用。</p>
+<p>可以参考下面的方式，使用函数调用：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">limit_pub_date_choices</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">'pub_date__lte'</span>: datetime.date.utcnow()&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># ...</span></span><br><span class="line">limit_choices_to = limit_pub_date_choices</span><br><span class="line"><span class="comment"># ...</span></span><br></pre></td></tr></table></div></figure>
+
+<ul>
+<li><code>related_name</code>参数说明：</li>
+</ul>
+<p>用于关联对象反向引用模型的名称。以前面车和工厂的例子解释，就是从工厂反向关联到车的关系名称。</p>
+<p>通常情况下，这个参数我们可以不设置，Django会默认以模型的小写加上<code>_set</code>作为反向关联名，比如对于工厂就是<code>car_set</code>，如果你觉得<code>car_set</code>还不够直观，可以如下定义：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    manufacturer = models.ForeignKey(</span><br><span class="line">        <span class="string">'production.Manufacturer'</span>,      </span><br><span class="line">        on_delete=models.CASCADE,</span><br><span class="line">        related_name=<span class="string">'car_producted_by_this_manufacturer'</span>,  <span class="comment"># 看这里！！</span></span><br><span class="line">    )</span><br></pre></td></tr></table></div></figure>
+
+<p>也许我定义了一个蹩脚的词，但表达的意思很清楚。以后从工厂对象反向关联到它所生产的汽车，就可以使用<code>maufacturer.car_producted_by_this_manufacturer</code>了。</p>
+<p>如果你不想为外键设置一个反向关联名称，可以将这个参数设置为“+”或者以“+”结尾，如下所示：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">user = models.ForeignKey(</span><br><span class="line">    User,</span><br><span class="line">    on_delete=models.CASCADE,</span><br><span class="line">    related_name=<span class="string">'+'</span>,</span><br><span class="line">)</span><br></pre></td></tr></table></div></figure>
+
+<ul>
+<li><code>related_query_name</code>参数说明：</li>
+</ul>
+<p>反向关联查询名。用于从目标模型反向过滤模型对象的名称。</p>
+<p>这个参数的默认值是定义有外键字段的模型的小写名，如果设置了<code>related_name</code>参数，那么就是这个参数值，如果在此基础上还指定了<code>related_query_name</code>的值，则是<code>related_query_name</code>的值。三者依次有优先顺序。</p>
+<p>要注意<code>related_query_name</code>和<code>related_name</code>的区别，前者用于在做查询操作时候作为参数使用，后者主要用于在属性调用时使用。</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Tag</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    article = models.ForeignKey(</span><br><span class="line">        Article,</span><br><span class="line">        on_delete=models.CASCADE,</span><br><span class="line">        related_name=<span class="string">"tags"</span>,</span><br><span class="line">        related_query_name=<span class="string">"tag"</span>,       <span class="comment"># 注意这一行</span></span><br><span class="line">    )</span><br><span class="line">    name = models.CharField(max_length=<span class="number">255</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 现在可以使用‘tag’作为查询名了</span></span><br><span class="line">Article.objects.filter(tag__name=<span class="string">"important"</span>)</span><br></pre></td></tr></table></div></figure>
+
+<ul>
+<li><code>to_field</code>参数说明：</li>
+</ul>
+<p>默认情况下，外键都是关联到被关联对象的主键上（一般为id）。如果指定这个参数，可以关联到指定的字段上，但是该字段必须具有<code>unique=True</code>属性，也就是具有唯一属性。</p>
+<ul>
+<li><code>db_constraint</code>参数说明：</li>
+</ul>
+<p>默认情况下，这个参数被设为<code>True</code>，表示遵循数据库约束，这也是大多数情况下你的选择。如果设为<code>False</code>，那么将无法保证数据的完整性和合法性。在下面的场景中，你可能需要将它设置为<code>False</code>：</p>
+<p>有历史遗留的不合法数据，没办法的选择<br>你正在分割数据表</p>
+<p>当它为<code>False</code>，并且你试图访问一个不存在的关系对象时，会抛出<code>DoesNotExist</code>异常。</p>
+<ul>
+<li><code>swappable</code>参数说明：</li>
+</ul>
+<p>控制迁移框架的动作，如果当前外键指向一个可交换的模型。使用场景非常稀少，通常请将该参数保持默认的<code>True</code>。</p>
+<hr>
+
+        <h2 id="2-多对多（ManyToManyField）"   >
+          <a href="#2-多对多（ManyToManyField）" class="heading-link"><i class="fas fa-link"></i></a>2. 多对多（ManyToManyField）</h2>
+      <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ManyToManyField</span><span class="params">(to, **options)</span></span></span><br></pre></td></tr></table></div></figure>
+
+<p>多对多关系在数据库中也是非常常见的关系类型。比如一本书可以有好几个作者，一个作者也可以写好几本书。多对多的字段可以定义在任何的一方，请尽量定义在符合人们思维习惯的一方，但不要同时都定义，只能选择一个模型设置该字段（比如我们通常将披萨上的配料字段放在披萨模型中，而不是在配料模型中放置披萨字段）。</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Topping</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pizza</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">    toppings = models.ManyToManyField(Topping)</span><br></pre></td></tr></table></div></figure>
+
+<p>建议为多对多字段名使用复数形式。</p>
+<p>多对多关系需要一个位置参数：关联的对象模型，其它用法和外键多对一基本类似。</p>
+<p>如果要创建一个关联自己的多对多字段，依然是通过<code>self</code>引用。</p>
+<p>在数据库后台，Django实际上会额外创建一张用于体现多对多关系的中间表。默认情况下，该表的名称是<code>多对多字段名 + 包含该字段的模型名 + 一个独一无二的哈希码</code>，例如<code>author_books_9cdf4</code>，当然你也可以通过<code>db_table</code>选项，自定义表名。</p>
+<ul>
+<li><p>参数说明：</p>
+</li>
+<li><p><code>related_name</code>参数说明：<br>参考外键的相同参数。</p>
+</li>
+<li><p><code>related_query_name</code>参数说明：<br>参考外键的相同参数。</p>
+</li>
+<li><p><code>limit_choices_to</code>参数说明：<br>参考外键的相同参数。但是对于使用<code>through</code>参数自定义中间表的多对多字段无效。</p>
+</li>
+<li><p><code>symmetrical</code>参数说明：<br>默认情况下，Django中的多对多关系是对称的。看下面的例子：</p>
+</li>
+</ul>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    friends = models.ManyToManyField(<span class="string">"self"</span>)</span><br></pre></td></tr></table></div></figure>
+
+<p>Django认为，如果我是你的朋友，那么你也是我的朋友，这是一种对称关系，Django不会为<code>Person</code>模型添加<code>person_set</code>属性用于反向关联。如果你不想使用这种对称关系，可以将<code>symmetrical</code>设置为<code>False</code>，这将强制Django为反向关联添加描述符。</p>
+<ul>
+<li><code>through</code>参数说明：<br>如果你想自定义多对多关系的那张额外的关联表，可以使用这个参数！参数的值为一个中间模型。</li>
+</ul>
+<p>最常见的使用场景是你需要为多对多关系添加额外的数据，比如添加两个人建立QQ好友关系的时间。</p>
+<p>通常情况下，这张表在数据库内的结构是这个样子的：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">中间表的id列....模型对象的id列.....被关联对象的id列</span><br><span class="line"><span class="comment"># 各行数据</span></span><br></pre></td></tr></table></div></figure>
+
+<p>如果自定义中间表并添加时间字段，则在数据库内的表结构如下：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">中间表的id列....模型对象的id列.....被关联对象的id列.....时间对象列</span><br><span class="line"><span class="comment"># 各行数据</span></span><br></pre></td></tr></table></div></figure>
+
+<p>看下面的例子：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    name = models.CharField(max_length=<span class="number">50</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Group</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    name = models.CharField(max_length=<span class="number">128</span>)</span><br><span class="line">    members = models.ManyToManyField(</span><br><span class="line">        Person,</span><br><span class="line">        through=<span class="string">'Membership'</span>,       <span class="comment">## 自定义中间表</span></span><br><span class="line">        through_fields=(<span class="string">'group'</span>, <span class="string">'person'</span>),</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Membership</span><span class="params">(models.Model)</span>:</span>  <span class="comment"># 这就是具体的中间表模型</span></span><br><span class="line">    group = models.ForeignKey(Group, on_delete=models.CASCADE)</span><br><span class="line">    person = models.ForeignKey(Person, on_delete=models.CASCADE)</span><br><span class="line">    inviter = models.ForeignKey(</span><br><span class="line">        Person,</span><br><span class="line">        on_delete=models.CASCADE,</span><br><span class="line">        related_name=<span class="string">"membership_invites"</span>,</span><br><span class="line">    )</span><br><span class="line">    invite_reason = models.CharField(max_length=<span class="number">64</span>)</span><br></pre></td></tr></table></div></figure>
+
+<p>上面的代码中，通过<code>class Membership(models.Model)</code>定义了一个新的模型，用来保存<code>Person</code>和<code>Group</code>模型的多对多关系，并且同时增加了<code>邀请人</code>和<code>邀请原因</code>的字段。</p>
+<p><code>through</code>参数在某些使用场景中是必须的，至关重要，请务必掌握！</p>
+<ul>
+<li><code>through_fields</code>参数说明：<br>接着上面的例子。<code>Membership</code>模型中包含两个关联<code>Person</code>的外键，Django无法确定到底使用哪个作为和<code>Group</code>关联的对象。所以，在这个例子中，必须显式的指定<code>through_fields</code>参数，用于定义关系。</li>
+</ul>
+<p><code>through_fields</code>参数接收一个二元元组<code>(&#39;field1&#39;, &#39;field2&#39;)</code>，<code>field1</code>是指向定义有多对多关系的模型的外键字段的名称，这里是<code>Membership</code>中的‘<code>group</code>’字段（注意大小写），另外一个则是指向目标模型的外键字段的名称，这里是<code>Membership</code>中的‘<code>person</code>’，而不是‘<code>inviter</code>’。</p>
+<p>再通俗的说，就是<code>through_fields</code>参数指定从中间表模型<code>Membership</code>中选择哪两个字段，作为关系连接字段。</p>
+<ul>
+<li><p><code>db_table</code>参数说明：<br>设置中间表的名称。不指定的话，则使用默认值。</p>
+</li>
+<li><p><code>db_constraint</code>参数说明：<br>参考外键的相同参数。</p>
+</li>
+<li><p><code>swappable</code>参数说明：<br>参考外键的相同参数。</p>
+</li>
+</ul>
+<p><code>ManyToManyField</code>多对多字段不支持Django内置<code>的validators</code>验证功能。</p>
+<p><code>null</code>参数对<code>ManyToManyField</code>多对多字段无效！设置<code>null=True</code>毫无意义</p>
+<hr>
+
+        <h2 id="3-一对一（OneToOneField）"   >
+          <a href="#3-一对一（OneToOneField）" class="heading-link"><i class="fas fa-link"></i></a>3. 一对一（OneToOneField）</h2>
+      <p>一对一关系类型的定义如下：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OneToOneField</span><span class="params">(to, on_delete, parent_link=False, **options)</span></span></span><br></pre></td></tr></table></div></figure>
+
+<p>从概念上讲，一对一关系非常类似具有<code>unique=True</code>属性的外键关系，但是反向关联对象只有一个。这种关系类型多数用于当一个模型需要从别的模型扩展而来的情况。比如，Django自带<code>auth</code>模块的<code>User</code>用户表，如果你想在自己的项目里创建用户模型，又想方便的使用Django的<code>auth</code>中的一些功能，那么一个方案就是在你的用户模型里，使用一对一关系，添加一个与<code>auth</code>模块<code>User</code>模型的关联字段。</p>
+<p>该关系的第一位置参数为关联的模型，其用法和前面的多对一外键一样。</p>
+<p>如果你没有给一对一关系设置<code>related_name</code>参数，Django将使用当前模型的小写名作为默认值。</p>
+<p>看下面的例子：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.conf <span class="keyword">import</span> settings</span><br><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="comment"># 两个字段都使用一对一关联到了Django内置的auth模块中的User模型</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MySpecialUser</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    user = models.OneToOneField(</span><br><span class="line">        settings.AUTH_USER_MODEL,</span><br><span class="line">        on_delete=models.CASCADE,</span><br><span class="line">    )</span><br><span class="line">    supervisor = models.OneToOneField(</span><br><span class="line">        settings.AUTH_USER_MODEL,</span><br><span class="line">        on_delete=models.CASCADE,</span><br><span class="line">        related_name=<span class="string">'supervisor_of'</span>,</span><br><span class="line">    )</span><br></pre></td></tr></table></div></figure>
+
+<p>这样下来，你的User模型将拥有下面的属性：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>user = User.objects.get(pk=<span class="number">1</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>hasattr(user, <span class="string">'myspecialuser'</span>)</span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>hasattr(user, <span class="string">'supervisor_of'</span>)</span><br><span class="line"><span class="literal">True</span></span><br></pre></td></tr></table></div></figure>
+<p>OneToOneField一对一关系拥有和多对一外键关系一样的额外可选参数，只是多了一个不常用的<code>parent_link</code>参数。</p>
+<p>跨模块的模型：</p>
+<p>有时候，我们关联的模型并不在当前模型的文件内，没关系，就像我们导入第三方库一样的从别的模块内导入进来就好，如下例所示：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"><span class="keyword">from</span> geography.models <span class="keyword">import</span> ZipCode</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Restaurant</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">    zip_code = models.ForeignKey(</span><br><span class="line">        ZipCode,</span><br><span class="line">        on_delete=models.SET_NULL,</span><br><span class="line">        blank=<span class="literal">True</span>,</span><br><span class="line">        null=<span class="literal">True</span>,</span><br><span class="line">    )</span><br></pre></td></tr></table></div></figure></div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://jeremy-zjl.github.io">Jeremy-ZJL</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://jeremy-zjl.github.io/2020/10/20/Django%E4%B8%A8%E6%A8%A1%E7%89%88%E5%B1%82%20-%203.%20%E5%85%B3%E7%B3%BB%E7%B1%BB%E5%9E%8B%E5%AD%97%E6%AE%B5/">https://jeremy-zjl.github.io/2020/10/20/Django%E4%B8%A8%E6%A8%A1%E7%89%88%E5%B1%82%20-%203.%20%E5%85%B3%E7%B3%BB%E7%B1%BB%E5%9E%8B%E5%AD%97%E6%AE%B5/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://jeremy-zjl.github.io/tags/Python/">Python</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://jeremy-zjl.github.io/tags/Django/">Django</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://jeremy-zjl.github.io/tags/%E5%9F%BA%E7%A1%80/">基础</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://jeremy-zjl.github.io/tags/%E7%AC%94%E8%AE%B0/">笔记</a></span></div><nav class="post-paginator paginator"><div class="paginator-next"><a class="paginator-next__link" href="/2020/10/17/Django%E4%B8%A8%E6%A8%A1%E7%89%88%E5%B1%82%20-%202.%20%E5%AD%97%E6%AE%B5%E8%AF%A6%E8%A7%A3/"><span class="paginator-prev__text">Django丨模版层 - 2. 字段详解</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div><div class="comments" id="comments"><div id="gitalk-container"></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#3-关系类型字段"><span class="toc-text">
+          3. 关系类型字段</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-一对多（ForeignKey）"><span class="toc-text">
+          1. 一对多（ForeignKey）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-多对多（ManyToManyField）"><span class="toc-text">
+          2. 多对多（ManyToManyField）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-一对一（OneToOneField）"><span class="toc-text">
+          3. 一对一（OneToOneField）</span></a></li></ol></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/icons/j-icon-144.png" alt="avatar"></div><p class="sidebar-ov-author__text">write code and love life</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/" target="_blank" rel="noopener" data-popover="Github" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span></a><a class="sidebar-ov-social-item" href="https://plus.google.com/" target="_blank" rel="noopener" data-popover="Google" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-google"></i></span></a><a class="sidebar-ov-social-item" href="https://www.zhihu.com/" target="_blank" rel="noopener" data-popover="知乎" data-popover-pos="up"><span class="sidebar-ov-social-item__icon">知</span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">21</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">7</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">18</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2020</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Jeremy All Rights Reserved</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v4.2.1</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.0.1</span></div><div class="busuanzi"><span class="busuanzi-siteuv"><span class="busuanzi-siteuv__icon"><i class="fas fa-user"></i></span><span class="busuanzi-siteuv__info">访问人数</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_uv"></span></span><span class="busuanzi-sitepv"><span class="busuanzi-siteuv__icon"><i class="fas fa-eye"></i></span><span class="busuanzi-siteuv__info">浏览总量</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="200" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1.0.1/dist/canvas-nest.min.js" color="0,0,0" opacity="0.6" count="180" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/npm/pjax@latest/pjax.min.js"></script><script>window.addEventListener('DOMContentLoaded', function () {
+  var pjax = new Pjax({"selectors":["head title","#main",".pjax-reload",".header-inner"],"history":true,"scrollTo":false,"scrollRestoration":false,"cacheBust":false,"debug":false,"currentUrlFullReload":false,"timeout":0});
+  // 加载进度条的计时器
+  var loadingTimer = null;
+
+  // 重置页面 Y 方向上的滚动偏移量
+  document.addEventListener('pjax:send', function () {
+    $('.header-nav-menu').removeClass('show');
+    if (CONFIG.pjax && CONFIG.pjax.avoidBanner) {
+      $('html').velocity('scroll', {
+        duration: 500,
+        offset: $('#header').height(),
+        easing: 'easeInOutCubic'
+      });
+    }
+
+    var loadingBarWidth = 20;
+    var MAX_LOADING_WIDTH = 95;
+
+    $('.loading-bar').addClass('loading');
+    $('.loading-bar__progress').css('width', loadingBarWidth + '%');
+    clearInterval(loadingTimer);
+    loadingTimer = setInterval(function () {
+      loadingBarWidth += 3;
+      if (loadingBarWidth > MAX_LOADING_WIDTH) {
+        loadingBarWidth = MAX_LOADING_WIDTH;
+      }
+      $('.loading-bar__progress').css('width', loadingBarWidth + '%');
+    }, 500);
+  }, false);
+
+  window.addEventListener('pjax:complete', function () {
+    clearInterval(loadingTimer);
+    $('.loading-bar__progress').css('width', '100%');
+    $('.loading-bar').removeClass('loading');
+    setTimeout(function () {
+      $('.loading-bar__progress').css('width', '0');
+    }, 400);
+    $('link[rel=prefetch], script[data-pjax-rm]').each(function () {
+      $(this).remove();
+    });
+    $('script[data-pjax], #pjax-reload script').each(function () {
+      $(this).parent().append($(this).remove());
+    });
+
+    if (Stun.utils.pjaxReloadBoot) {
+      Stun.utils.pjaxReloadBoot();
+    }
+    if (Stun.utils.pjaxReloadScroll) {
+      Stun.utils.pjaxReloadScroll();
+    }
+    if (Stun.utils.pjaxReloadSidebar) {
+      Stun.utils.pjaxReloadSidebar();
+    }
+    if (true) {
+      if (Stun.utils.pjaxReloadHeader) {
+        Stun.utils.pjaxReloadHeader();
+      }
+      if (Stun.utils.pjaxReloadScrollIcon) {
+        Stun.utils.pjaxReloadScrollIcon();
+      }
+      if (Stun.utils.pjaxReloadLocalSearch) {
+        Stun.utils.pjaxReloadLocalSearch();
+      }
+    }
+  }, false);
+}, false);</script><div id="pjax-reload"><script src="https://cdn.jsdelivr.net/npm/quicklink@1.0.1/dist/quicklink.umd.js"></script><script>function initQuicklink() {
+  quicklink({
+    timeout: '10000',
+    priority: true,
+    ignores: [uri => uri.includes('#'), uri => uri === 'https://jeremy-zjl.github.io/2020/10/20/Django%E4%B8%A8%E6%A8%A1%E7%89%88%E5%B1%82%20-%203.%20%E5%85%B3%E7%B3%BB%E7%B1%BB%E5%9E%8B%E5%AD%97%E6%AE%B5/', /\/api\/?/,uri => uri.includes('.xml'),uri => uri.includes('.zip'),(uri, el) => el.hasAttribute('nofollow'),(uri, el) => el.hasAttribute('noprefetch')]
+  });
+}
+
+if (true || false) {
+  initQuicklink();
+} else {
+  window.addEventListener('DOMContentLoaded', initQuicklink, false);
+}</script><script src="https://cdn.jsdelivr.net/gh/sukkaw/busuanzi@latest/bsz.pure.mini.js" async></script></div><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js" data-pjax=""></script><script src="https://cdn.jsdelivr.net/npm/js-md5@latest/src/md5.min.js" data-pjax=""></script><script data-pjax="">function loadGitalk () {
+  if (!document.getElementById('gitalk-container')) {
+    return;
+  }
+
+  var gitalk = new Gitalk({
+    id: md5(window.location.pathname.slice(1)),
+    clientID: '5eed14a18152a05fd25d',
+    clientSecret: '4d8cb9ed6f2b02a76e3009589875a2b81963c2aa',
+    repo: 'Jeremy-ZJL.github.io',
+    owner: 'Jeremy-ZJL',
+    admin: ['Jeremy-ZJL'],
+    distractionFreeMode: 'true',
+    language: 'zh-CN'
+  });
+  gitalk.render('gitalk-container');
+}
+
+if (true) {
+  loadGitalk();
+} else {
+  window.addEventListener('DOMContentLoaded', loadGitalk, false);
+}</script><script src="/js/utils.js?v=2.0.1"></script><script src="/js/stun-boot.js?v=2.0.1"></script><script src="/js/scroll.js?v=2.0.1"></script><script src="/js/header.js?v=2.0.1"></script><script src="/js/sidebar.js?v=2.0.1"></script></body></html>
