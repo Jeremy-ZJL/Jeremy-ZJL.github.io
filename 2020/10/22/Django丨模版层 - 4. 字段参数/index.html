@@ -1,0 +1,327 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/j-icon-16.png?v=2.0.1" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/j-icon-32.png?v=2.0.1" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="/images/icons/j-icon-192.png?v=2.0.1" sizes="180x180"><link rel="mask-icon" href="/images/icons/j-icon-96.png?v=2.0.1" color="#54bcff"><meta name="msapplication-TileImage" content="/images/icons/j-icon-144.png"><meta name="msapplication-TileColor" content="#000000"><meta name="google-site-verification" content="wmgiquHvFLol6wowL0KAwg0WI7DkfhhVJ3r0_QRPk-g"><meta name="baidu-site-verification" content="code-nyFNxfLcDt"><meta name="360-site-verification" content="0d8d7a290d96dfee3f3c05e8e0500347"><meta name="description" content="&gt; 所有的模型字段都可以接收一定数量的参数，比如: &#96;CharField&#96;至少需要一个&#96;max_length&#96;参数。 下面的这些参数是所有字段都可以使用的，并且是可选的。## 1. &#96;null&#96; 该值为&#96;True&#96;时，Django在数据库用&#96;NULL&#96;保存空值。默认值为&#96;False&#96;。 对于保存字符串类型数据的字段，请尽量避免将此参数设为&#96;True&#96;，那样会导致两种&#96;没有数据&#96;的情况，一种是&#96;NU">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django丨模版层 - 4. 字段参数">
+<meta property="og:url" content="https://jeremy-zjl.github.io/2020/10/22/Django%E4%B8%A8%E6%A8%A1%E7%89%88%E5%B1%82%20-%204.%20%E5%AD%97%E6%AE%B5%E5%8F%82%E6%95%B0/index.html">
+<meta property="og:site_name" content="Jeremy-ZJL&#39;s Blog">
+<meta property="og:description" content="&gt; 所有的模型字段都可以接收一定数量的参数，比如: &#96;CharField&#96;至少需要一个&#96;max_length&#96;参数。 下面的这些参数是所有字段都可以使用的，并且是可选的。## 1. &#96;null&#96; 该值为&#96;True&#96;时，Django在数据库用&#96;NULL&#96;保存空值。默认值为&#96;False&#96;。 对于保存字符串类型数据的字段，请尽量避免将此参数设为&#96;True&#96;，那样会导致两种&#96;没有数据&#96;的情况，一种是&#96;NU">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-10-22T06:42:10.000Z">
+<meta property="article:modified_time" content="2020-10-22T06:42:10.000Z">
+<meta property="article:author" content="Jeremy-ZJL">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Django">
+<meta property="article:tag" content="基础">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary"><meta name="keywords" content="Jeremy-ZJL, Jeremy-ZJL's Blog"><meta name="description" content="Jeremy-ZJL's Blog"><title>Django丨模版层 - 4. 字段参数 | Jeremy-ZJL's Blog</title><link ref="canonical" href="https://jeremy-zjl.github.io/2020/10/22/Django%E4%B8%A8%E6%A8%A1%E7%89%88%E5%B1%82%20-%204.%20%E5%AD%97%E6%AE%B5%E5%8F%82%E6%95%B0/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.0.1"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="dns-prefetch" href="https://hm.baidu.com"><script src="https://www.googletagmanager.com/gtag/js?id=183330495" async="" data-pjax=""></script><script data-pjax="">if (window.location.hostname !== 'localhost') {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', '183330495');
+}</script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement('script');
+  hm.src = 'https://hm.baidu.com/hm.js?77b4b897986a377c76b267d13173877e';
+  hm.async = true;
+
+  if (true) {
+    hm.setAttribute('data-pjax', '');
+  }
+  var s = document.getElementsByTagName('script')[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: undefined,
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"ocean","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: {"avoidBanner":false},
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 4.2.1"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner header-inner--height header-inner--bgcolor"><nav class="header-nav header-nav--sticky"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="javascript:;" onclick="return false;"><span class="header-nav-menu-item__icon"><i class="fas fa-angle-double-down"></i></span><span class="header-nav-menu-item__text">其它</span></a><div class="header-nav-submenu"><div class="header-nav-submenu-item"><a class="header-nav-submenu-item__link" href="/xxx1-1/"><span class="header-nav-submenu-item__icon"><i class="fa(s|r|l|d|b) fa-xxx"></i></span><span class="header-nav-submenu-item__text">其它-1</span></a></div><div class="header-nav-submenu-item"><a class="header-nav-submenu-item__link" href="/xxx1-2/"><span class="header-nav-submenu-item__icon"><i class="fa(s|r|l|d|b) fa-xxx"></i></span><span class="header-nav-submenu-item__text">其它-2</span></a></div></div></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">Django丨模版层 - 4. 字段参数</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2020-10-22</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2020-10-22</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">2.4k</span></span><span class="post-meta-item post-meta-item--visitors"><span class="post-meta-item__icon"><i class="fas fa-eye"></i></span><span class="post-meta-item__info">阅读次数</span><span class="post-meta-item__value" id="busuanzi_value_page_pv"></span></span></div></header><div class="post-body">
+        <h1 id="Django丨模版层-4-字段参数"   >
+          <a href="#Django丨模版层-4-字段参数" class="heading-link"><i class="fas fa-link"></i></a>Django丨模版层 - 4. 字段参数</h1>
+      <blockquote>
+<p>所有的模型字段都可以接收一定数量的参数，比如: <code>CharField</code>至少需要一个<code>max_length</code>参数。</p>
+</blockquote>
+<p>下面的这些参数是所有字段都可以使用的，并且是可选的。</p>
+
+        <h2 id="1-null"   >
+          <a href="#1-null" class="heading-link"><i class="fas fa-link"></i></a>1. null</h2>
+      <p>该值为<code>True</code>时，Django在数据库用<code>NULL</code>保存空值。默认值为<code>False</code>。</p>
+<p>对于保存字符串类型数据的字段，请尽量避免将此参数设为<code>True</code>，那样会导致两种<code>没有数据</code>的情况，一种是<code>NULL</code>，另一种是空字符串<code>&#39;&#39;</code>。Django 的惯例是使用空字符串而不是<code>NULL</code>。</p>
+
+        <h2 id="2-blank"   >
+          <a href="#2-blank" class="heading-link"><i class="fas fa-link"></i></a>2. blank</h2>
+      <p>该值为<code>True</code>时，字段可以为空。默认值为<code>False</code>。</p>
+<p>和<code>null</code>参数不同的是，<code>null</code>是纯数据库层面的，而<code>blank</code>是验证相关的，它与表单验证是否允许输入框内为空有关，与数据库无关。所以要小心一个<code>null</code>为<code>False</code>，<code>blank</code>为<code>True</code>的字段接收到一个空值可能会出bug或异常。</p>
+
+        <h2 id="3-choices"   >
+          <a href="#3-choices" class="heading-link"><i class="fas fa-link"></i></a>3. choices</h2>
+      <p>用于页面上的选择框标签，需要先提供一个二维的二元元组，第一个元素表示存在数据库内真实的值，第二个表示页面上显示的具体内容。在浏览器页面上将显示第二个元素的值。</p>
+<p>例如：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">YEAR_IN_SCHOOL_CHOICES = (</span><br><span class="line">    (<span class="string">'FR'</span>, <span class="string">'Freshman'</span>),</span><br><span class="line">    (<span class="string">'SO'</span>, <span class="string">'Sophomore'</span>),</span><br><span class="line">    (<span class="string">'JR'</span>, <span class="string">'Junior'</span>),</span><br><span class="line">    (<span class="string">'SR'</span>, <span class="string">'Senior'</span>),</span><br><span class="line">    (<span class="string">'GR'</span>, <span class="string">'Graduate'</span>),</span><br><span class="line">)</span><br></pre></td></tr></table></div></figure>
+
+<p>一般来说，最好将选项定义在类里，并取一个直观的名字，如下所示：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    FRESHMAN = <span class="string">'FR'</span></span><br><span class="line">    SOPHOMORE = <span class="string">'SO'</span></span><br><span class="line">    JUNIOR = <span class="string">'JR'</span></span><br><span class="line">    SENIOR = <span class="string">'SR'</span></span><br><span class="line">    YEAR_IN_SCHOOL_CHOICES = (</span><br><span class="line">        (FRESHMAN, <span class="string">'Freshman'</span>),</span><br><span class="line">        (SOPHOMORE, <span class="string">'Sophomore'</span>),</span><br><span class="line">        (JUNIOR, <span class="string">'Junior'</span>),</span><br><span class="line">        (SENIOR, <span class="string">'Senior'</span>),</span><br><span class="line">    )</span><br><span class="line">    year_in_school = models.CharField(</span><br><span class="line">        max_length=<span class="number">2</span>,</span><br><span class="line">        choices=YEAR_IN_SCHOOL_CHOICES,</span><br><span class="line">        default=FRESHMAN,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">is_upperclass</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.year_in_school <span class="keyword">in</span> (self.JUNIOR, self.SENIOR)</span><br></pre></td></tr></table></div></figure>
+
+<p>注意：每当<code>choices</code>的顺序变动时将会创建新的迁移。</p>
+<p>如果一个模型中有多个字段需要设置<code>choices</code>，可以将这些二维元组组合起来，显得更加整洁优雅，例如下面的做法：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">MEDIA_CHOICES = [</span><br><span class="line">    (<span class="string">'Audio'</span>, (</span><br><span class="line">            (<span class="string">'vinyl'</span>, <span class="string">'Vinyl'</span>),</span><br><span class="line">            (<span class="string">'cd'</span>, <span class="string">'CD'</span>),</span><br><span class="line">        )</span><br><span class="line">    ),</span><br><span class="line">    (<span class="string">'Video'</span>, (</span><br><span class="line">            (<span class="string">'vhs'</span>, <span class="string">'VHS Tape'</span>),</span><br><span class="line">            (<span class="string">'dvd'</span>, <span class="string">'DVD'</span>),</span><br><span class="line">        )</span><br><span class="line">    ),</span><br><span class="line">    (<span class="string">'unknown'</span>, <span class="string">'Unknown'</span>),</span><br><span class="line">]</span><br></pre></td></tr></table></div></figure>
+
+<p>反过来，要获取一个<code>choices</code>的第二元素的值，可以使用<code>get_FOO_display()</code>方法，其中的<code>FOO</code>用字段名代替。对于下面的例子：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    SHIRT_SIZES = (</span><br><span class="line">    (<span class="string">'S'</span>, <span class="string">'Small'</span>),</span><br><span class="line">    (<span class="string">'M'</span>, <span class="string">'Medium'</span>),</span><br><span class="line">    (<span class="string">'L'</span>, <span class="string">'Large'</span>),</span><br><span class="line">    )</span><br><span class="line">    name = models.CharField(max_length=<span class="number">60</span>)</span><br><span class="line">    shirt_size = models.CharField(max_length=<span class="number">1</span>, choices=SHIRT_SIZES)</span><br></pre></td></tr></table></div></figure>
+
+<p>使用方法：</p>
+<figure class="highlight plain"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; p &#x3D; Person(name&#x3D;&quot;Fred Flintstone&quot;, shirt_size&#x3D;&quot;L&quot;)</span><br><span class="line">&gt;&gt;&gt; p.save()</span><br><span class="line">&gt;&gt;&gt; p.shirt_size</span><br><span class="line">&#39;L&#39;</span><br><span class="line">&gt;&gt;&gt; p.get_shirt_size_display()</span><br><span class="line">&#39;Large&#39;</span><br></pre></td></tr></table></div></figure>
+
+<p>从Django3.0开始，新增了<code>TextChoices</code>、<code>IntegerChoices</code>和<code>Choices</code>三个类，用来达到类似Python的<code>enum</code>枚举库的作用，下面是一个例子：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.utils.translation <span class="keyword">import</span> gettext_lazy <span class="keyword">as</span> _</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(models.Model)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">YearInSchool</span><span class="params">(models.TextChoices)</span>:</span></span><br><span class="line">        FRESHMAN = <span class="string">'FR'</span>, _(<span class="string">'Freshman'</span>)</span><br><span class="line">        SOPHOMORE = <span class="string">'SO'</span>, _(<span class="string">'Sophomore'</span>)</span><br><span class="line">        JUNIOR = <span class="string">'JR'</span>, _(<span class="string">'Junior'</span>)</span><br><span class="line">        SENIOR = <span class="string">'SR'</span>, _(<span class="string">'Senior'</span>)</span><br><span class="line">        GRADUATE = <span class="string">'GR'</span>, _(<span class="string">'Graduate'</span>)</span><br><span class="line"></span><br><span class="line">    year_in_school = models.CharField(</span><br><span class="line">        max_length=<span class="number">2</span>,</span><br><span class="line">        choices=YearInSchool.choices,</span><br><span class="line">        default=YearInSchool.FRESHMAN,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">is_upperclass</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.year_in_school <span class="keyword">in</span> &#123;</span><br><span class="line">            self.YearInSchool.JUNIOR,</span><br><span class="line">            self.YearInSchool.SENIOR,</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></div></figure>
+
+<p>简要解释一下：</p>
+<ul>
+<li>第一句导入是废话，搞国际化翻译的，和本例的内容其实没关系</li>
+<li>核心在<code>Student</code>模型中创建了个内部类<code>YearInSchool</code></li>
+<li><code>YearInSchool</code>继承了Django新增的<code>TextChoices</code>类</li>
+<li><code>TextChoices</code>中没定义别的，只定义了一些类变量，这些类变量看起来和我们前面使用的二维二元元组本质上是一个套路</li>
+<li><code>Student</code>模型中有一个<code>year_in_school</code>字段，其中定义了<code>choices</code>参数，参数的值是<code>YearInSchool.choices</code></li>
+<li><code>year_in_school</code>字段还定义了<code>default</code>参数，值是<code>YearInSchool.FRESHMAN</code></li>
+<li>从本质上来说，这和我们开始使用<code>choice</code>的方式是一样的，只不过换成了类的方式，而不是二维元组</li>
+<li>吐个槽，这么设计除了增加学习成本有什么好处？有多少<code>Choice</code>选项需要你非得用类的形式管理起来封装起来？二维元组它就不香吗？新手学习就不累吗？</li>
+</ul>
+<p>吐槽归吐槽，该介绍的还得介绍，否则是不敬业。</p>
+<p>如果你不需要人类可读的帮助文本，那么类似的<code>YearInSchool</code>还可以写成下面的方式：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="class"><span class="keyword">class</span> <span class="title">Vehicle</span><span class="params">(models.TextChoices)</span>:</span></span><br><span class="line"><span class="meta">... </span>    CAR = <span class="string">'C'</span></span><br><span class="line"><span class="meta">... </span>    TRUCK = <span class="string">'T'</span></span><br><span class="line"><span class="meta">... </span>    JET_SKI = <span class="string">'J'</span></span><br><span class="line">...</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>Vehicle.JET_SKI.label</span><br><span class="line"><span class="string">'Jet Ski'</span></span><br></pre></td></tr></table></div></figure>
+
+<p>哎，我都写内部类了，还差这点吗？</p>
+<p>另外，由于使用整数作为选项的场景太常见了，Django除了提供<code>TextChoices</code>还提供了一个<code>IntegerChoices</code>，例子如下：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Card</span><span class="params">(models.Model)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Suit</span><span class="params">(models.IntegerChoices)</span>:</span></span><br><span class="line">        DIAMOND = <span class="number">1</span></span><br><span class="line">        SPADE = <span class="number">2</span></span><br><span class="line">        HEART = <span class="number">3</span></span><br><span class="line">        CLUB = <span class="number">4</span></span><br><span class="line"></span><br><span class="line">    suit = models.IntegerField(choices=Suit.choices)</span><br></pre></td></tr></table></div></figure>
+
+<p>实际上，Django为这几个类提供了一些属性，典型的有下面的：</p>
+<ul>
+<li><code>.label</code></li>
+<li><code>.choices</code></li>
+<li><code>.values</code></li>
+<li><code>.name</code></li>
+</ul>
+<p>读者可以多尝试，看看每个的意义。</p>
+<p>参考用法：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>MedalType = models.TextChoices(<span class="string">'MedalType'</span>, <span class="string">'GOLD SILVER BRONZE'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>MedalType.choices</span><br><span class="line">[(<span class="string">'GOLD'</span>, <span class="string">'Gold'</span>), (<span class="string">'SILVER'</span>, <span class="string">'Silver'</span>), (<span class="string">'BRONZE'</span>, <span class="string">'Bronze'</span>)]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>Place = models.IntegerChoices(<span class="string">'Place'</span>, <span class="string">'FIRST SECOND THIRD'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>Place.choices</span><br><span class="line">[(<span class="number">1</span>, <span class="string">'First'</span>), (<span class="number">2</span>, <span class="string">'Second'</span>), (<span class="number">3</span>, <span class="string">'Third'</span>)]</span><br></pre></td></tr></table></div></figure>
+
+<p>如果文本或数字类型不满足你的要求，你也可以继承<code>Choice</code>类，自己写。比如下面就创建了一个时间类型选项的<code>choices</code>类：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MoonLandings</span><span class="params">(datetime.date, models.Choices)</span>:</span></span><br><span class="line">    APOLLO_11 = <span class="number">1969</span>, <span class="number">7</span>, <span class="number">20</span>, <span class="string">'Apollo 11 (Eagle)'</span></span><br><span class="line">    APOLLO_12 = <span class="number">1969</span>, <span class="number">11</span>, <span class="number">19</span>, <span class="string">'Apollo 12 (Intrepid)'</span></span><br><span class="line">    APOLLO_14 = <span class="number">1971</span>, <span class="number">2</span>, <span class="number">5</span>, <span class="string">'Apollo 14 (Antares)'</span></span><br><span class="line">    APOLLO_15 = <span class="number">1971</span>, <span class="number">7</span>, <span class="number">30</span>, <span class="string">'Apollo 15 (Falcon)'</span></span><br><span class="line">    APOLLO_16 = <span class="number">1972</span>, <span class="number">4</span>, <span class="number">21</span>, <span class="string">'Apollo 16 (Orion)'</span></span><br><span class="line">    APOLLO_17 = <span class="number">1972</span>, <span class="number">12</span>, <span class="number">11</span>, <span class="string">'Apollo 17 (Challenger)'</span></span><br></pre></td></tr></table></div></figure>
+
+<p>最后，如果想设置空标签，可以参考下面的做法：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Answer</span><span class="params">(models.IntegerChoices)</span>:</span></span><br><span class="line">    NO = <span class="number">0</span>, _(<span class="string">'No'</span>)</span><br><span class="line">    YES = <span class="number">1</span>, _(<span class="string">'Yes'</span>)</span><br><span class="line"></span><br><span class="line">    __empty__ = _(<span class="string">'(Unknown)'</span>)</span><br></pre></td></tr></table></div></figure>
+
+
+
+        <h2 id="4-db-column"   >
+          <a href="#4-db-column" class="heading-link"><i class="fas fa-link"></i></a>4. db_column</h2>
+      <p>该参数用于定义当前字段在数据表内的列名。如果未指定，Django将使用字段名作为列名。</p>
+
+        <h2 id="5-db-index"   >
+          <a href="#5-db-index" class="heading-link"><i class="fas fa-link"></i></a>5. db_index</h2>
+      <p>该参数接收布尔值。如果为<code>True</code>，数据库将为该字段创建索引。</p>
+
+        <h2 id="6-db-tablespace"   >
+          <a href="#6-db-tablespace" class="heading-link"><i class="fas fa-link"></i></a>6. db_tablespace</h2>
+      <p>用于字段索引的数据库表空间的名字，前提是当前字段设置了索引。默认值为工程的DEFAULT_INDEX_TABLESPACE设置。如果使用的数据库不支持表空间，该参数会被忽略。</p>
+
+        <h2 id="7-default"   >
+          <a href="#7-default" class="heading-link"><i class="fas fa-link"></i></a>7. default</h2>
+      <p>字段的默认值，可以是值或者一个可调用对象。如果是可调用对象，那么每次创建新对象时都会调用。设置的默认值不能是一个可变对象，比如列表、集合等等。<code>lambda</code>匿名函数也不可用于<code>default</code>的调用对象，因为匿名函数不能被<code>migrations</code>序列化。</p>
+<p>注意：在某种原因不明的情况下将<code>default</code>设置为<code>None</code>，可能会引发<code>intergyerror：not null constraint failed</code>，即<code>非空约束失败异常</code>，导致<code>python manage.py migrate</code>失败，此时可将<code>None</code>改为<code>False</code>或其它的值，只要不是<code>None</code>就行。</p>
+
+        <h2 id="8-editable"   >
+          <a href="#8-editable" class="heading-link"><i class="fas fa-link"></i></a>8. editable</h2>
+      <p>如果设为<code>False</code>，那么当前字段将不会在<code>admin</code>后台或者其它的<code>ModelForm</code>表单中显示，同时还会被模型验证功能跳过。参数默认值为<code>True</code>。</p>
+
+        <h2 id="9-error-messages"   >
+          <a href="#9-error-messages" class="heading-link"><i class="fas fa-link"></i></a>9. error_messages</h2>
+      <p>用于自定义错误信息。参数接收字典类型的值。字典的键可以是null、 blank、 invalid、 invalid_choice、 unique和unique_for_date其中的一个。</p>
+
+        <h2 id="10-help-text"   >
+          <a href="#10-help-text" class="heading-link"><i class="fas fa-link"></i></a>10. help_text</h2>
+      <p>额外显示在表单部件上的帮助文本。即便你的字段未用于表单，它对于生成文档也是很有用的。</p>
+<p>该帮助文本默认情况下是可以带<code>HTML</code>代码的，具有风险：</p>
+<p><code>help_text=&quot;Please use the following format: &lt;em&gt;YYYY-MM-DD&lt;/em&gt;.&quot;</code><br>所以使用时请注意转义为纯文本，防止脚本攻击。</p>
+
+        <h2 id="11-primary-key"   >
+          <a href="#11-primary-key" class="heading-link"><i class="fas fa-link"></i></a>11. primary_key</h2>
+      <p>如果你没有给模型的任何字段设置这个参数为<code>True</code>，Django将自动创建一个<code>AutoField</code>自增字段，名为<code>id</code>，并设置为主键。也就是<code>id = models.AutoField</code>(<code>primary_key=True</code>)。</p>
+<p>如果你为某个字段设置了<code>primary_key=True</code>，则当前字段变为主键，并关闭Django自动生成<code>id</code>主键的功能。</p>
+<p><code>primary_key=True</code>隐含<code>null=False</code>和<code>unique=True</code>的意思。一个模型中只能有一个主键字段！</p>
+<p>另外，主键字段不可修改，如果你给某个对象的主键赋个新值实际上是创建一个新对象，并不会修改原来的对象。</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Fruit</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    name = models.CharField(max_length=<span class="number">100</span>, primary_key=<span class="literal">True</span>)</span><br><span class="line"><span class="comment">###############    </span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>fruit = Fruit.objects.create(name=<span class="string">'Apple'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>fruit.name = <span class="string">'Pear'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>fruit.save()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>Fruit.objects.values_list(<span class="string">'name'</span>, flat=<span class="literal">True</span>)</span><br><span class="line">[<span class="string">'Apple'</span>, <span class="string">'Pear'</span>]</span><br></pre></td></tr></table></div></figure>
+
+
+
+        <h2 id="12-unique"   >
+          <a href="#12-unique" class="heading-link"><i class="fas fa-link"></i></a>12. unique</h2>
+      <p>设为<code>True</code>时，在整个数据表内该字段的数据不可重复。</p>
+<p>注意：对于<code>ManyToManyField</code>和<code>OneToOneField</code>关系类型，该参数无效。</p>
+<p>注意： 当<code>unique=True</code>时，<code>db_index</code>参数无须设置，因为<code>unqiue</code>隐含了索引。</p>
+
+        <h2 id="13-unique-for-date"   >
+          <a href="#13-unique-for-date" class="heading-link"><i class="fas fa-link"></i></a>13. unique_for_date</h2>
+      <p>日期唯一。可能不太好理解。举个栗子，如果你有一个名叫<code>title</code>的字段，并设置了参数<code>unique_for_date=&quot;pub_date&quot;</code>，那么Django将不允许有两个模型对象具备同样的<code>title</code>和<code>pub_date</code>。有点类似联合约束。</p>
+
+        <h2 id="14-unique-for-month"   >
+          <a href="#14-unique-for-month" class="heading-link"><i class="fas fa-link"></i></a>14. unique_for_month</h2>
+      <p>同上，只是月份唯一。</p>
+
+        <h2 id="15-unique-for-year"   >
+          <a href="#15-unique-for-year" class="heading-link"><i class="fas fa-link"></i></a>15. unique_for_year</h2>
+      <p>同上，只是年份唯一。</p>
+
+        <h2 id="16-verbose-name"   >
+          <a href="#16-verbose-name" class="heading-link"><i class="fas fa-link"></i></a>16. verbose_name</h2>
+      <p>为字段设置一个人类可读，更加直观的别名。</p>
+<p>对于每一个字段类型，除了<code>ForeignKey</code>、<code>ManyToManyField</code>和<code>OneToOneField</code>这三个特殊的关系类型，其第一可选位置参数都是<code>verbose_name</code>。如果没指定这个参数，Django会利用字段的属性名自动创建它，并将下划线转换为空格。</p>
+<p>下面这个例子的<code>verbose name</code>是<code>&quot;person’s first name&quot;</code>:</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">first_name = models.CharField(<span class="string">"person's first name"</span>, max_length=<span class="number">30</span>)</span><br></pre></td></tr></table></div></figure>
+
+<p>下面这个例子的<code>verbose name</code>是<code>&quot;first name&quot;</code>:</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">first_name = models.CharField(max_length=<span class="number">30</span>)</span><br></pre></td></tr></table></div></figure>
+
+<p>对于外键、多对多和一对一字字段，由于第一个参数需要用来指定关联的模型，因此必须用关键字参数<code>verbose_name</code>来明确指定。如下：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">poll = models.ForeignKey(</span><br><span class="line">    Poll,</span><br><span class="line">    on_delete=models.CASCADE,</span><br><span class="line">    verbose_name=<span class="string">"the related poll"</span>,</span><br><span class="line">    )</span><br><span class="line">sites = models.ManyToManyField(Site, verbose_name=<span class="string">"list of sites"</span>)</span><br><span class="line">    place = models.OneToOneField(</span><br><span class="line">    Place,</span><br><span class="line">    on_delete=models.CASCADE,</span><br><span class="line">    verbose_name=<span class="string">"related place"</span>,</span><br><span class="line">)</span><br></pre></td></tr></table></div></figure>
+
+<p>另外，你无须大写<code>verbose_name</code>的首字母，Django自动为你完成这一工作。</p>
+
+        <h2 id="17-validators"   >
+          <a href="#17-validators" class="heading-link"><i class="fas fa-link"></i></a>17. validators</h2>
+      <p>运行在该字段上的验证器的列表。</p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://jeremy-zjl.github.io">Jeremy-ZJL</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://jeremy-zjl.github.io/2020/10/22/Django%E4%B8%A8%E6%A8%A1%E7%89%88%E5%B1%82%20-%204.%20%E5%AD%97%E6%AE%B5%E5%8F%82%E6%95%B0/">https://jeremy-zjl.github.io/2020/10/22/Django%E4%B8%A8%E6%A8%A1%E7%89%88%E5%B1%82%20-%204.%20%E5%AD%97%E6%AE%B5%E5%8F%82%E6%95%B0/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://jeremy-zjl.github.io/tags/Python/">Python</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://jeremy-zjl.github.io/tags/Django/">Django</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://jeremy-zjl.github.io/tags/%E5%9F%BA%E7%A1%80/">基础</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://jeremy-zjl.github.io/tags/%E7%AC%94%E8%AE%B0/">笔记</a></span></div><nav class="post-paginator paginator"><div class="paginator-next"><a class="paginator-next__link" href="/2020/10/20/Django%E4%B8%A8%E6%A8%A1%E7%89%88%E5%B1%82%20-%203.%20%E5%85%B3%E7%B3%BB%E7%B1%BB%E5%9E%8B%E5%AD%97%E6%AE%B5/"><span class="paginator-prev__text">Django丨模版层 - 3. 关系类型字段</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div><div class="comments" id="comments"><div id="gitalk-container"></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Django丨模版层-4-字段参数"><span class="toc-text">
+          Django丨模版层 - 4. 字段参数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-null"><span class="toc-text">
+          1. null</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-blank"><span class="toc-text">
+          2. blank</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-choices"><span class="toc-text">
+          3. choices</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-db-column"><span class="toc-text">
+          4. db_column</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-db-index"><span class="toc-text">
+          5. db_index</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-db-tablespace"><span class="toc-text">
+          6. db_tablespace</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-default"><span class="toc-text">
+          7. default</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-editable"><span class="toc-text">
+          8. editable</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-error-messages"><span class="toc-text">
+          9. error_messages</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-help-text"><span class="toc-text">
+          10. help_text</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-primary-key"><span class="toc-text">
+          11. primary_key</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-unique"><span class="toc-text">
+          12. unique</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-unique-for-date"><span class="toc-text">
+          13. unique_for_date</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#14-unique-for-month"><span class="toc-text">
+          14. unique_for_month</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#15-unique-for-year"><span class="toc-text">
+          15. unique_for_year</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#16-verbose-name"><span class="toc-text">
+          16. verbose_name</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#17-validators"><span class="toc-text">
+          17. validators</span></a></li></ol></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/icons/j-icon-144.png" alt="avatar"></div><p class="sidebar-ov-author__text">write code and love life</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/" target="_blank" rel="noopener" data-popover="Github" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span></a><a class="sidebar-ov-social-item" href="https://plus.google.com/" target="_blank" rel="noopener" data-popover="Google" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-google"></i></span></a><a class="sidebar-ov-social-item" href="https://www.zhihu.com/" target="_blank" rel="noopener" data-popover="知乎" data-popover-pos="up"><span class="sidebar-ov-social-item__icon">知</span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">22</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">7</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">18</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2020</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Jeremy All Rights Reserved</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v4.2.1</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.0.1</span></div><div class="busuanzi"><span class="busuanzi-siteuv"><span class="busuanzi-siteuv__icon"><i class="fas fa-user"></i></span><span class="busuanzi-siteuv__info">访问人数</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_uv"></span></span><span class="busuanzi-sitepv"><span class="busuanzi-siteuv__icon"><i class="fas fa-eye"></i></span><span class="busuanzi-siteuv__info">浏览总量</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="200" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1.0.1/dist/canvas-nest.min.js" color="0,0,0" opacity="0.6" count="180" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/npm/pjax@latest/pjax.min.js"></script><script>window.addEventListener('DOMContentLoaded', function () {
+  var pjax = new Pjax({"selectors":["head title","#main",".pjax-reload",".header-inner"],"history":true,"scrollTo":false,"scrollRestoration":false,"cacheBust":false,"debug":false,"currentUrlFullReload":false,"timeout":0});
+  // 加载进度条的计时器
+  var loadingTimer = null;
+
+  // 重置页面 Y 方向上的滚动偏移量
+  document.addEventListener('pjax:send', function () {
+    $('.header-nav-menu').removeClass('show');
+    if (CONFIG.pjax && CONFIG.pjax.avoidBanner) {
+      $('html').velocity('scroll', {
+        duration: 500,
+        offset: $('#header').height(),
+        easing: 'easeInOutCubic'
+      });
+    }
+
+    var loadingBarWidth = 20;
+    var MAX_LOADING_WIDTH = 95;
+
+    $('.loading-bar').addClass('loading');
+    $('.loading-bar__progress').css('width', loadingBarWidth + '%');
+    clearInterval(loadingTimer);
+    loadingTimer = setInterval(function () {
+      loadingBarWidth += 3;
+      if (loadingBarWidth > MAX_LOADING_WIDTH) {
+        loadingBarWidth = MAX_LOADING_WIDTH;
+      }
+      $('.loading-bar__progress').css('width', loadingBarWidth + '%');
+    }, 500);
+  }, false);
+
+  window.addEventListener('pjax:complete', function () {
+    clearInterval(loadingTimer);
+    $('.loading-bar__progress').css('width', '100%');
+    $('.loading-bar').removeClass('loading');
+    setTimeout(function () {
+      $('.loading-bar__progress').css('width', '0');
+    }, 400);
+    $('link[rel=prefetch], script[data-pjax-rm]').each(function () {
+      $(this).remove();
+    });
+    $('script[data-pjax], #pjax-reload script').each(function () {
+      $(this).parent().append($(this).remove());
+    });
+
+    if (Stun.utils.pjaxReloadBoot) {
+      Stun.utils.pjaxReloadBoot();
+    }
+    if (Stun.utils.pjaxReloadScroll) {
+      Stun.utils.pjaxReloadScroll();
+    }
+    if (Stun.utils.pjaxReloadSidebar) {
+      Stun.utils.pjaxReloadSidebar();
+    }
+    if (true) {
+      if (Stun.utils.pjaxReloadHeader) {
+        Stun.utils.pjaxReloadHeader();
+      }
+      if (Stun.utils.pjaxReloadScrollIcon) {
+        Stun.utils.pjaxReloadScrollIcon();
+      }
+      if (Stun.utils.pjaxReloadLocalSearch) {
+        Stun.utils.pjaxReloadLocalSearch();
+      }
+    }
+  }, false);
+}, false);</script><div id="pjax-reload"><script src="https://cdn.jsdelivr.net/npm/quicklink@1.0.1/dist/quicklink.umd.js"></script><script>function initQuicklink() {
+  quicklink({
+    timeout: '10000',
+    priority: true,
+    ignores: [uri => uri.includes('#'), uri => uri === 'https://jeremy-zjl.github.io/2020/10/22/Django%E4%B8%A8%E6%A8%A1%E7%89%88%E5%B1%82%20-%204.%20%E5%AD%97%E6%AE%B5%E5%8F%82%E6%95%B0/', /\/api\/?/,uri => uri.includes('.xml'),uri => uri.includes('.zip'),(uri, el) => el.hasAttribute('nofollow'),(uri, el) => el.hasAttribute('noprefetch')]
+  });
+}
+
+if (true || false) {
+  initQuicklink();
+} else {
+  window.addEventListener('DOMContentLoaded', initQuicklink, false);
+}</script><script src="https://cdn.jsdelivr.net/gh/sukkaw/busuanzi@latest/bsz.pure.mini.js" async></script></div><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js" data-pjax=""></script><script src="https://cdn.jsdelivr.net/npm/js-md5@latest/src/md5.min.js" data-pjax=""></script><script data-pjax="">function loadGitalk () {
+  if (!document.getElementById('gitalk-container')) {
+    return;
+  }
+
+  var gitalk = new Gitalk({
+    id: md5(window.location.pathname.slice(1)),
+    clientID: '5eed14a18152a05fd25d',
+    clientSecret: '4d8cb9ed6f2b02a76e3009589875a2b81963c2aa',
+    repo: 'Jeremy-ZJL.github.io',
+    owner: 'Jeremy-ZJL',
+    admin: ['Jeremy-ZJL'],
+    distractionFreeMode: 'true',
+    language: 'zh-CN'
+  });
+  gitalk.render('gitalk-container');
+}
+
+if (true) {
+  loadGitalk();
+} else {
+  window.addEventListener('DOMContentLoaded', loadGitalk, false);
+}</script><script src="/js/utils.js?v=2.0.1"></script><script src="/js/stun-boot.js?v=2.0.1"></script><script src="/js/scroll.js?v=2.0.1"></script><script src="/js/header.js?v=2.0.1"></script><script src="/js/sidebar.js?v=2.0.1"></script></body></html>
