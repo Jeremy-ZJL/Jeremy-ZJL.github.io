@@ -1,0 +1,349 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/j-icon-16.png?v=2.0.1" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/j-icon-32.png?v=2.0.1" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="/images/icons/j-icon-192.png?v=2.0.1" sizes="180x180"><link rel="mask-icon" href="/images/icons/j-icon-96.png?v=2.0.1" color="#54bcff"><meta name="msapplication-TileImage" content="/images/icons/j-icon-144.png"><meta name="msapplication-TileColor" content="#000000"><meta name="google-site-verification" content="wmgiquHvFLol6wowL0KAwg0WI7DkfhhVJ3r0_QRPk-g"><meta name="baidu-site-verification" content="code-nyFNxfLcDt"><meta name="360-site-verification" content="0d8d7a290d96dfee3f3c05e8e0500347"><meta name="description" content="很多时候，我们都不是从‘一穷二白’开始编写模型的，有时候可以从第三方库中继承，有时候可以从以前的代码中继承，甚至现写一个模型用于被其它模型继承。这样做的好处，我就不赘述了，每个学习Django的人都非常清楚。 类同于Python的类继承，Django也有完善的继承机制。Django中所有的模型都必须继承&#96;django.db.models.Model&#96;模型，不管是直接继承也好，还是间接继承也罢。你唯">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django丨模版层 - 5. 模型的继承">
+<meta property="og:url" content="https://jeremy-zjl.github.io/2020/10/25/django-5/index.html">
+<meta property="og:site_name" content="Jeremy-ZJL&#39;s Blog">
+<meta property="og:description" content="很多时候，我们都不是从‘一穷二白’开始编写模型的，有时候可以从第三方库中继承，有时候可以从以前的代码中继承，甚至现写一个模型用于被其它模型继承。这样做的好处，我就不赘述了，每个学习Django的人都非常清楚。 类同于Python的类继承，Django也有完善的继承机制。Django中所有的模型都必须继承&#96;django.db.models.Model&#96;模型，不管是直接继承也好，还是间接继承也罢。你唯">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-10-25T09:53:12.000Z">
+<meta property="article:modified_time" content="2020-10-25T09:53:12.000Z">
+<meta property="article:author" content="Jeremy-ZJL">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Django">
+<meta property="article:tag" content="基础">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary"><meta name="keywords" content="Jeremy-ZJL, Jeremy-ZJL's Blog"><meta name="description" content="Jeremy-ZJL's Blog"><title>Django丨模版层 - 5. 模型的继承 | Jeremy-ZJL's Blog</title><link ref="canonical" href="https://jeremy-zjl.github.io/2020/10/25/django-5/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.0.1"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="dns-prefetch" href="https://hm.baidu.com"><script src="https://www.googletagmanager.com/gtag/js?id=183330495" async="" data-pjax=""></script><script data-pjax="">if (window.location.hostname !== 'localhost') {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', '183330495');
+}</script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement('script');
+  hm.src = 'https://hm.baidu.com/hm.js?77b4b897986a377c76b267d13173877e';
+  hm.async = true;
+
+  if (true) {
+    hm.setAttribute('data-pjax', '');
+  }
+  var s = document.getElementsByTagName('script')[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: undefined,
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"ocean","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: {"avoidBanner":false},
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 4.2.1"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner header-inner--height header-inner--bgcolor"><nav class="header-nav header-nav--sticky"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="javascript:;" onclick="return false;"><span class="header-nav-menu-item__icon"><i class="fas fa-angle-double-down"></i></span><span class="header-nav-menu-item__text">其它</span></a><div class="header-nav-submenu"><div class="header-nav-submenu-item"><a class="header-nav-submenu-item__link" href="/xxx1-1/"><span class="header-nav-submenu-item__icon"><i class="fa(s|r|l|d|b) fa-xxx"></i></span><span class="header-nav-submenu-item__text">其它-1</span></a></div><div class="header-nav-submenu-item"><a class="header-nav-submenu-item__link" href="/xxx1-2/"><span class="header-nav-submenu-item__icon"><i class="fa(s|r|l|d|b) fa-xxx"></i></span><span class="header-nav-submenu-item__text">其它-2</span></a></div></div></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">Django丨模版层 - 5. 模型的继承</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2020-10-25</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2020-10-25</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">4.1k</span></span><span class="post-meta-item post-meta-item--visitors"><span class="post-meta-item__icon"><i class="fas fa-eye"></i></span><span class="post-meta-item__info">阅读次数</span><span class="post-meta-item__value" id="busuanzi_value_page_pv"></span></span></div></header><div class="post-body">
+        <h1 id="Django丨模版层-5-模型的继承"   >
+          <a href="#Django丨模版层-5-模型的继承" class="heading-link"><i class="fas fa-link"></i></a>Django丨模版层 - 5. 模型的继承</h1>
+      <p>很多时候，我们都不是从‘一穷二白’开始编写模型的，有时候可以从第三方库中继承，有时候可以从以前的代码中继承，甚至现写一个模型用于被其它模型继承。这样做的好处，我就不赘述了，每个学习Django的人都非常清楚。</p>
+<p>类同于Python的类继承，Django也有完善的继承机制。</p>
+<p>Django中所有的模型都必须继承<code>django.db.models.Model</code>模型，不管是直接继承也好，还是间接继承也罢。</p>
+<p>你唯一需要决定的是，父模型是否是一个独立自主的，同样在数据库中创建数据表的模型，还是一个只用来保存子模型共有内容，并不实际创建数据表的抽象模型。</p>
+<p>Django有三种继承的方式：</p>
+<ul>
+<li><strong>抽象基类</strong>：被用来继承的模型被称为<code>Abstract base classes</code>，将子类共同的数据抽离出来，供子类继承重用，它不会创建实际的数据表；</li>
+<li><strong>多表继承</strong>：<code>Multi-table inheritance</code>，每一个模型都有自己的数据库表，父子之间独立存在；</li>
+<li><strong>代理模型</strong>：如果你只想修改模型的Python层面的行为，并不想改动模型的字段，可以使用代理模型。</li>
+</ul>
+<blockquote>
+<p>注意！同Python的继承一样，Django也是可以同时继承两个以上父类的！</p>
+</blockquote>
+
+        <h2 id="1-抽象基类"   >
+          <a href="#1-抽象基类" class="heading-link"><i class="fas fa-link"></i></a>1. 抽象基类</h2>
+      
+        <h3 id="1-1-抽象基类"   >
+          <a href="#1-1-抽象基类" class="heading-link"><i class="fas fa-link"></i></a>1.1 抽象基类</h3>
+      <p>只需要在模型的<code>Meta</code>类里添加<code>abstract=True</code>元数据项，就可以将一个模型转换为抽象基类。Django不会为这种类创建实际的数据库表，它们也没有管理器，不能被实例化也无法直接保存，它们就是被当作父类供起来，让子类继承的。抽象基类完全就是用来保存子模型们共有的内容部分，达到重用的目的。当它们被继承时，它们的字段会全部复制到子模型中。</p>
+<p>看下面的例子：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CommonInfo</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    name = models.CharField(max_length=<span class="number">100</span>)</span><br><span class="line">    age = models.PositiveIntegerField()</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        abstract = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(CommonInfo)</span>:</span></span><br><span class="line">    home_group = models.CharField(max_length=<span class="number">5</span>)</span><br></pre></td></tr></table></div></figure>
+
+<p><code>Student</code>模型将拥有<code>name</code>，<code>age</code>，<code>home_group</code>三个字段，并且<code>CommonInfo</code>模型不能当做一个正常的模型使用。</p>
+<p>那如果我想修改<code>CommonInfo</code>父类中的<code>name</code>字段的定义呢？在<code>Student</code>类中创建一个<code>name</code>字段，覆盖父类的即可。这其实就是很简单的Python语法。</p>
+<p>那如果我不需要<code>CommonInfo</code>父类中的<code>name</code>字段呢？在<code>Student</code>类中创建一个<code>name</code>变量，值设为<code>None</code>即可。</p>
+<hr>
+
+        <h3 id="1-2-抽象基类-の-Meta数据："   >
+          <a href="#1-2-抽象基类-の-Meta数据：" class="heading-link"><i class="fas fa-link"></i></a>1.2 抽象基类 の Meta数据：</h3>
+      <p>如果子类没有声明自己的<code>Meta</code>类，那么它将自动继承抽象基类的<code>Meta</code>类。</p>
+<p>如果子类要设置自己的<code>Meta</code>属性，则需要扩展基类的<code>Meta</code>：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CommonInfo</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        abstract = <span class="literal">True</span></span><br><span class="line">        ordering = [<span class="string">'name'</span>]</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(CommonInfo)</span>:</span></span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span><span class="params">(CommonInfo.Meta)</span>:</span>   <span class="comment"># 注意这里有个继承关系</span></span><br><span class="line">        db_table = <span class="string">'student_info'</span></span><br></pre></td></tr></table></div></figure>
+
+<p><strong>这里有几点要特别说明：</strong></p>
+<ul>
+<li>抽象基类中有的元数据，子模型没有的话，直接继承；</li>
+<li>抽象基类中有的元数据，子模型也有的话，直接覆盖；</li>
+<li>子模型可以额外添加元数据；</li>
+<li>抽象基类中的<code>abstract=True</code>这个元数据不会被继承。也就是说如果想让一个抽象基类的子模型，同样成为一个抽象基类，那你必须显式的在该子模型的<code>Meta</code>中同样声明一个<code>abstract = True</code>；</li>
+<li>有一些元数据对抽象基类无效，比如<code>db_table</code>，首先是抽象基类本身不会创建数据表，其次它的所有子类也不会按照这个元数据来设置表名。</li>
+<li>由于Python继承的工作机制，如果子类继承了多个抽象基类，则默认情况下仅继承第一个列出的基类的<code>Meta</code>选项。如果要从多个抽象基类中继承<code>Meta</code>选项，必须显式地声明 <code>Meta</code>继承。例如：<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CommonInfo</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    name = models.CharField(max_length=<span class="number">100</span>)</span><br><span class="line">    age = models.PositiveIntegerField()</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        abstract = <span class="literal">True</span></span><br><span class="line">        ordering = [<span class="string">'name'</span>]</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Unmanaged</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        abstract = <span class="literal">True</span></span><br><span class="line">        managed = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(CommonInfo, Unmanaged)</span>:</span></span><br><span class="line">    home_group = models.CharField(max_length=<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span><span class="params">(CommonInfo.Meta, Unmanaged.Meta)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></div></figure>
+
+</li>
+</ul>
+<hr>
+
+        <h3 id="1-3-警惕related-name和related-query-name参数"   >
+          <a href="#1-3-警惕related-name和related-query-name参数" class="heading-link"><i class="fas fa-link"></i></a>1.3 警惕related_name和related_query_name参数</h3>
+      <p>如果在你的抽象基类中存在<code>ForeignKey</code>或者<code>ManyToManyField</code>字段，并且使用了<code>related_name</code>或者<code>related_query_name</code>参数，那么一定要小心了。因为按照默认规则，每一个子类都将拥有同样的字段，这显然会导致错误。为了解决这个问题，当你在抽象基类中使用<code>related_name</code>或者<code>related_query_name</code>参数时，它们两者的值中应该包含<code>%(app_label)s</code>和<code>%(class)s</code>部分：</p>
+<ul>
+<li><code>%(class)s</code>用字段所属子类的小写名替换</li>
+<li><code>%(app_label)s</code>用子类所属app的小写名替换</li>
+<li>例如，对于<code>common/models.py</code>模块：<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    m2m = models.ManyToManyField(</span><br><span class="line">    OtherModel,</span><br><span class="line">    related_name=<span class="string">"%(app_label)s_%(class)s_related"</span>,</span><br><span class="line">    related_query_name=<span class="string">"%(app_label)s_%(class)ss"</span>,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        abstract = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ChildA</span><span class="params">(Base)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ChildB</span><span class="params">(Base)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></div></figure>
+
+</li>
+</ul>
+<p>对于另外一个应用中的<code>rare/models.py</code>:</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> common.models <span class="keyword">import</span> Base</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ChildB</span><span class="params">(Base)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></div></figure>
+
+<p>对于上面的继承关系：</p>
+<ul>
+<li><code>common.ChildA.m2m</code>字段的<code>reverse name</code>（反向关系名）应该是<code>common_childa_related</code>；<code>reverse query name</code>(反向查询名)应该是<code>common_childas</code>。</li>
+<li><code>common.ChildB.m2m</code>字段的反向关系名应该是<code>common_childb_related</code>；反向查询名应该是<code>common_childbs</code>。</li>
+<li><code>rare.ChildB.m2m</code>字段的反向关系名应该是<code>rare_childb_related</code>；反向查询名应该是<code>rare_childbs</code>。</li>
+</ul>
+<p>当然，如果你不设置<code>related_name</code>或者<code>related_query_name</code>参数，这些问题就不存在了。</p>
+<hr>
+
+        <h2 id="2-多表继承"   >
+          <a href="#2-多表继承" class="heading-link"><i class="fas fa-link"></i></a>2. 多表继承</h2>
+      
+        <h3 id="2-1-多表继承"   >
+          <a href="#2-1-多表继承" class="heading-link"><i class="fas fa-link"></i></a>2.1 多表继承</h3>
+      <p>这种继承方式下，<code>父类</code>和<code>子类</code>都是独立自主、功能完整、可正常使用的模型，都有自己的数据库表，内部隐含了一个一对一的关系。例如：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Place</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    name = models.CharField(max_length=<span class="number">50</span>)</span><br><span class="line">    address = models.CharField(max_length=<span class="number">80</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Restaurant</span><span class="params">(Place)</span>:</span></span><br><span class="line">    serves_hot_dogs = models.BooleanField(default=<span class="literal">False</span>)</span><br><span class="line">    serves_pizza = models.BooleanField(default=<span class="literal">False</span>)</span><br></pre></td></tr></table></div></figure>
+
+<p><code>Restaurant</code>将包含<code>Place</code>的所有字段，并且各有各的数据库表和字段，比如：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>Place.objects.filter(name=<span class="string">"Bob's Cafe"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>Restaurant.objects.filter(name=<span class="string">"Bob's Cafe"</span>)</span><br></pre></td></tr></table></div></figure>
+
+<p>如果一个<code>Place</code>对象同时也是一个<code>Restaurant</code>对象，你可以使用小写的子类名，在父类中访问它，例如：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>p = Place.objects.get(id=<span class="number">12</span>)</span><br><span class="line"><span class="comment"># 如果p也是一个Restaurant对象，那么下面的调用可以获得该Restaurant对象。</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>p.restaurant</span><br><span class="line">&lt;Restaurant: ...&gt;</span><br></pre></td></tr></table></div></figure>
+
+<p>但是，如果这个<code>Place</code>是个纯粹的<code>Place</code>对象，并不是一个<code>Restaurant</code>对象，那么上面的调用方式会弹出<code>Restaurant.DoesNotExist</code>异常。</p>
+<p>让我们看一组更具体的展示，注意里面的注释内容。</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> app1.models <span class="keyword">import</span> Place, Restaurant  <span class="comment"># 导入两个模型到shell里</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>p1 = Place.objects.create(name=<span class="string">'coff'</span>,address=<span class="string">'address1'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>p1  <span class="comment"># p1是个纯Place对象</span></span><br><span class="line">&lt;Place: Place object&gt;</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>p1.restaurant   <span class="comment"># p1没有restaurant属性</span></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;console&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">  File <span class="string">"C:\Python36\lib\site-packages\django\db\models\fields\related_descriptors.py"</span>, line <span class="number">407</span>, <span class="keyword">in</span> __get__</span><br><span class="line">    self.related.get_accessor_name()</span><br><span class="line">django.db.models.fields.related_descriptors.RelatedObjectDoesNotExist: Place has no restaurant.</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>r1 = Restaurant.objects.create(serves_hot_dogs=<span class="literal">True</span>,serves_pizza=<span class="literal">False</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>r1  <span class="comment"># r1在创建的时候，只赋予了2个字段的值</span></span><br><span class="line">&lt;Restaurant: Restaurant object&gt;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>r1.place <span class="comment"># 不能这么调用</span></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;console&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">AttributeError: <span class="string">'Restaurant'</span> object has no attribute <span class="string">'place'</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>r2 = Restaurant.objects.create(serves_hot_dogs=<span class="literal">True</span>,serves_pizza=<span class="literal">False</span>, name=<span class="string">'pizza'</span>, address=<span class="string">'address2'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>r2  <span class="comment"># r2在创建时，提供了包括Place的字段在内的4个字段</span></span><br><span class="line">&lt;Restaurant: Restaurant object&gt;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>r2.place   <span class="comment"># 可以看出这么调用都是非法的，异想天开的</span></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;console&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">AttributeError: <span class="string">'Restaurant'</span> object has no attribute <span class="string">'place'</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>p2 = Place.objects.get(name=<span class="string">'pizza'</span>) <span class="comment"># 通过name，我们获取到了一个Place对象</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>p2.restaurant  <span class="comment"># 这个P2其实就是前面的r2</span></span><br><span class="line">&lt;Restaurant: Restaurant object&gt;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>p2.restaurant.address</span><br><span class="line"><span class="string">'address2'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>p2.restaurant.serves_hot_dogs</span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lis = Place.objects.all()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lis</span><br><span class="line">&lt;QuerySet [&lt;Place: Place object&gt;, &lt;Place: Place object&gt;, &lt;Place: Place object&gt;]&gt;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lis.values()</span><br><span class="line">&lt;QuerySet [&#123;<span class="string">'id'</span>: <span class="number">1</span>, <span class="string">'name'</span>: <span class="string">'coff'</span>, <span class="string">'address'</span>: <span class="string">'address1'</span>&#125;, &#123;<span class="string">'id'</span>: <span class="number">2</span>, <span class="string">'name'</span>: <span class="string">''</span>, <span class="string">'address'</span>: <span class="string">''</span>&#125;, &#123;<span class="string">'id'</span>: <span class="number">3</span>, <span class="string">'name'</span>: <span class="string">'pizza'</span>, <span class="string">'address'</span>: <span class="string">'address2'</span>&#125;]&gt;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lis[<span class="number">2</span>]</span><br><span class="line">&lt;Place: Place object&gt;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lis[<span class="number">2</span>].serves_hot_dogs</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;console&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">AttributeError: <span class="string">'Place'</span> object has no attribute <span class="string">'serves_hot_dogs'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lis2 = Restaurant.objects.all()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lis2</span><br><span class="line">&lt;QuerySet [&lt;Restaurant: Restaurant object&gt;, &lt;Restaurant: Restaurant object&gt;]&gt;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lis2.values()</span><br><span class="line">&lt;QuerySet [&#123;<span class="string">'id'</span>: <span class="number">2</span>, <span class="string">'name'</span>: <span class="string">''</span>, <span class="string">'address'</span>: <span class="string">''</span>, <span class="string">'place_ptr_id'</span>: <span class="number">2</span>, <span class="string">'serves_hot_dogs'</span>: <span class="literal">True</span>, <span class="string">'serves_pizza'</span>: <span class="literal">False</span>&#125;, &#123;<span class="string">'id'</span>: <span class="number">3</span>, <span class="string">'name'</span>: <span class="string">'pizza'</span>, <span class="string">'address</span></span><br><span class="line"><span class="string">'</span>: <span class="string">'address2'</span>, <span class="string">'place_ptr_id'</span>: <span class="number">3</span>, <span class="string">'serves_hot_dogs'</span>: <span class="literal">True</span>, <span class="string">'serves_pizza'</span>: <span class="literal">False</span>&#125;]&gt;</span><br></pre></td></tr></table></div></figure>
+
+<p>其内部隐含的OneToOne字段，形同下面所示：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">place_ptr = models.OneToOneField(</span><br><span class="line">    Place, on_delete=models.CASCADE,</span><br><span class="line">    parent_link=<span class="literal">True</span>,</span><br><span class="line">)</span><br></pre></td></tr></table></div></figure>
+<p>可以通过创建一个<code>OneToOneField</code>字段并设置<code>parent_link=True</code>，自定义这个一对一字段。</p>
+<p>从上面的API操作展示可以看出，这种继承方式还是有点混乱的，不如抽象基类来得直接明了。</p>
+<hr>
+
+        <h3 id="2-2-Meta和多表继承"   >
+          <a href="#2-2-Meta和多表继承" class="heading-link"><i class="fas fa-link"></i></a>2.2 Meta和多表继承</h3>
+      <p>在多表继承的情况下，由于父类和子类都在数据库内有物理存在的表，父类的<code>Meta</code>类会对子类造成不确定的影响，因此，Django在这种情况下关闭了子类继承父类的<code>Meta</code>功能。这一点和<code>抽象基类</code>的继承方式有所不同。</p>
+<p>但是，还有两个<code>Meta</code>元数据属性特殊一点，那就是<code>ordering</code>和<code>get_latest_by</code>，这两个参数是会被继承的。因此，如果在多表继承中，你不想让你的子类继承父类的上面两种参数，就必须在子类中显示的指出或重写。如下：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ChildModel</span><span class="params">(ParentModel)</span>:</span></span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        <span class="comment"># 移除父类对子类的排序影响</span></span><br><span class="line">        ordering = []</span><br></pre></td></tr></table></div></figure>
+
+<hr>
+
+        <h3 id="2-3-多表继承和反向关联"   >
+          <a href="#2-3-多表继承和反向关联" class="heading-link"><i class="fas fa-link"></i></a>2.3 多表继承和反向关联</h3>
+      <p>因为多表继承使用了一个隐含的<code>OneToOneField</code>来链接子类与父类，所以象上例那样，你可以从父类访问子类。但是这个<code>OnetoOneField</code>字段默认的<code>related_name</code>值与<code>ForeignKey</code>和<code>ManyToManyField</code>默认的反向名称相同。如果你与父类或另一个子类做多对一或是多对多关系，你就必须在每个多对一和多对多字段上强制指定<code>related_name</code>。如果你没这么做，Django就会在你运行或验证(<code>validation</code>)时抛出异常。</p>
+<p>仍以上面<code>Place</code>类为例，我们创建一个带有<code>ManyToManyField</code>字段的子类：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Supplier</span><span class="params">(Place)</span>:</span></span><br><span class="line">    customers = models.ManyToManyField(Place)</span><br></pre></td></tr></table></div></figure>
+
+<p>这会产生下面的错误：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Reverse query name <span class="keyword">for</span> <span class="string">'Supplier.customers'</span> clashes <span class="keyword">with</span> reverse query</span><br><span class="line">name <span class="keyword">for</span> <span class="string">'Supplier.place_ptr'</span>.</span><br><span class="line">HINT: Add <span class="keyword">or</span> change a related_name argument to the definition <span class="keyword">for</span></span><br><span class="line"><span class="string">'Supplier.customers'</span> <span class="keyword">or</span> <span class="string">'Supplier.place_ptr'</span>.</span><br></pre></td></tr></table></div></figure>
+
+<p>解决方法是：向<code>customers</code>字段中添加<code>related_name</code>参数.</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">customers = models.ManyToManyField(Place, related_name=<span class="string">'provider'</span>)。</span><br></pre></td></tr></table></div></figure>
+
+<hr>
+
+        <h2 id="3-代理模型"   >
+          <a href="#3-代理模型" class="heading-link"><i class="fas fa-link"></i></a>3. 代理模型</h2>
+      <p>使用多表继承时，父类的每个子类都会创建一张新数据表，通常情况下，这是我们想要的操作，因为子类需要一个空间来存储不包含在父类中的数据。但有时，你可能只想更改模型在Python层面的行为，比如更改默认的<code>manager</code>管理器，或者添加一个新方法。</p>
+<p><strong>代理模型</strong>就是为此而生的。你可以创建、删除、更新代理模型的实例，并且所有的数据都可以像使用原始模型（非代理类模型）一样被保存。不同之处在于你可以在代理模型中改变默认的排序方式和默认的<code>manager</code>管理器等等，而不会对原始模型产生影响。</p>
+<p>代理模型其实就是给原模型换了件衣服（<code>API</code>），实际操作的还是原来的模型和数据。</p>
+<p>声明一个代理模型只需要将<code>Meta</code>中<code>proxy</code>的值设为<code>True</code>。</p>
+<p>例如你想给Person模型添加一个方法。你可以这样做：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    first_name = models.CharField(max_length=<span class="number">30</span>)</span><br><span class="line">    last_name = models.CharField(max_length=<span class="number">30</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyPerson</span><span class="params">(Person)</span>:</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        proxy = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_something</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># ...</span></span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></div></figure>
+
+<p><code>MyPerson</code>类将操作和<code>Person</code>类同一张数据库表。并且任何新的<code>Person</code>实例都可以通过<code>MyPerson</code>类进行访问，反之亦然。</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>p = Person.objects.create(first_name=<span class="string">"foobar"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>MyPerson.objects.get(first_name=<span class="string">"foobar"</span>)</span><br><span class="line">&lt;MyPerson: foobar&gt;</span><br></pre></td></tr></table></div></figure>
+
+<p>下面的例子通过代理进行排序，但父类却不排序：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OrderedPerson</span><span class="params">(Person)</span>:</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        <span class="comment"># 现在，普通的Person查询是无序的，而OrderedPerson查询会按照`last_name`排序。</span></span><br><span class="line">        ordering = [<span class="string">"last_name"</span>]</span><br><span class="line">        proxy = <span class="literal">True</span></span><br></pre></td></tr></table></div></figure>
+
+<p><strong>一些约束：</strong></p>
+<ul>
+<li>代理模型必须继承自一个非抽象的基类，并且不能同时继承多个非抽象基类；</li>
+<li>代理模型可以同时继承任意多个抽象基类，前提是这些抽象基类没有定义任何模型字段。</li>
+<li>代理模型可以同时继承多个别的代理模型，前提是这些代理模型继承同一个非抽象基类。</li>
+<li>如果你理解透彻了代理模型的本质，那么上面的三条约束是顺理成章的。</li>
+</ul>
+
+        <h3 id="代理模型的管理器"   >
+          <a href="#代理模型的管理器" class="heading-link"><i class="fas fa-link"></i></a>代理模型的管理器</h3>
+      <p>如不指定，则继承父类的管理器。如果你自己定义了管理器，那它就会成为默认管理器，但是父类的管理器依然有效。如下例子：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NewManager</span><span class="params">(models.Manager)</span>:</span></span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyPerson</span><span class="params">(Person)</span>:</span></span><br><span class="line">    objects = NewManager()</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        proxy = <span class="literal">True</span></span><br></pre></td></tr></table></div></figure>
+
+<p>如果你想要向代理中添加新的管理器，而不是替换现有的默认管理器，你可以创建一个含有新的管理器的基类，并在继承时把他放在主基类的后面：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Create an abstract class for the new manager.</span></span><br><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NewManager</span><span class="params">(models.Manager)</span>:</span></span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExtraManagers</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    secondary = NewManager()</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        abstract = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyPerson</span><span class="params">(Person, ExtraManagers)</span>:</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        proxy = <span class="literal">True</span></span><br></pre></td></tr></table></div></figure>
+
+
+        <h2 id="4-多重继承"   >
+          <a href="#4-多重继承" class="heading-link"><i class="fas fa-link"></i></a>4. 多重继承</h2>
+      <p>注意，<strong>多重继承</strong>和<strong>多表继承</strong>是两码事，两个概念。</p>
+<p>Django的模型体系支持多重继承，就像Python一样。如果多个父类都含有<code>Meta</code>类，则只有第一个父类的会被使用，剩下的会忽略掉。</p>
+<p>一般情况，能不要多重继承就不要，尽量让继承关系简单和直接，避免不必要的混乱和复杂。</p>
+<p>请注意，继承同时含有相同id主键字段的类将抛出异常。为了解决这个问题，你可以在基类模型中显式的使用<code>AutoField</code>字段。如下例所示：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Article</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    article_id = models.AutoField(primary_key=<span class="literal">True</span>)</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    book_id = models.AutoField(primary_key=<span class="literal">True</span>)</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookReview</span><span class="params">(Book, Article)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></div></figure>
+
+<p>或者使用一个共同的祖先来持有<code>AutoField</code>字段，并在直接的父类里通过一个<code>OneToOne</code>字段保持与祖先的关系，如下所示：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Piece</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Article</span><span class="params">(Piece)</span>:</span></span><br><span class="line">    article_piece = models.OneToOneField(Piece, on_delete=models.CASCADE, parent_link=<span class="literal">True</span>)</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book</span><span class="params">(Piece)</span>:</span></span><br><span class="line">    book_piece = models.OneToOneField(Piece, on_delete=models.CASCADE, parent_link=<span class="literal">True</span>)</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BookReview</span><span class="params">(Book, Article)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></div></figure>
+
+<p><strong>警告</strong><br>在Python语言层面，子类可以拥有和父类相同的属性名，这样会造成覆盖现象。但是对于Django，如果继承的是一个非抽象基类，那么子类与父类之间不可以有相同的字段名！</p>
+<p>比如下面是不行的！</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    name = models.CharField(max_length=<span class="number">30</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span><span class="params">(A)</span>:</span></span><br><span class="line">    name = models.CharField(max_length=<span class="number">30</span>)</span><br></pre></td></tr></table></div></figure>
+
+<p>如果你执行<code>python manage.py makemigrations</code>会弹出下面的错误：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">django.core.exceptions.FieldError: Local field <span class="string">'name'</span> <span class="keyword">in</span> <span class="class"><span class="keyword">class</span> '<span class="title">B</span>' <span class="title">clashes</span> <span class="title">with</span> <span class="title">field</span> <span class="title">of</span> <span class="title">the</span> <span class="title">same</span> <span class="title">name</span> <span class="title">from</span> <span class="title">base</span> <span class="title">class</span> '<span class="title">A</span>'.</span></span><br></pre></td></tr></table></div></figure>
+
+<p>但是！如果父类是个抽象基类就没有问题，如下：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    name = models.CharField(max_length=<span class="number">30</span>)</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        abstract = <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span><span class="params">(A)</span>:</span></span><br><span class="line">    name = models.CharField(max_length=<span class="number">30</span>)</span><br></pre></td></tr></table></div></figure>
+
+
+        <h2 id="5-用包来组织模型"   >
+          <a href="#5-用包来组织模型" class="heading-link"><i class="fas fa-link"></i></a>5. 用包来组织模型</h2>
+      <p>在我们使用<code>python manage.py startapp xxx</code>命令创建新的应用时，Django会自动帮我们建立一个应用的基本文件组织结构，其中就包括一个<code>models.py</code>文件。通常，我们把当前应用的模型都编写在这个文件里，但是如果你的模型很多，那么将单独的<code>models.py</code>文件分割成一些独立的文件是个更好的做法。</p>
+<p>首先，我们需要在应用中新建一个叫做<code>models</code>的包，再在包下创建一个<code>__init__.py</code>文件，这样才能确立包的身份。然后将<code>models.py</code>文件中的模型分割到一些<code>.py</code>文件中，比如<code>organic.py</code>和<code>synthetic.py</code>，然后删除<code>models.py</code>文件。最后在<code>__init__.py</code>文件中导入所有的模型。如下例所示：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#  myapp/models/__init__.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> .organic <span class="keyword">import</span> Person</span><br><span class="line"><span class="keyword">from</span> .synthetic <span class="keyword">import</span> Robot</span><br></pre></td></tr></table></div></figure>
+
+<p>要显式明确地导入每一个模型，而不要使用<code>from .models import *</code>的方式，这样不会混淆命名空间，让代码更可读，更容易被分析工具使用。</p>
+<blockquote>
+<p>原文章链接：<span class="exturl"><a class="exturl__link"   href="https://www.liujiangblog.com/course/django/100"  target="_blank" rel="noopener">https://www.liujiangblog.com/course/django/100</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+</blockquote>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://jeremy-zjl.github.io">Jeremy-ZJL</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://jeremy-zjl.github.io/2020/10/25/django-5/">https://jeremy-zjl.github.io/2020/10/25/django-5/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://jeremy-zjl.github.io/tags/Python/">Python</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://jeremy-zjl.github.io/tags/Django/">Django</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://jeremy-zjl.github.io/tags/%E5%9F%BA%E7%A1%80/">基础</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://jeremy-zjl.github.io/tags/%E7%AC%94%E8%AE%B0/">笔记</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2020/12/08/Python%E5%9F%BA%E7%A1%80%E4%B8%A8%E7%9B%B4%E6%8E%A5%E8%B5%8B%E5%80%BC%E3%80%81%E6%B5%85%E6%8B%B7%E8%B4%9D%E5%92%8C%E6%B7%B1%E6%8B%B7%E8%B4%9D%E8%A7%A3%E6%9E%90/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">Python基础丨直接赋值、浅拷贝和深拷贝解析</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2020/10/22/Django%E4%B8%A8%E6%A8%A1%E7%89%88%E5%B1%82%20-%204.%20%E5%AD%97%E6%AE%B5%E5%8F%82%E6%95%B0/"><span class="paginator-prev__text">Django丨模版层 - 4. 字段参数</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div><div class="comments" id="comments"><div id="gitalk-container"></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Django丨模版层-5-模型的继承"><span class="toc-text">
+          Django丨模版层 - 5. 模型的继承</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-抽象基类"><span class="toc-text">
+          1. 抽象基类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-抽象基类"><span class="toc-text">
+          1.1 抽象基类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-抽象基类-の-Meta数据："><span class="toc-text">
+          1.2 抽象基类 の Meta数据：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-警惕related-name和related-query-name参数"><span class="toc-text">
+          1.3 警惕related_name和related_query_name参数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-多表继承"><span class="toc-text">
+          2. 多表继承</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-多表继承"><span class="toc-text">
+          2.1 多表继承</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-Meta和多表继承"><span class="toc-text">
+          2.2 Meta和多表继承</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-多表继承和反向关联"><span class="toc-text">
+          2.3 多表继承和反向关联</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-代理模型"><span class="toc-text">
+          3. 代理模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#代理模型的管理器"><span class="toc-text">
+          代理模型的管理器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-多重继承"><span class="toc-text">
+          4. 多重继承</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-用包来组织模型"><span class="toc-text">
+          5. 用包来组织模型</span></a></li></ol></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/icons/j-icon-144.png" alt="avatar"></div><p class="sidebar-ov-author__text">write code and love life</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/" target="_blank" rel="noopener" data-popover="Github" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span></a><a class="sidebar-ov-social-item" href="https://plus.google.com/" target="_blank" rel="noopener" data-popover="Google" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-google"></i></span></a><a class="sidebar-ov-social-item" href="https://www.zhihu.com/" target="_blank" rel="noopener" data-popover="知乎" data-popover-pos="up"><span class="sidebar-ov-social-item__icon">知</span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">25</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">7</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">19</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2020</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Jeremy All Rights Reserved</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v4.2.1</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.0.1</span></div><div class="busuanzi"><span class="busuanzi-siteuv"><span class="busuanzi-siteuv__icon"><i class="fas fa-user"></i></span><span class="busuanzi-siteuv__info">访问人数</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_uv"></span></span><span class="busuanzi-sitepv"><span class="busuanzi-siteuv__icon"><i class="fas fa-eye"></i></span><span class="busuanzi-siteuv__info">浏览总量</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="200" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1.0.1/dist/canvas-nest.min.js" color="0,0,0" opacity="0.6" count="180" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/npm/pjax@latest/pjax.min.js"></script><script>window.addEventListener('DOMContentLoaded', function () {
+  var pjax = new Pjax({"selectors":["head title","#main",".pjax-reload",".header-inner"],"history":true,"scrollTo":false,"scrollRestoration":false,"cacheBust":false,"debug":false,"currentUrlFullReload":false,"timeout":0});
+  // 加载进度条的计时器
+  var loadingTimer = null;
+
+  // 重置页面 Y 方向上的滚动偏移量
+  document.addEventListener('pjax:send', function () {
+    $('.header-nav-menu').removeClass('show');
+    if (CONFIG.pjax && CONFIG.pjax.avoidBanner) {
+      $('html').velocity('scroll', {
+        duration: 500,
+        offset: $('#header').height(),
+        easing: 'easeInOutCubic'
+      });
+    }
+
+    var loadingBarWidth = 20;
+    var MAX_LOADING_WIDTH = 95;
+
+    $('.loading-bar').addClass('loading');
+    $('.loading-bar__progress').css('width', loadingBarWidth + '%');
+    clearInterval(loadingTimer);
+    loadingTimer = setInterval(function () {
+      loadingBarWidth += 3;
+      if (loadingBarWidth > MAX_LOADING_WIDTH) {
+        loadingBarWidth = MAX_LOADING_WIDTH;
+      }
+      $('.loading-bar__progress').css('width', loadingBarWidth + '%');
+    }, 500);
+  }, false);
+
+  window.addEventListener('pjax:complete', function () {
+    clearInterval(loadingTimer);
+    $('.loading-bar__progress').css('width', '100%');
+    $('.loading-bar').removeClass('loading');
+    setTimeout(function () {
+      $('.loading-bar__progress').css('width', '0');
+    }, 400);
+    $('link[rel=prefetch], script[data-pjax-rm]').each(function () {
+      $(this).remove();
+    });
+    $('script[data-pjax], #pjax-reload script').each(function () {
+      $(this).parent().append($(this).remove());
+    });
+
+    if (Stun.utils.pjaxReloadBoot) {
+      Stun.utils.pjaxReloadBoot();
+    }
+    if (Stun.utils.pjaxReloadScroll) {
+      Stun.utils.pjaxReloadScroll();
+    }
+    if (Stun.utils.pjaxReloadSidebar) {
+      Stun.utils.pjaxReloadSidebar();
+    }
+    if (true) {
+      if (Stun.utils.pjaxReloadHeader) {
+        Stun.utils.pjaxReloadHeader();
+      }
+      if (Stun.utils.pjaxReloadScrollIcon) {
+        Stun.utils.pjaxReloadScrollIcon();
+      }
+      if (Stun.utils.pjaxReloadLocalSearch) {
+        Stun.utils.pjaxReloadLocalSearch();
+      }
+    }
+  }, false);
+}, false);</script><div id="pjax-reload"><script src="https://cdn.jsdelivr.net/npm/quicklink@1.0.1/dist/quicklink.umd.js"></script><script>function initQuicklink() {
+  quicklink({
+    timeout: '10000',
+    priority: true,
+    ignores: [uri => uri.includes('#'), uri => uri === 'https://jeremy-zjl.github.io/2020/10/25/django-5/', /\/api\/?/,uri => uri.includes('.xml'),uri => uri.includes('.zip'),(uri, el) => el.hasAttribute('nofollow'),(uri, el) => el.hasAttribute('noprefetch')]
+  });
+}
+
+if (true || false) {
+  initQuicklink();
+} else {
+  window.addEventListener('DOMContentLoaded', initQuicklink, false);
+}</script><script src="https://cdn.jsdelivr.net/gh/sukkaw/busuanzi@latest/bsz.pure.mini.js" async></script></div><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js" data-pjax=""></script><script src="https://cdn.jsdelivr.net/npm/js-md5@latest/src/md5.min.js" data-pjax=""></script><script data-pjax="">function loadGitalk () {
+  if (!document.getElementById('gitalk-container')) {
+    return;
+  }
+
+  var gitalk = new Gitalk({
+    id: md5(window.location.pathname.slice(1)),
+    clientID: '5eed14a18152a05fd25d',
+    clientSecret: '4d8cb9ed6f2b02a76e3009589875a2b81963c2aa',
+    repo: 'Jeremy-ZJL.github.io',
+    owner: 'Jeremy-ZJL',
+    admin: ['Jeremy-ZJL'],
+    distractionFreeMode: 'true',
+    language: 'zh-CN'
+  });
+  gitalk.render('gitalk-container');
+}
+
+if (true) {
+  loadGitalk();
+} else {
+  window.addEventListener('DOMContentLoaded', loadGitalk, false);
+}</script><script src="/js/utils.js?v=2.0.1"></script><script src="/js/stun-boot.js?v=2.0.1"></script><script src="/js/scroll.js?v=2.0.1"></script><script src="/js/header.js?v=2.0.1"></script><script src="/js/sidebar.js?v=2.0.1"></script></body></html>
