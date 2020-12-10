@@ -1,0 +1,483 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/j-icon-16.png?v=2.0.1" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/j-icon-32.png?v=2.0.1" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="/images/icons/j-icon-192.png?v=2.0.1" sizes="180x180"><link rel="mask-icon" href="/images/icons/j-icon-96.png?v=2.0.1" color="#54bcff"><meta name="msapplication-TileImage" content="/images/icons/j-icon-144.png"><meta name="msapplication-TileColor" content="#000000"><meta name="google-site-verification" content="wmgiquHvFLol6wowL0KAwg0WI7DkfhhVJ3r0_QRPk-g"><meta name="baidu-site-verification" content="code-nyFNxfLcDt"><meta name="360-site-verification" content="0d8d7a290d96dfee3f3c05e8e0500347"><meta name="description" content="在Django的模型字段参数中，有一个参数叫做&#96;validators&#96;，这个参数是用来指定当前字段需要使用的&#96;验证器&#96;，也就是对字段数据的合法性进行验证，比如大小、类型等。Django的验证器可以分为**模型相关**的验证器和**表单相关**的验证器，它们基本类似，但在使用上有区别。本文讨论的是**模型相关**的验证器。## 1. 自定义验证器一个验证器其实就是一个可调用的对象（函数或类），接收一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django丨模版层 - 7. 验证器">
+<meta property="og:url" content="https://jeremy-zjl.github.io/2020/11/01/django-mbc-7/index.html">
+<meta property="og:site_name" content="Jeremy-ZJL&#39;s Blog">
+<meta property="og:description" content="在Django的模型字段参数中，有一个参数叫做&#96;validators&#96;，这个参数是用来指定当前字段需要使用的&#96;验证器&#96;，也就是对字段数据的合法性进行验证，比如大小、类型等。Django的验证器可以分为**模型相关**的验证器和**表单相关**的验证器，它们基本类似，但在使用上有区别。本文讨论的是**模型相关**的验证器。## 1. 自定义验证器一个验证器其实就是一个可调用的对象（函数或类），接收一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jeremy-zjl.github.io/images/py-png/django-mbc-7-add_my_model.png">
+<meta property="article:published_time" content="2020-11-01T09:23:16.000Z">
+<meta property="article:modified_time" content="2020-11-01T09:23:16.000Z">
+<meta property="article:author" content="Jeremy-ZJL">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Django">
+<meta property="article:tag" content="基础">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://jeremy-zjl.github.io/images/py-png/django-mbc-7-add_my_model.png"><meta name="keywords" content="Jeremy-ZJL, Jeremy-ZJL's Blog"><meta name="description" content="Jeremy-ZJL's Blog"><title>Django丨模版层 - 7. 验证器 | Jeremy-ZJL's Blog</title><link ref="canonical" href="https://jeremy-zjl.github.io/2020/11/01/django-mbc-7/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.0.1"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="dns-prefetch" href="https://hm.baidu.com"><script src="https://www.googletagmanager.com/gtag/js?id=183330495" async="" data-pjax=""></script><script data-pjax="">if (window.location.hostname !== 'localhost') {
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', '183330495');
+}</script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement('script');
+  hm.src = 'https://hm.baidu.com/hm.js?77b4b897986a377c76b267d13173877e';
+  hm.async = true;
+
+  if (true) {
+    hm.setAttribute('data-pjax', '');
+  }
+  var s = document.getElementsByTagName('script')[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: undefined,
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"ocean","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: {"avoidBanner":false},
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 4.2.1"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner header-inner--height header-inner--bgcolor"><nav class="header-nav header-nav--sticky"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="javascript:;" onclick="return false;"><span class="header-nav-menu-item__icon"><i class="fas fa-angle-double-down"></i></span><span class="header-nav-menu-item__text">其它</span></a><div class="header-nav-submenu"><div class="header-nav-submenu-item"><a class="header-nav-submenu-item__link" href="/xxx1-1/"><span class="header-nav-submenu-item__icon"><i class="fa(s|r|l|d|b) fa-xxx"></i></span><span class="header-nav-submenu-item__text">其它-1</span></a></div><div class="header-nav-submenu-item"><a class="header-nav-submenu-item__link" href="/xxx1-2/"><span class="header-nav-submenu-item__icon"><i class="fa(s|r|l|d|b) fa-xxx"></i></span><span class="header-nav-submenu-item__text">其它-2</span></a></div></div></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">Django丨模版层 - 7. 验证器</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2020-11-01</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2020-11-01</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">3.7k</span></span><span class="post-meta-item post-meta-item--visitors"><span class="post-meta-item__icon"><i class="fas fa-eye"></i></span><span class="post-meta-item__info">阅读次数</span><span class="post-meta-item__value" id="busuanzi_value_page_pv"></span></span></div></header><div class="post-body">
+        <h1 id="Django丨模版层-7-验证器"   >
+          <a href="#Django丨模版层-7-验证器" class="heading-link"><i class="fas fa-link"></i></a>Django丨模版层 - 7. 验证器</h1>
+      <p>在Django的模型字段参数中，有一个参数叫做<code>validators</code>，这个参数是用来指定当前字段需要使用的<code>验证器</code>，也就是对字段数据的合法性进行验证，比如大小、类型等。</p>
+<p>Django的验证器可以分为<strong>模型相关</strong>的验证器和<strong>表单相关</strong>的验证器，它们基本类似，但在使用上有区别。</p>
+<p>本文讨论的是<strong>模型相关</strong>的验证器。</p>
+
+        <h2 id="1-自定义验证器"   >
+          <a href="#1-自定义验证器" class="heading-link"><i class="fas fa-link"></i></a>1. 自定义验证器</h2>
+      <p>一个验证器其实就是一个可调用的对象（函数或类），接收一个初始输入值作为参数，对这个值进行一系列逻辑判断，如果不满足某些规则或者条件，则表示验证不通过，抛出一个<code>ValidationError</code>异常。如果满足条件则通过验证，不返回任何内容（也就是默认的<code>return None</code>），可以继续下一步。</p>
+<p>验证器具有重要作用，可以被重用在别的字段上，是工具类型的逻辑封装。</p>
+<p>下面是一个验证器的例子，它只允许偶数通过验证：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.core.exceptions <span class="keyword">import</span> ValidationError</span><br><span class="line"><span class="keyword">from</span> django.utils.translation <span class="keyword">import</span> gettext_lazy <span class="keyword">as</span> _</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">validate_even</span><span class="params">(value)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> value % <span class="number">2</span> != <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">raise</span> ValidationError(</span><br><span class="line">            _(<span class="string">'%(value)s is not an even number'</span>),</span><br><span class="line">            params=&#123;<span class="string">'value'</span>: value&#125;,</span><br><span class="line">        )</span><br></pre></td></tr></table></div></figure>
+
+<p>通过下面的方式，将偶数验证器应用在字段上：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyModel</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    even_field = models.IntegerField(validators=[validate_even])</span><br></pre></td></tr></table></div></figure>
+
+<p>因为验证器运行之前，（输入的）数据会被转换为Python对象，因此我们可以将同样的验证器用在<code>Django form</code>表单中（事实上Django为表单提供了另外一些验证器）：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django <span class="keyword">import</span> forms</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyForm</span><span class="params">(forms.Form)</span>:</span></span><br><span class="line">    even_field = forms.IntegerField(validators=[validate_even])</span><br></pre></td></tr></table></div></figure>
+
+<p>你还可以通过Python的魔法方法<code>__cal__()</code>编写更复杂的可配置的验证器，比如Django内置的<code>RegexValidator</code>验证器就是这么干的。</p>
+<p>验证器也可以是一个类，但这时候就比较复杂了，需要确保它可以被迁移框架序列化，确保编写了<code>deconstruction()</code>和<code>__eq__()</code>方法。这种做法很难找到参考文献和博文，要靠自己摸索或者研究DJango源码。</p>
+<hr>
+
+        <h2 id="2-工作机制"   >
+          <a href="#2-工作机制" class="heading-link"><i class="fas fa-link"></i></a>2. 工作机制</h2>
+      <p>让我们来测试一下上面写的验证器：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> .models <span class="keyword">import</span> MyModel</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = MyModel.objects.create(even_field=<span class="number">3</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">&lt;MyModel: MyModel object (<span class="number">1</span>)&gt;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a.even_field</span><br><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></div></figure>
+
+<p>什么？！！！不是说只有偶数才能通过验证吗？这里我提供了数字3，可是为什么创建成功了？？</p>
+<p>我们接着在admin站点中注册<code>MyModel</code>模型，然后在图形化界面后台中创建<code>MyModel</code>的实例，你会发现这个时候验证器起作用了，奇数是无法通过表单验证的！</p>
+<p><img src="/images/py-png/django-mbc-7-add_my_model.png" alt="django-mbc-7-add_my_model.png"></p>
+<p>为什么会这样？？</p>
+<p>这就要从Django的源码说起！</p>
+<p>Django是这么设计的：</p>
+<ul>
+<li>模型的验证器不会在调用<code>save()</code>方法的时候自动执行</li>
+<li>表单的验证器会在调用<code>save()</code>方法的时候自动执行</li>
+</ul>
+<p>为什么这么设计？个人猜测，Django官方为了序列化、链式调用等功能的兼容性，没有自动进行验证操作。</p>
+<p>这个设计在源码中是怎么体现的？</p>
+<ul>
+<li>Django的模型相关源码中，没有<code>is_valid()</code>方法，也不会自动调用<code>full_clean()</code>方法，所以Django不会自动进行模型验证。但是它依然提供了四个重要的验证方法，也就是<code>full_clean()</code>、<code>clean_fields()</code>、<code>clean()</code>和<code>validate_unique()</code>，一会细说</li>
+<li>Django的表单系统<code>forms</code>的相关源码中，表单在<code>save</code>之前会自动执行一个<code>is_valid()</code>方法，这个方法里会调用验证器。</li>
+</ul>
+<p>下面介绍Django模型的验证步骤和四个方法：</p>
+<p><strong>模型验证的步骤</strong>：</p>
+<ul>
+<li>如果你手动调用了<code>full_clean()</code>方法，那么会依次自动调用下面的三个方法<ul>
+<li><code>clean_fields()</code>：验证各个字段的合法性</li>
+<li><code>clean()</code>：验证模型级别的合法性</li>
+<li><code>validate_unique()</code>：验证字段的独一无二性</li>
+</ul>
+</li>
+</ul>
+<p>本质上，后面三个方法是具体实现，<code>full_clean()</code>是领头羊，实际操作中，你完全可以具体使用其中一个或多个。用了<code>full_clean()</code>就等于后面三个都用。</p>
+<hr>
+
+        <h3 id="2-1-full-clean"   >
+          <a href="#2-1-full-clean" class="heading-link"><i class="fas fa-link"></i></a>2.1 full_clean()</h3>
+      <ul>
+<li><code>full_clean()</code>  <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">签名：Model.full_clean(exclude=<span class="literal">None</span>, validate_unique=<span class="literal">True</span>)</span><br></pre></td></tr></table></div></figure>
+<ul>
+<li><code>exclude</code>用于指定某些字段不进行验证，也就是所谓的例外字段</li>
+<li><code>validate_unique</code>用于指定是否调用<code>validate_unique()</code>方法</li>
+</ul>
+</li>
+</ul>
+<p>让我们看下它的源代码：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">full_clean</span><span class="params">(self, exclude=None, validate_unique=True)</span>:</span></span><br><span class="line"></span><br><span class="line">    errors = &#123;&#125;</span><br><span class="line">    <span class="keyword">if</span> exclude <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        exclude = []</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        exclude = list(exclude)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        self.clean_fields(exclude=exclude)    <span class="comment">#1</span></span><br><span class="line">    <span class="keyword">except</span> ValidationError <span class="keyword">as</span> e:</span><br><span class="line">        errors = e.update_error_dict(errors)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        self.clean()    <span class="comment">#2</span></span><br><span class="line">    <span class="keyword">except</span> ValidationError <span class="keyword">as</span> e:</span><br><span class="line">        errors = e.update_error_dict(errors)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> validate_unique:</span><br><span class="line">        <span class="keyword">for</span> name <span class="keyword">in</span> errors:</span><br><span class="line">            <span class="keyword">if</span> name != NON_FIELD_ERRORS <span class="keyword">and</span> name <span class="keyword">not</span> <span class="keyword">in</span> exclude:</span><br><span class="line">                exclude.append(name)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            self.validate_unique(exclude=exclude)   <span class="comment">#3</span></span><br><span class="line">        <span class="keyword">except</span> ValidationError <span class="keyword">as</span> e:</span><br><span class="line">            errors = e.update_error_dict(errors)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> errors:</span><br><span class="line">        <span class="keyword">raise</span> ValidationError(errors)</span><br></pre></td></tr></table></div></figure>
+<p>可以看出，它依次调用了其它三个方法，如果最后的<code>errors</code>中有内容，则抛出<code>ValidationError</code>异常。</p>
+<p>我们最好不要去修改<code>full_clean()</code>方法的源代码，一般也不用重写它，直接调用即可。</p>
+<p>模型的<code>save()</code>方法不会自动调用<code>full_clean()</code>方法，你必须手动调用。</p>
+<p>如果调用验证器后，抛出<code>ValidationError</code>异常，Django会将所有的异常信息放置在<code>e.message_dict</code>字典中供使用。比如下面的例子：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在视图中我们可以这么做</span></span><br><span class="line"><span class="keyword">from</span> django.core.exceptions <span class="keyword">import</span> ValidationError</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    article.full_clean()</span><br><span class="line"><span class="keyword">except</span> ValidationError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="comment"># 在这里做一些异常处理操作</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></div></figure>
+
+<p>在模型定义中我们可以如下重写<code>save()</code>方法，实现自动验证功能，不需要在视图中反复调用了：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># models.py</span></span><br><span class="line"><span class="keyword">from</span> django.core.exceptions <span class="keyword">import</span> ValidationError</span><br><span class="line"><span class="keyword">from</span> django.utils.translation <span class="keyword">import</span> gettext_lazy <span class="keyword">as</span> _</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">validate_even</span><span class="params">(value)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> value % <span class="number">2</span> != <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">raise</span> ValidationError(</span><br><span class="line">            _(<span class="string">'%(value)s is not an even number'</span>),</span><br><span class="line">            params=&#123;<span class="string">'value'</span>: value&#125;,</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyModel</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    even_field = models.IntegerField(validators=[validate_even])</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">save</span><span class="params">(self, *args, **kwargs)</span>:</span>   <span class="comment"># 重写save方法是关键</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            self.full_clean()   </span><br><span class="line">            super().save(*args, **kwargs)</span><br><span class="line">        <span class="keyword">except</span> ValidationError <span class="keyword">as</span> e:</span><br><span class="line">            print(<span class="string">'模型验证没通过： %s'</span> % e.message_dict)</span><br></pre></td></tr></table></div></figure>
+
+<p>执行过程展示：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> .models <span class="keyword">import</span> MyModel</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = MyModel.objects.create(even_field=<span class="number">5</span>)</span><br><span class="line">模型验证没通过：  &#123;<span class="string">'even_field'</span>: [<span class="string">'5 is not an even number'</span>]&#125;</span><br></pre></td></tr></table></div></figure>
+
+<p>这样，我们就实现了自动的模型验证。</p>
+<p>小技巧：可以通过打印<code>e</code>来查看，Django怎么封装的错误信息，给我们提供了哪些键值，比如上例中，我们可以使用<code>e.message_dict[&#39;even_field&#39;]</code>。</p>
+<hr>
+
+        <h3 id="2-2-clean-fields"   >
+          <a href="#2-2-clean-fields" class="heading-link"><i class="fas fa-link"></i></a>2.2 clean_fields()</h3>
+      <ul>
+<li><code>clean_fields()</code>  <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">签名：Model.clean_fields(exclude=<span class="literal">None</span>)</span><br></pre></td></tr></table></div></figure>
+
+</li>
+</ul>
+<p>参数同上，看下它的源代码：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">clean_fields</span><span class="params">(self, exclude=None)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> exclude <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        exclude = []</span><br><span class="line"></span><br><span class="line">    errors = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> f <span class="keyword">in</span> self._meta.fields:</span><br><span class="line">        <span class="keyword">if</span> f.name <span class="keyword">in</span> exclude:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">        raw_value = getattr(self, f.attname)</span><br><span class="line">        <span class="keyword">if</span> f.blank <span class="keyword">and</span> raw_value <span class="keyword">in</span> f.empty_values:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            setattr(self, f.attname, f.clean(raw_value, self))  <span class="comment">#核心是这一句</span></span><br><span class="line">        <span class="keyword">except</span> ValidationError <span class="keyword">as</span> e:</span><br><span class="line">            errors[f.name] = e.error_list</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> errors:</span><br><span class="line">        <span class="keyword">raise</span> ValidationError(errors)</span><br></pre></td></tr></table></div></figure>
+
+<p>我们最好也不要去修改和重写它的源代码。</p>
+<p>这个方法本质上就是循环模型中的所有字段，找出其中定义了验证器的那些，并执行它们。</p>
+<p>我们前面自定义的偶数验证器，其实就是在这里被调用的。</p>
+<hr>
+
+        <h3 id="2-3-clean"   >
+          <a href="#2-3-clean" class="heading-link"><i class="fas fa-link"></i></a>2.3 clean()</h3>
+      <ul>
+<li><code>clean()</code></li>
+</ul>
+<p>这个方法很特别，我们看看它的源代码：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">clean</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Hook for doing any extra model-wide validation after clean() has been</span></span><br><span class="line"><span class="string">    called on every field by self.clean_fields. Any ValidationError raised</span></span><br><span class="line"><span class="string">    by this method will not be associated with a particular field; it will</span></span><br><span class="line"><span class="string">    have a special-case association with the field defined by NON_FIELD_ERRORS.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></div></figure>
+
+<p>什么都没有！实际上，这个方法是给你留了个钩子，你需要重写它，然后在里面编写模型级别的验证，比如修改模型的属性，以及跨字段相关的验证逻辑。</p>
+<p>下面我们通过一个例子来展示它的用法：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> django.core.exceptions <span class="keyword">import</span> ValidationError</span><br><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"><span class="keyword">from</span> django.utils.translation <span class="keyword">import</span> gettext_lazy <span class="keyword">as</span> _</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Article</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    content = models.TextField()</span><br><span class="line">    status = models.CharField(max_length=<span class="number">32</span>)</span><br><span class="line">    pub_date = models.DateField(blank=<span class="literal">True</span>, null=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">clean</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># 不允许草稿文章具有发布日期字段</span></span><br><span class="line">        <span class="keyword">if</span> self.status == <span class="string">'草稿'</span> <span class="keyword">and</span> self.pub_date <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">raise</span> ValidationError(_(<span class="string">'草稿文章尚未发布，不应该有发布日期！'</span>))</span><br><span class="line">        <span class="comment"># 如果已发布的文章还没有设置发布日期，则将发布日期设置为当天</span></span><br><span class="line">        <span class="keyword">if</span> self.status == <span class="string">'已发布'</span> <span class="keyword">and</span> self.pub_date <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            self.pub_date = datetime.date.today()</span><br></pre></td></tr></table></div></figure>
+
+<p>说明：</p>
+<ul>
+<li><code>gettext_lazy</code>在这里无关紧要</li>
+<li>在<code>Article</code>模型中重写了<code>clean</code>方法，它不需要接受其它参数</li>
+<li>第一个<code>if</code>判断，不允许草稿文章具有发布日期字段。如果你提供了，对不起，抛出<code>ValidationError</code>异常</li>
+<li>第二个<code>if</code>判断，如果已发布的文章还没有设置发布日期，则将发布日期设置为当天</li>
+<li>这是一个跨字段的，全局性的验证方法，它不像我们一开始自定义的验证器那样，不是作为一个验证器参数进行提供，而是写在<code>clean</code>方法中了，一定要注意区别。</li>
+</ul>
+<p><code>clean()</code>方法写好了，我们就可以在<code>Article</code>模型中重写<code>save()</code>方法了：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">from</span> django.core.exceptions <span class="keyword">import</span> NON_FIELD_ERRORS</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        self.full_clean()</span><br><span class="line">        super().save(*args, **kwargs)</span><br><span class="line">    <span class="keyword">except</span> ValidationError <span class="keyword">as</span> e:</span><br><span class="line">        print(<span class="string">'验证没通过： %s'</span> % e.message_dict[NON_FIELD_ERRORS])</span><br></pre></td></tr></table></div></figure>
+
+<p>注意：这里我们导入了<code>NON_FIELD_ERRORS</code>，在最后打印了<code>e.message_dict[NON_FIELD_ERRORS]</code>，这是为什么呢？</p>
+<p>因为，<code>clean()</code>中编写的都是模型级别、跨字段的验证方法，没有具体和某个字段绑定，所以Django提供了一个<code>NON_FIELD_ERRORS</code>关键字，用来说明这不是某个字段引起的异常，而是非字段相关的错误。</p>
+<p>如果你非要将错误定位到某个具体的字段，也不是不可以的，如下例子所示：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Article</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">clean</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.status == <span class="string">'草稿'</span> <span class="keyword">and</span> self.pub_date <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">raise</span> ValidationError(&#123;<span class="string">'pub_date'</span>: _(<span class="string">'草稿文章尚未发布，不应该有发布日期！'</span>)&#125;)</span><br><span class="line">        ...</span><br></pre></td></tr></table></div></figure>
+
+<p>甚至，你可以如下方式，映射字段和错误信息：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">raise</span> ValidationError(&#123;</span><br><span class="line">    <span class="string">'title'</span>: ValidationError(_(<span class="string">'Missing title.'</span>), code=<span class="string">'required'</span>),</span><br><span class="line">    <span class="string">'pub_date'</span>: ValidationError(_(<span class="string">'Invalid date.'</span>), code=<span class="string">'invalid'</span>),</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></div></figure>
+
+<p>这些技巧，本质上就是给<code>ValidationError</code>异常类提供信息参数。</p>
+<hr>
+
+        <h3 id="2-4-validate-unique"   >
+          <a href="#2-4-validate-unique" class="heading-link"><i class="fas fa-link"></i></a>2.4 validate_unique()</h3>
+      <ul>
+<li><code>validate_unique()</code>  <figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">签名：Model.validate_unique(exclude=<span class="literal">None</span>)</span><br></pre></td></tr></table></div></figure>
+
+</li>
+</ul>
+<p>它的源代码也很简单：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">validate_unique</span><span class="params">(self, exclude=None)</span>:</span></span><br><span class="line"></span><br><span class="line">    unique_checks, date_checks = self._get_unique_checks(exclude=exclude)</span><br><span class="line"></span><br><span class="line">    errors = self._perform_unique_checks(unique_checks)</span><br><span class="line">    date_errors = self._perform_date_checks(date_checks)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> k, v <span class="keyword">in</span> date_errors.items():</span><br><span class="line">        errors.setdefault(k, []).extend(v)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> errors:</span><br><span class="line">        <span class="keyword">raise</span> ValidationError(errors)</span><br></pre></td></tr></table></div></figure>
+
+<p>这个方法类似<code>clean_fields()</code>，只不过它只用来验证模型中的唯一性约束是否满足，而不是字段的值是否满足验证需求。</p>
+<p>如果你提供了<code>exclude</code>参数，那么该参数包含的所有字段都不会进行唯一性验证。</p>
+<p>我们最好也不要去修改和重写它的源代码。</p>
+<hr>
+
+        <h3 id="2-5-总结"   >
+          <a href="#2-5-总结" class="heading-link"><i class="fas fa-link"></i></a>2.5 总结</h3>
+      <p>Django中模型验证器的使用套路：</p>
+<ul>
+<li>编写字段级别的验证器，在字段中作为参数指定</li>
+<li>或者编写<code>clean()</code>方法，实现模型级别、跨字段的验证功能</li>
+<li>重写<code>save()</code>方法，调用<code>full_clean()</code>，实现全自动的验证</li>
+<li>或者在视图中，通过模型实例调用<code>full_clean()</code>方法，实现手动验证</li>
+</ul>
+
+        <h2 id="3-内置验证器"   >
+          <a href="#3-内置验证器" class="heading-link"><i class="fas fa-link"></i></a>3. 内置验证器</h2>
+      <p>验证器的作用很重要，需求也很广泛，Django为此内置了一些验证器，我们直接拿来使用即可：</p>
+
+        <h3 id="3-1-RegexValidator"   >
+          <a href="#3-1-RegexValidator" class="heading-link"><i class="fas fa-link"></i></a>3.1 RegexValidator</h3>
+      <p>这是正则匹配验证器。用于对输入的值进行正则搜索，如果命中，则平安无事，如果没命中则弹出<code>ValidationError</code>异常。</p>
+<p>数字签名：<code>class RegexValidator(regex=None, message=None, code=None, inverse_match=None, flags=0)</code></p>
+<p>参数说明：</p>
+<ul>
+<li><code>regex</code>：用于匹配的正则表达式</li>
+<li><code>message</code>：自定义异常错误信息。默认是”<code>Enter a valid value</code>“</li>
+<li><code>code</code>：自定义错误码。默认是”<code>invalid</code>“</li>
+<li><code>inverse_match</code>：将通过和不通过验证的判断逻辑反转。也就是未命中则平安，命中则出错。</li>
+<li><code>flags</code>：编译正则表达式时使用的正则<code>flags</code>。默认为<code>0</code>。</li>
+</ul>
+
+        <h3 id="3-2-EmailValidator"   >
+          <a href="#3-2-EmailValidator" class="heading-link"><i class="fas fa-link"></i></a>3.2 EmailValidator</h3>
+      <p>数字签名：<code>class EmailValidator(message=None, code=None, whitelist=None)</code></p>
+<p>邮件格式验证器。</p>
+<p>参数说明：</p>
+<ul>
+<li><code>message</code>：自定义错误信息，默认为 “<code>Enter a valid email address</code>“。</li>
+<li><code>code</code>：自定义错误码，默认为”<code>invalid</code>“。</li>
+<li><code>whitelist</code>：邮件域名白名单，默认为[‘localhost’]。</li>
+</ul>
+
+        <h3 id="3-3-URLValidator"   >
+          <a href="#3-3-URLValidator" class="heading-link"><i class="fas fa-link"></i></a>3.3 URLValidator</h3>
+      <p>数字签名：<code>class URLValidator(schemes=None, regex=None, message=None, code=None)</code></p>
+<p><code>RegexValidator</code>的子类，用于验证<code>url</code>的格式是否正确。</p>
+<ul>
+<li><code>schemes</code>：指定<code>URL/URI</code>的协议模式，默认值为<code>[&#39;http&#39;, &#39;https&#39;, &#39;ftp&#39;, &#39;ftps&#39;]</code></li>
+</ul>
+
+        <h3 id="3-4-validate-email"   >
+          <a href="#3-4-validate-email" class="heading-link"><i class="fas fa-link"></i></a>3.4 validate_email</h3>
+      <p><code>EmailValidator</code>的一个实例，未做任何自定义。</p>
+
+        <h3 id="3-5-validate-slug"   >
+          <a href="#3-5-validate-slug" class="heading-link"><i class="fas fa-link"></i></a>3.5 validate_slug</h3>
+      <p>一个确保输入值是字母、数字、下划线和连字符组合的<code>RegexValidator</code>的实例。</p>
+
+        <h3 id="3-6-validate-unicode-slug"   >
+          <a href="#3-6-validate-unicode-slug" class="heading-link"><i class="fas fa-link"></i></a>3.6 validate_unicode_slug</h3>
+      <p><code>validate_slug</code>的<code>Unicode</code>编码版本</p>
+
+        <h3 id="3-7-validate-ipv4-address"   >
+          <a href="#3-7-validate-ipv4-address" class="heading-link"><i class="fas fa-link"></i></a>3.7 validate_ipv4_address</h3>
+      <p>一个<code>RegexValidator</code>的实例，用于判断输入值是否为<code>ipv4</code>格式</p>
+
+        <h3 id="3-8-validate-ipv6-address"   >
+          <a href="#3-8-validate-ipv6-address" class="heading-link"><i class="fas fa-link"></i></a>3.8 validate_ipv6_address</h3>
+      <p>一个<code>RegexValidator</code>的实例，用于判断输入值是否为<code>ipv6</code>格式</p>
+
+        <h3 id="3-9-validate-ipv46-address"   >
+          <a href="#3-9-validate-ipv46-address" class="heading-link"><i class="fas fa-link"></i></a>3.9 validate_ipv46_address</h3>
+      <p>同时支持ipv4和ipv6</p>
+
+        <h3 id="3-10-validate-comma-separated-integer-list"   >
+          <a href="#3-10-validate-comma-separated-integer-list" class="heading-link"><i class="fas fa-link"></i></a>3.10 validate_comma_separated_integer_list</h3>
+      <p>判断输入是否是一个以逗号分隔的数字列表，一个<code>RegexValidator</code>的实例。</p>
+
+        <h3 id="3-11-int-list-validator"   >
+          <a href="#3-11-int-list-validator" class="heading-link"><i class="fas fa-link"></i></a>3.11 int_list_validator</h3>
+      <p>数字签名：<code>int_list_validator(sep=&#39;, &#39;, message=None, code=&#39;invalid&#39;, allow_negative=False)</code></p>
+<p>判断一个由数字组成的字符串是否以指定的<code>sep</code>分隔。<code>allow_negative</code>用于反转判断逻辑。</p>
+
+        <h3 id="3-12-MaxValueValidator"   >
+          <a href="#3-12-MaxValueValidator" class="heading-link"><i class="fas fa-link"></i></a>3.12 MaxValueValidator</h3>
+      <p>签名：<code>class MaxValueValidator(limit_value, message=None)</code></p>
+<p>是否超过指定最大值</p>
+
+        <h3 id="3-13-MinValueValidator"   >
+          <a href="#3-13-MinValueValidator" class="heading-link"><i class="fas fa-link"></i></a>3.13 MinValueValidator</h3>
+      <p>签名：<code>class MinValueValidator(limit_value, message=None)</code></p>
+<p>是否小于指定的最小值</p>
+
+        <h3 id="3-14-MaxLengthValidator"   >
+          <a href="#3-14-MaxLengthValidator" class="heading-link"><i class="fas fa-link"></i></a>3.14 MaxLengthValidator</h3>
+      <p>签名：<code>class MaxLengthValidator(limit_value, message=None)</code></p>
+<p>输入值的长度是否超过限定值</p>
+
+        <h3 id="3-15-MinLengthValidator"   >
+          <a href="#3-15-MinLengthValidator" class="heading-link"><i class="fas fa-link"></i></a>3.15 MinLengthValidator</h3>
+      <p>输入值的长度是否小于限定值</p>
+
+        <h3 id="3-16-DecimalValidator"   >
+          <a href="#3-16-DecimalValidator" class="heading-link"><i class="fas fa-link"></i></a>3.16 DecimalValidator</h3>
+      <p>签名：<code>lass DecimalValidator(max_digits, decimal_places)</code></p>
+<p>数字验证器。当发生下面情况时弹出异常：</p>
+<ul>
+<li>输入值超过<code>max_digits</code></li>
+<li>输入值的位数超过<code>decimal_places</code></li>
+<li>输入值大于最大位数与小数位数之差。（待确认）</li>
+</ul>
+
+        <h3 id="3-17-FileExtensionValidator"   >
+          <a href="#3-17-FileExtensionValidator" class="heading-link"><i class="fas fa-link"></i></a>3.17 FileExtensionValidator</h3>
+      <p>签名：<code>class FileExtensionValidator(allowed_extensions, message, code)</code></p>
+<p>文件扩展名不在合法性列表中。合法性列表通过参数<code>allowed_extensions</code>指定。</p>
+
+        <h3 id="3-18-validate-image-file-extension"   >
+          <a href="#3-18-validate-image-file-extension" class="heading-link"><i class="fas fa-link"></i></a>3.18 validate_image_file_extension</h3>
+      <p>通过<code>pillow</code>库确定一个图片文件的扩展名是合法的</p>
+
+        <h3 id="3-19-ProhibitNullCharactersValidator"   >
+          <a href="#3-19-ProhibitNullCharactersValidator" class="heading-link"><i class="fas fa-link"></i></a>3.19 ProhibitNullCharactersValidator</h3>
+      <p>签名：<code>class ProhibitNullCharactersValidator(message=None, code=None)</code></p>
+<p>对输入值进行<code>str(value)</code>操作，转换成字符串，然后如果这个字符串中包含1个以上的空字符’<code>\x00</code>‘，则验证失败。</p>
+<hr>
+
+        <h2 id="4-有帮助的ValidationError"   >
+          <a href="#4-有帮助的ValidationError" class="heading-link"><i class="fas fa-link"></i></a>4. 有帮助的ValidationError</h2>
+      <p>当验证失败，弹出<code>ValidationError</code>异常时，赋予异常更好更准确的说明信息是一件非常有价值的事。</p>
+<p>下面列举了一些好的和坏的做法对比。</p>
+<p>为异常提供说明性的错误码</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Good：</span></span><br><span class="line">ValidationError(_(<span class="string">'Invalid value'</span>), code=<span class="string">'invalid'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Bad：</span></span><br><span class="line">ValidationError(_(<span class="string">'Invalid value'</span>))</span><br></pre></td></tr></table></div></figure>
+
+<p>使用<code>params</code>参数构造错误信息字符串</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Good：</span></span><br><span class="line">ValidationError( _(<span class="string">'Invalid value: %(value)s'</span>), params=&#123;<span class="string">'value'</span>: <span class="string">'42'</span>&#125;, )</span><br><span class="line"></span><br><span class="line"><span class="comment"># Bad：</span></span><br><span class="line">ValidationError(_(<span class="string">'Invalid value: %s'</span>) % value)</span><br></pre></td></tr></table></div></figure>
+
+<p>使用关键字参数，而不是位置参数</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Good：</span></span><br><span class="line">ValidationError( _(<span class="string">'Invalid value: %(value)s'</span>), params=&#123;<span class="string">'value'</span>: <span class="string">'42'</span>&#125;, )</span><br><span class="line"></span><br><span class="line"><span class="comment"># Bad：</span></span><br><span class="line">ValidationError( _(<span class="string">'Invalid value: %s'</span>), params=(<span class="string">'42'</span>,), )</span><br></pre></td></tr></table></div></figure>
+
+<p>用gettext方法将字符串包裹起来，方便语言转换：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Good：</span></span><br><span class="line">ValidationError(_(<span class="string">'Invalid value'</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Bad：</span></span><br><span class="line">ValidationError(<span class="string">'Invalid value'</span>)</span><br></pre></td></tr></table></div></figure>
+
+<p>综合在一起，推荐的例子：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">raise</span> ValidationError(</span><br><span class="line">    _(<span class="string">'Invalid value: %(value)s'</span>),</span><br><span class="line">    code=<span class="string">'invalid'</span>,</span><br><span class="line">    params=&#123;<span class="string">'value'</span>: <span class="string">'42'</span>&#125;,</span><br><span class="line">)</span><br></pre></td></tr></table></div></figure>
+
+<p>当需要同时展示多个验证错误的时候：</p>
+<figure class="highlight python"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 好的做法</span></span><br><span class="line"><span class="keyword">raise</span> ValidationError([</span><br><span class="line">    ValidationError(_(<span class="string">'Error 1'</span>), code=<span class="string">'error1'</span>),</span><br><span class="line">    ValidationError(_(<span class="string">'Error 2'</span>), code=<span class="string">'error2'</span>),</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 差的做法</span></span><br><span class="line"><span class="keyword">raise</span> ValidationError([</span><br><span class="line">    _(<span class="string">'Error 1'</span>),</span><br><span class="line">    _(<span class="string">'Error 2'</span>),</span><br><span class="line">])</span><br></pre></td></tr></table></div></figure>
+
+<blockquote>
+<p>原文章链接：<span class="exturl"><a class="exturl__link"   href="https://www.liujiangblog.com/course/django/101"  target="_blank" rel="noopener">https://www.liujiangblog.com/course/django/101</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+</blockquote>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://jeremy-zjl.github.io">Jeremy-ZJL</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://jeremy-zjl.github.io/2020/11/01/django-mbc-7/">https://jeremy-zjl.github.io/2020/11/01/django-mbc-7/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://jeremy-zjl.github.io/tags/Python/">Python</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://jeremy-zjl.github.io/tags/Django/">Django</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://jeremy-zjl.github.io/tags/%E5%9F%BA%E7%A1%80/">基础</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://jeremy-zjl.github.io/tags/%E7%AC%94%E8%AE%B0/">笔记</a></span></div><nav class="post-paginator paginator"><div class="paginator-prev"><a class="paginator-prev__link" href="/2020/12/08/Python%E5%9F%BA%E7%A1%80%E4%B8%A8%E7%9B%B4%E6%8E%A5%E8%B5%8B%E5%80%BC%E3%80%81%E6%B5%85%E6%8B%B7%E8%B4%9D%E5%92%8C%E6%B7%B1%E6%8B%B7%E8%B4%9D%E8%A7%A3%E6%9E%90/"><span class="paginator-prev__icon"><i class="fas fa-angle-left"></i></span><span class="paginator-prev__text">Python基础丨直接赋值、浅拷贝和深拷贝解析</span></a></div><div class="paginator-next"><a class="paginator-next__link" href="/2020/10/27/django-mbc-6/"><span class="paginator-prev__text">Django丨模版层 - 6. Meta-模型的元数据</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div><div class="comments" id="comments"><div id="gitalk-container"></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Django丨模版层-7-验证器"><span class="toc-text">
+          Django丨模版层 - 7. 验证器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-自定义验证器"><span class="toc-text">
+          1. 自定义验证器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-工作机制"><span class="toc-text">
+          2. 工作机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-full-clean"><span class="toc-text">
+          2.1 full_clean()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-clean-fields"><span class="toc-text">
+          2.2 clean_fields()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-clean"><span class="toc-text">
+          2.3 clean()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-validate-unique"><span class="toc-text">
+          2.4 validate_unique()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-总结"><span class="toc-text">
+          2.5 总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-内置验证器"><span class="toc-text">
+          3. 内置验证器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-RegexValidator"><span class="toc-text">
+          3.1 RegexValidator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-EmailValidator"><span class="toc-text">
+          3.2 EmailValidator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-URLValidator"><span class="toc-text">
+          3.3 URLValidator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-validate-email"><span class="toc-text">
+          3.4 validate_email</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-validate-slug"><span class="toc-text">
+          3.5 validate_slug</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-validate-unicode-slug"><span class="toc-text">
+          3.6 validate_unicode_slug</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-7-validate-ipv4-address"><span class="toc-text">
+          3.7 validate_ipv4_address</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-8-validate-ipv6-address"><span class="toc-text">
+          3.8 validate_ipv6_address</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-9-validate-ipv46-address"><span class="toc-text">
+          3.9 validate_ipv46_address</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-10-validate-comma-separated-integer-list"><span class="toc-text">
+          3.10 validate_comma_separated_integer_list</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-11-int-list-validator"><span class="toc-text">
+          3.11 int_list_validator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-12-MaxValueValidator"><span class="toc-text">
+          3.12 MaxValueValidator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-13-MinValueValidator"><span class="toc-text">
+          3.13 MinValueValidator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-14-MaxLengthValidator"><span class="toc-text">
+          3.14 MaxLengthValidator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-15-MinLengthValidator"><span class="toc-text">
+          3.15 MinLengthValidator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-16-DecimalValidator"><span class="toc-text">
+          3.16 DecimalValidator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-17-FileExtensionValidator"><span class="toc-text">
+          3.17 FileExtensionValidator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-18-validate-image-file-extension"><span class="toc-text">
+          3.18 validate_image_file_extension</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-19-ProhibitNullCharactersValidator"><span class="toc-text">
+          3.19 ProhibitNullCharactersValidator</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-有帮助的ValidationError"><span class="toc-text">
+          4. 有帮助的ValidationError</span></a></li></ol></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/icons/j-icon-144.png" alt="avatar"></div><p class="sidebar-ov-author__text">write code and love life</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/" target="_blank" rel="noopener" data-popover="Github" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span></a><a class="sidebar-ov-social-item" href="https://plus.google.com/" target="_blank" rel="noopener" data-popover="Google" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-google"></i></span></a><a class="sidebar-ov-social-item" href="https://www.zhihu.com/" target="_blank" rel="noopener" data-popover="知乎" data-popover-pos="up"><span class="sidebar-ov-social-item__icon">知</span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">26</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">7</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">19</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2020</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>Jeremy All Rights Reserved</span></div><div><span>由 <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> 强力驱动</span><span> v4.2.1</span><span class="footer__devider">|</span><span>主题 - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.0.1</span></div><div class="busuanzi"><span class="busuanzi-siteuv"><span class="busuanzi-siteuv__icon"><i class="fas fa-user"></i></span><span class="busuanzi-siteuv__info">访问人数</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_uv"></span></span><span class="busuanzi-sitepv"><span class="busuanzi-siteuv__icon"><i class="fas fa-eye"></i></span><span class="busuanzi-siteuv__info">浏览总量</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="200" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1.0.1/dist/canvas-nest.min.js" color="0,0,0" opacity="0.6" count="180" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/npm/pjax@latest/pjax.min.js"></script><script>window.addEventListener('DOMContentLoaded', function () {
+  var pjax = new Pjax({"selectors":["head title","#main",".pjax-reload",".header-inner"],"history":true,"scrollTo":false,"scrollRestoration":false,"cacheBust":false,"debug":false,"currentUrlFullReload":false,"timeout":0});
+  // 加载进度条的计时器
+  var loadingTimer = null;
+
+  // 重置页面 Y 方向上的滚动偏移量
+  document.addEventListener('pjax:send', function () {
+    $('.header-nav-menu').removeClass('show');
+    if (CONFIG.pjax && CONFIG.pjax.avoidBanner) {
+      $('html').velocity('scroll', {
+        duration: 500,
+        offset: $('#header').height(),
+        easing: 'easeInOutCubic'
+      });
+    }
+
+    var loadingBarWidth = 20;
+    var MAX_LOADING_WIDTH = 95;
+
+    $('.loading-bar').addClass('loading');
+    $('.loading-bar__progress').css('width', loadingBarWidth + '%');
+    clearInterval(loadingTimer);
+    loadingTimer = setInterval(function () {
+      loadingBarWidth += 3;
+      if (loadingBarWidth > MAX_LOADING_WIDTH) {
+        loadingBarWidth = MAX_LOADING_WIDTH;
+      }
+      $('.loading-bar__progress').css('width', loadingBarWidth + '%');
+    }, 500);
+  }, false);
+
+  window.addEventListener('pjax:complete', function () {
+    clearInterval(loadingTimer);
+    $('.loading-bar__progress').css('width', '100%');
+    $('.loading-bar').removeClass('loading');
+    setTimeout(function () {
+      $('.loading-bar__progress').css('width', '0');
+    }, 400);
+    $('link[rel=prefetch], script[data-pjax-rm]').each(function () {
+      $(this).remove();
+    });
+    $('script[data-pjax], #pjax-reload script').each(function () {
+      $(this).parent().append($(this).remove());
+    });
+
+    if (Stun.utils.pjaxReloadBoot) {
+      Stun.utils.pjaxReloadBoot();
+    }
+    if (Stun.utils.pjaxReloadScroll) {
+      Stun.utils.pjaxReloadScroll();
+    }
+    if (Stun.utils.pjaxReloadSidebar) {
+      Stun.utils.pjaxReloadSidebar();
+    }
+    if (true) {
+      if (Stun.utils.pjaxReloadHeader) {
+        Stun.utils.pjaxReloadHeader();
+      }
+      if (Stun.utils.pjaxReloadScrollIcon) {
+        Stun.utils.pjaxReloadScrollIcon();
+      }
+      if (Stun.utils.pjaxReloadLocalSearch) {
+        Stun.utils.pjaxReloadLocalSearch();
+      }
+    }
+  }, false);
+}, false);</script><div id="pjax-reload"><script src="https://cdn.jsdelivr.net/npm/quicklink@1.0.1/dist/quicklink.umd.js"></script><script>function initQuicklink() {
+  quicklink({
+    timeout: '10000',
+    priority: true,
+    ignores: [uri => uri.includes('#'), uri => uri === 'https://jeremy-zjl.github.io/2020/11/01/django-mbc-7/', /\/api\/?/,uri => uri.includes('.xml'),uri => uri.includes('.zip'),(uri, el) => el.hasAttribute('nofollow'),(uri, el) => el.hasAttribute('noprefetch')]
+  });
+}
+
+if (true || false) {
+  initQuicklink();
+} else {
+  window.addEventListener('DOMContentLoaded', initQuicklink, false);
+}</script><script src="https://cdn.jsdelivr.net/gh/sukkaw/busuanzi@latest/bsz.pure.mini.js" async></script></div><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js" data-pjax=""></script><script src="https://cdn.jsdelivr.net/npm/js-md5@latest/src/md5.min.js" data-pjax=""></script><script data-pjax="">function loadGitalk () {
+  if (!document.getElementById('gitalk-container')) {
+    return;
+  }
+
+  var gitalk = new Gitalk({
+    id: md5(window.location.pathname.slice(1)),
+    clientID: '579a42cc7c084de54dc1',
+    clientSecret: '83ac92724b82e3b9c61d46f8b789f717e31b96a5',
+    repo: 'Jeremy-ZJL.github.io',
+    owner: 'Jeremy-ZJL',
+    admin: ['Jeremy-ZJL'],
+    distractionFreeMode: 'true',
+    language: 'zh-CN'
+  });
+  gitalk.render('gitalk-container');
+}
+
+if (true) {
+  loadGitalk();
+} else {
+  window.addEventListener('DOMContentLoaded', loadGitalk, false);
+}</script><script src="/js/utils.js?v=2.0.1"></script><script src="/js/stun-boot.js?v=2.0.1"></script><script src="/js/scroll.js?v=2.0.1"></script><script src="/js/header.js?v=2.0.1"></script><script src="/js/sidebar.js?v=2.0.1"></script></body></html>
